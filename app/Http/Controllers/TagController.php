@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Tags;
+use App\Models\Tag;
+use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
 
-class TagsController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,7 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = Tags::all()->toArray();
-        return json_encode($tags);
+        return TagResource::collection(Tag::paginate());
     }
 
     /**
@@ -25,7 +24,7 @@ class TagsController extends Controller
      */
     public function create()
     {
-        dd('create');
+        //
     }
 
     /**
@@ -36,51 +35,54 @@ class TagsController extends Controller
      */
     public function store(Request $request)
     {
-        dd('store');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Tags  $tags
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Tags $tags)
+    public function show(Tag $tag)
     {
-        dd('show');
+        // unwraped:
+        //return $tag;
+        // wraped:
+        return new TagResource($tag);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Tags  $tags
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tags $tags)
+    public function edit($id)
     {
-        dd('edit');
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tags  $tags
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tags $tags)
+    public function update(Request $request, $id)
     {
-        dd('update');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Tags  $tags
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tags $tags)
+    public function destroy($id)
     {
-        dd('destroy');
+        //
     }
 }
