@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class PoiResourceCollection extends ResourceCollection
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -16,11 +16,11 @@ class PoiResourceCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'commentid' => $this->commentid,
             'name' => $this->name,
-            'lat' => $this->lat,
-            'lng' => $this->lng,
-            'url' => Str::slug($this->name),
+            'comment' => $this->comment,
+            'time' => date('Y-m-d H:i:s', $this->time),
+            'object' => $this->object,
         ];
     }
 }

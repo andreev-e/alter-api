@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Poi;
 use Illuminate\Http\Request;
 use App\Http\Resources\PoiResource;
-use App\Http\Resources\PoiResourceCollection;
 
 class PoiController extends Controller
 {
@@ -19,35 +18,33 @@ class PoiController extends Controller
         $nelng = (float) $request->input('nelng');
         $swlng = (float) $request->input('swlng');
         $nelat = (float) $request->input('nelat');
-        $swlat = (float) $request->input('swlat') ;
+        $swlat = (float) $request->input('swlat');
+        $tag = $request->input('tag');
 
-        if ($nelng<0) $nelng=180;
+        if ($nelng < 0) $nelng = 180;
 
-        $pois = Poi::where('show', '=', 1)
-            ->orderBy('views', 'DESC');
+        $pois = Poi::select('poi.*')->where('show', '=', 1)->orderBy('views', 'DESC');
         
         if ($nelng && $swlng && $nelat && $swlat) {
             $pois->where('lng', '<', $swlng)
                 ->where('lng', '>', $nelng)
                 ->where('lat', '<', $nelat)
                 ->where('lat', '>', $swlat)
-                ->orderBy('views', 'DESC')
                 ->limit(100);
-        } else {
-            $pois->orderBy('date', 'DESC')
-                ->limit(6);
+            $pois->with('tags');
         }
 
-        if (!empty($request->input('place'))) {
-
+        if ($tag) {     
+            $pois->join('relationship', 'poi.id', '=', 'relationship.POSTID');
+            $pois->join('tags', 'relationship.TAGID', '=', 'tags.id');
+            $pois->where('tags.url', '=', $tag);
+            $pois->with('tags');
         }
-
-        $pois->with('tags');
 
         // dump($pois->limit(10)->get()->toArray());
         // return;
 
-        return PoiResource::collection($pois->get());
+        return PoiResource::collection($pois->paginate());
     }
 
     /**

@@ -1,21 +1,31 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Tag;
-use App\Http\Resources\TagResource;
-use Illuminate\Http\Request;
 
-class TagController extends Controller
+use App\Models\Comment;
+use Illuminate\Http\Request;
+use App\Http\Resources\CommentResource;
+
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // return TagResource::collection(Tag::where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
-        return TagResource::collection(Tag::paginate());
+        $id = (integer) $request->input('id');
+        $type = $request->input('type');
+
+        $comments = Comment::where('approved', '=', 1)->orderBy('time', 'DESC');
+        if ($id && $type === 'poi') {
+            $comments->where('backlink', '=', $id);
+        }
+
+        // dump($comments->get());
+        // return '';
+        return CommentResource::collection($comments->paginate());
     }
 
     /**
@@ -42,32 +52,21 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($url)
+    public function show(Comment $comment)
     {
-        $tag = Tag::where('url', '=', $url)->firstOrFail();
-        $tag->locations = array_merge(
-            $tag->getParents(), 
-            [['id' => $tag->id, 'name' => $tag->name, 'url' => '']] // adding last breadcrumb without link
-        );
-
-        $tag->children = $tag->getChildren();
- 
-        // dump($tag->toArray());
-        // return;
-
-        return new TagResource($tag);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -76,10 +75,10 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -87,10 +86,10 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
         //
     }

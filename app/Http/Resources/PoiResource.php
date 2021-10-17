@@ -25,9 +25,11 @@ class PoiResource extends JsonResource
             'route' => htmlspecialchars_decode($this->route),
             'route_o' => htmlspecialchars_decode($this->route_o),
             'tags' => $this->tags,
-            'locations' => $this->locations,
+            'locations' => array_merge(
+                $this->locations->toArray(),
+                [['id' => $this->id, 'name' => $this->name, 'url' => null]] // adding last breadcrumb without link
+            ),
             'addon' => $this->addon,
-            'twits' => $this->twits,
         ];
     }
 }

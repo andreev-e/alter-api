@@ -20,14 +20,17 @@ use App\Http\Controllers\TagController;
 
 Route::resource('tag', TagController::class);
 
-Route::get('/tags', function () {
-    return TagResource::collection(Tag::where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
-});
+// Route::get('/tags', function () {
+//     return TagResource::collection(Tag::where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
+// });
 Route::get('/countries', function () {
     return TagResource::collection(Tag::where('TYPE','=',1)->take(25)->orderBy('COUNT', 'DESC')->get());
 });
+
 // Route::get('/pois', function () {
 //     return PoiResource::collection(Poi::where('show', '=', 1)->where('lat', '>', 0)->where('lng', '>', 0)->take(10)->orderBy('date', 'DESC')->get());
 // });
 
 Route::apiResource('/pois', 'App\Http\Controllers\PoiController');
+Route::apiResource('/tags', 'App\Http\Controllers\TagController');
+Route::apiResource('/comments', 'App\Http\Controllers\CommentController');
