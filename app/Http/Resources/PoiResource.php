@@ -30,6 +30,7 @@ class PoiResource extends JsonResource
                 [['id' => $this->id, 'name' => $this->name, 'url' => null]] // adding last breadcrumb without link
             ),
             'addon' => $this->addon,
+            'ytb' => $this->ytb,
         ];
     }
 }
