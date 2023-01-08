@@ -47,24 +47,13 @@ class TagController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($url)
+    public function show($url): TagResource
     {
-        $tag = Tag::where('url', '=', $url)->firstOrFail();
+        $tag = Tag::where('url', '=', $url)->with('children.children')->firstOrFail();
         $tag->locations = array_merge(
             $tag->getParents(),
             [['id' => $tag->id, 'name' => $tag->name, 'url' => '']] // adding last breadcrumb without link
         );
-
-        $tag->children = $tag->getChildren();
-
-        // dump($tag->toArray());
-        // return;
 
         return new TagResource($tag);
     }
