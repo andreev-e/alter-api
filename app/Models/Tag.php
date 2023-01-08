@@ -15,6 +15,11 @@ class Tag extends Model
 
     public $timestamps = false;
 
+    public function getRouteKeyName()
+    {
+        return 'url';
+    }
+
     public function getUrlAttribute($url)
     {
         if ($this->TYPE !== 0) {
