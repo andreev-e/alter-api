@@ -15,7 +15,7 @@ class TagResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'count' => $this->COUNT,
-//            'url' => $this->url,
+            'url' => $this->url,
 //            'flag' => $this->flag,
 //            'locations' => $this->locations,
             'children' => self::collection($this->whenLoaded('children')),
