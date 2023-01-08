@@ -8,17 +8,13 @@ use Illuminate\Support\Str;
 
 class Tag extends Model
 {
-
     protected $hidden = array('lat', 'lng', 'scale');
 
     protected $fillable = ['url'];
 
     public $timestamps = false;
 
-    public function getRouteKeyName()
-    {
-        return 'url';
-    }
+    protected $primaryKey = 'url';
 
     public function getUrlAttribute($url)
     {
@@ -34,7 +30,7 @@ class Tag extends Model
         return $this->belongsToMany(Poi::class, 'relationship', 'TAGID', 'POSTID');
     }
 
-    public function getParents(Array $parents = []) : array
+    public function getParents(array $parents = []): array
     {
         if ($this->parent !== 0) {
             $parent = self::find($this->parent);
@@ -42,7 +38,9 @@ class Tag extends Model
                 // $parents[] = ['id' => $parent->id, 'name' => $parent->name, 'url' => $parent->url];
                 array_unshift($parents, ['id' => $parent->id, 'name' => $parent->name, 'url' => $parent->url]);
                 if ($parent->parent !== 0) {
-                    if (count($parents)>5) dd();
+                    if (count($parents) > 5) {
+                        dd();
+                    }
                     $parents = $parent->getParents($parents);
                 }
             }
@@ -50,7 +48,7 @@ class Tag extends Model
         return $parents;
     }
 
-    public function children() : hasMany
+    public function children(): hasMany
     {
         return $this->hasMany(self::class, 'parent', 'id');
     }
