@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
+/* @mixin \App\Models\Tag */
 class TagResource extends JsonResource
 {
 
@@ -17,7 +18,7 @@ class TagResource extends JsonResource
 //            'url' => $this->url,
 //            'flag' => $this->flag,
 //            'locations' => $this->locations,
-//            'children' => $this->children,
+            'children' => $this->children,
         ];
     }
 }

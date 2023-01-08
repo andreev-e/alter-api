@@ -17,13 +17,13 @@ class Tag extends Model
     public function getUrlAttribute($url)
     {
         if ($this->TYPE !== 0) {
-            return '/region/' . $url;  
-        } else {
-            return '/tag/' . $url;  
+            return '/region/' . $url;
         }
+
+        return '/tag/' . $url;
     }
 
-    public function pois() 
+    public function pois()
     {
         return $this->belongsToMany(Poi::class, 'relationship', 'TAGID', 'POSTID');
     }
