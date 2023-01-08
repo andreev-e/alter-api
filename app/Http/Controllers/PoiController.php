@@ -14,7 +14,7 @@ class PoiController extends Controller
     {
         $bounds = $request->bounds;
         $bounds = explode(',', $bounds);
-        [$neLng, $nelat, $swlng, $swlat] = $bounds;
+        [$swLat, $swLng, $neLat, $neLng] = $bounds;
         $tag = $request->input('tag');
 
         if ($neLng < 0) {
@@ -23,11 +23,11 @@ class PoiController extends Controller
 
         $pois = Poi::select('poi.*')->where('show', '=', 1)->orderBy('views', 'DESC');
 
-        if ($neLng && $swlng && $nelat && $swlat) {
-            $pois->where('lng', '<', $swlng)
+        if ($neLng && $swLng && $neLat && $swLat) {
+            $pois->where('lng', '<', $swLng)
                 ->where('lng', '>', $neLng)
-                ->where('lat', '<', $nelat)
-                ->where('lat', '>', $swlat)
+                ->where('lat', '<', $neLat)
+                ->where('lat', '>', $swLat)
                 ->limit(100);
             $pois->with('tags');
         }
