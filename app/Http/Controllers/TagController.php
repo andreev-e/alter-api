@@ -4,18 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        // return TagResource::collection(Tag::where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
-        return TagResource::collection(Tag::paginate());
+         return TagResource::collection(Tag::query()->where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
     }
 
     /**
@@ -49,12 +44,12 @@ class TagController extends Controller
     {
         $tag = Tag::where('url', '=', $url)->firstOrFail();
         $tag->locations = array_merge(
-            $tag->getParents(), 
+            $tag->getParents(),
             [['id' => $tag->id, 'name' => $tag->name, 'url' => '']] // adding last breadcrumb without link
         );
 
         $tag->children = $tag->getChildren();
- 
+
         // dump($tag->toArray());
         // return;
 
