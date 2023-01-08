@@ -9,10 +9,10 @@ class PoiRequest extends FormRequest
     public function rules()
     {
         return [
-            'south' => ['sometimes', 'number'],
-            'west' => ['sometimes', 'number'],
-            'north' => ['sometimes', 'number'],
-            'east' => ['sometimes', 'number'],
+            'south' => ['sometimes', 'numeric'],
+            'west' => ['sometimes', 'numeric'],
+            'north' => ['sometimes', 'numeric'],
+            'east' => ['sometimes', 'numeric'],
             'tag' => ['sometimes', 'string'],
         ];
     }
