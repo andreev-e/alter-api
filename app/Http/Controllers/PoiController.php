@@ -12,30 +12,30 @@ class PoiController extends Controller
 {
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
-        $bounds = $request->bounds;
-        $bounds = explode(',', $bounds);
-        [$swLat, $swLng, $neLat, $neLng] = $bounds;
-        $tag = $request->input('tag');
+        $pois = Poi::query()
+            ->where('show', '=', 1)->orderBy('views', 'DESC');
 
-        if ($neLng < 0) {
-            $neLng = 180;
+        if ($request->south) {
+            $pois->where('lat', '>', $request->south);
+        }
+        if ($request->north) {
+            $pois->where('lat', '<', $request->north);
+        }
+        if ($request->east) {
+            $pois->where('lng', '<', $request->east);
+        }
+        if ($request->west) {
+            $pois->where('lng', '>', $request->west);
         }
 
-        $pois = Poi::select('poi.*')->where('show', '=', 1)->orderBy('views', 'DESC');
-
-        if ($neLng && $swLng && $neLat && $swLat) {
-            $pois->where('lng', '>', $swLng)
-                ->where('lng', '<', $neLng)
-                ->where('lat', '<', $neLat)
-                ->where('lat', '>', $swLat)
-                ->limit(100);
-            $pois->with('tags');
+        if ($request->south || $request->north || $request->east || $request->west) {
+            $pois->with('tags')->limit(100);
         }
 
-        if ($tag) {
+        if ($request->tag) {
             $pois->join('relationship', 'poi.id', '=', 'relationship.POSTID');
             $pois->join('tags', 'relationship.TAGID', '=', 'tags.id');
-            $pois->where('tags.url', '=', $tag);
+            $pois->where('tags.url', '=', $request->tag);
             $pois->with('tags');
         }
 
