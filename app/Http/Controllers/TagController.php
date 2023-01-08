@@ -49,7 +49,6 @@ class TagController extends Controller
 
     public function show(Tag $tag): TagResource
     {
-        dd($tag);
         return new TagResource($tag->load('children'));
     }
 

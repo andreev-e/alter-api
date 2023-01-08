@@ -14,8 +14,6 @@ class Tag extends Model
 
     public $timestamps = false;
 
-    protected $primaryKey = 'url';
-
     public function getUrlAttribute($url)
     {
         if ($this->TYPE !== 0) {
