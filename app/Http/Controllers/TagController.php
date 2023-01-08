@@ -12,6 +12,7 @@ class TagController extends Controller
     {
          return TagResource::collection(Tag::query()
              ->where('TYPE','=',0)
+             ->where('COUNT', '>', 0)
              ->orderBy('COUNT', 'DESC')->get());
     }
 
@@ -21,6 +22,7 @@ class TagController extends Controller
             ->with('children.children')
             ->where('TYPE','!=',0)
             ->where('parent', 0)
+            ->where('COUNT', '>', 0)
             ->orderBy('COUNT', 'DESC')->get());
     }
 
