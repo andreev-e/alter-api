@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Tag extends Model
@@ -44,13 +45,9 @@ class Tag extends Model
         return $parents;
     }
 
-    public function getChildren() : array
+    public function getChildren() : hasMany
     {
-        $children = self::select('id', 'name', 'url')
-            ->where('parent', '=', $this->id)
-            ->where('type', '<>', 0)
-            ->get()->toArray();
-        return $children;
+        return $this->hasMany(self::class, 'parent', 'id');
     }
 
 
