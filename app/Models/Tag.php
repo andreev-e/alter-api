@@ -49,6 +49,4 @@ class Tag extends Model
     {
         return $this->hasMany(self::class, 'parent', 'id');
     }
-
-
 }
