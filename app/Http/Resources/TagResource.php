@@ -18,7 +18,7 @@ class TagResource extends JsonResource
 //            'url' => $this->url,
 //            'flag' => $this->flag,
 //            'locations' => $this->locations,
-            'children' => $this->children,
+            'children' => $this->whenLoaded('children'),
         ];
     }
 }

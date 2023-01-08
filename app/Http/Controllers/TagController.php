@@ -10,7 +10,12 @@ class TagController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-         return TagResource::collection(Tag::query()->where('TYPE','=',0)->take(25)->orderBy('COUNT', 'DESC')->get());
+         return TagResource::collection(Tag::query()->where('TYPE','=',0)->orderBy('COUNT', 'DESC')->get());
+    }
+
+    public function locations(): AnonymousResourceCollection
+    {
+        return TagResource::collection(Tag::query()->with('children')->where('TYPE','!=',0)->orderBy('COUNT', 'DESC')->get());
     }
 
     /**
