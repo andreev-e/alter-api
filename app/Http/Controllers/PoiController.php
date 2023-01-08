@@ -2,39 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PoiRequest;
 use App\Models\Poi;
 use Illuminate\Http\Request;
 use App\Http\Resources\PoiResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(PoiRequest $request): AnonymousResourceCollection
     {
-        $nelng = (float) $request->input('nelng');
-        $swlng = (float) $request->input('swlng');
-        $nelat = (float) $request->input('nelat');
-        $swlat = (float) $request->input('swlat');
+        $bounds = $request->bounds;
+        $bounds = explode(',', $bounds);
+        [$neLng, $nelat, $swlng, $swlat] = $bounds;
         $tag = $request->input('tag');
 
-        if ($nelng < 0) $nelng = 180;
+        if ($neLng < 0) {
+            $neLng = 180;
+        }
 
         $pois = Poi::select('poi.*')->where('show', '=', 1)->orderBy('views', 'DESC');
-        
-        if ($nelng && $swlng && $nelat && $swlat) {
+
+        if ($neLng && $swlng && $nelat && $swlat) {
             $pois->where('lng', '<', $swlng)
-                ->where('lng', '>', $nelng)
+                ->where('lng', '>', $neLng)
                 ->where('lat', '<', $nelat)
                 ->where('lat', '>', $swlat)
                 ->limit(100);
             $pois->with('tags');
         }
 
-        if ($tag) {     
+        if ($tag) {
             $pois->join('relationship', 'poi.id', '=', 'relationship.POSTID');
             $pois->join('tags', 'relationship.TAGID', '=', 'tags.id');
             $pois->where('tags.url', '=', $tag);
