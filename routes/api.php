@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('tag', [TagController::class, 'index'])->name('tag.index');
+Route::get('tag', [TagController::class, 'index'])->name('tag');
 
 Route::get('{type}', [ResourceController::class, 'index'])->name('resource.index');
