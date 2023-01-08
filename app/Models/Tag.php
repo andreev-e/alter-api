@@ -45,7 +45,7 @@ class Tag extends Model
         return $parents;
     }
 
-    public function getChildren() : hasMany
+    public function children() : hasMany
     {
         return $this->hasMany(self::class, 'parent', 'id');
     }
