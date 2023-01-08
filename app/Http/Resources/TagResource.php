@@ -7,8 +7,6 @@ use Illuminate\Support\Str;
 
 class TagResource extends JsonResource
 {
-    public $preserveKeys = true;
-    public static $wrap = 'tag';
 
     public function toArray($request)
     {
