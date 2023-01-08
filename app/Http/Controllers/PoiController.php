@@ -24,8 +24,8 @@ class PoiController extends Controller
         $pois = Poi::select('poi.*')->where('show', '=', 1)->orderBy('views', 'DESC');
 
         if ($neLng && $swLng && $neLat && $swLat) {
-            $pois->where('lng', '<', $swLng)
-                ->where('lng', '>', $neLng)
+            $pois->where('lng', '>', $swLng)
+                ->where('lng', '<', $neLng)
                 ->where('lat', '<', $neLat)
                 ->where('lat', '>', $swLat)
                 ->limit(100);
