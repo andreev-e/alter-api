@@ -16,7 +16,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
             && git pull
-            && composer install
+            && composer update
             && php artisan optimize
 
 
