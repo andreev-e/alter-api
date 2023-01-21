@@ -18,6 +18,12 @@ class PoiController extends Controller
             ->where('show', 1)
             ->orderBy('views', 'DESC');
 
+        $pois->when($request->has('tag'), function(Builder $query) use ($request) {
+            $query->whereHas('tags', function(Builder $subQuery) use ($request) {
+                $subQuery->where('url', $request->get('tag'));
+            });
+        });
+
         if ($request->south) {
             $pois->where('lat', '>', $request->south);
         }
@@ -32,16 +38,10 @@ class PoiController extends Controller
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
-            $pois->limit(100);
+            return PoiResource::collection($pois->limit(50)->get());
         }
 
-        $pois->when($request->has('tag'), function(Builder $query) use ($request) {
-            $query->whereHas('tags', function(Builder $subQuery) use ($request) {
-                $subQuery->where('url', $request->get('tag'));
-            });
-        });
-
-        return PoiResource::collection($pois->limit(100)->get());
+        return PoiResource::collection($pois->paginate());
     }
 
     public function store(Request $request)
