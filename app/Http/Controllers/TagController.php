@@ -19,7 +19,7 @@ class TagController extends Controller
     public function locations(): AnonymousResourceCollection
     {
         return TagResource::collection(Tag::query()
-            ->with(['children.children', 'parents.parents'])
+            ->with(['children', 'parents.parents.parents.parents'])
             ->where('TYPE','!=',0)
             ->where('parent', 0)
             ->where('COUNT', '>', 0)
@@ -33,7 +33,7 @@ class TagController extends Controller
 
     public function show(Tag $tag): TagResource
     {
-        return new TagResource($tag->load(['children.children', 'parents.parents']));
+        return new TagResource($tag->load(['children', 'parents.parents.parents.parents']));
     }
 
     public function update(Request $request, $id)
