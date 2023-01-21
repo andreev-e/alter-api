@@ -19,8 +19,6 @@ class CommentController extends Controller
             $comments->where('backlink', '=', $id);
         }
 
-        // dump($comments->get());
-        // return '';
         return CommentResource::collection($comments->paginate());
     }
 
