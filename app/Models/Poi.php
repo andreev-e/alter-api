@@ -11,7 +11,7 @@ class Poi extends Model
 
     public function tags() : HasManyThrough
     {
-        return $this->hasManyThrough(Tag::class, 'relationship', 'POSTID', 'TAGID');
+        return $this->hasManyThrough(Tag::class, Relationship::class, 'POSTID', 'TAGID');
     }
     public function locations()
     {
