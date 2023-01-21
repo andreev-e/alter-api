@@ -13,7 +13,7 @@ class PoiController extends Controller
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
         $pois = Poi::query()
-            ->where('show', '=', 1)->orderBy('views', 'DESC');
+            ->where('show', 1)->orderBy('views', 'DESC');
 
         if ($request->south) {
             $pois->where('lat', '>', $request->south);
@@ -32,12 +32,11 @@ class PoiController extends Controller
             $pois->with('tags')->limit(100);
         }
 
-        if ($request->tag) {
-            $pois->join('relationship', 'poi.id', '=', 'relationship.POSTID');
-            $pois->join('tags', 'relationship.TAGID', '=', 'tags.id');
-            $pois->where('tags.url', '=', $request->tag);
-            $pois->with('tags');
-        }
+        $pois->when($request->validated('tag'), function($query) use ($request) {
+            $query->has('tag', function($query) use ($request) {
+                $query->where('slug', $request->validated('tag'));
+            });
+        });
 
         // dump($pois->limit(10)->get()->toArray());
         // return;
@@ -45,12 +44,6 @@ class PoiController extends Controller
         return PoiResource::collection($pois->paginate());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
