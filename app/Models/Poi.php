@@ -11,14 +11,15 @@ class Poi extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'relationship',  'POSTID', 'TAGID')
-            ->withPivot('POSTID');
+        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID')
+            ->where('TYPE', 0);
     }
 
     public function locations()
     {
-        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID')->where('TYPE', '<>',
-            0)->orderBy('COUNT', 'desc');
+        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID')
+            ->where('TYPE', '<>', 0)
+            ->orderBy('COUNT', 'desc');
     }
 
     public function twits()
