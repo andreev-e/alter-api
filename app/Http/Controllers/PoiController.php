@@ -29,7 +29,7 @@ class PoiController extends Controller
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
-            $pois->with('tags')->limit(100);
+            $pois->limit(100);
         }
 
         $pois->when($request->get('tag'), function($query) use ($request) {
