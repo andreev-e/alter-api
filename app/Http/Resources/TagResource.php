@@ -19,7 +19,9 @@ class TagResource extends JsonResource
             'flag' => $this->flag,
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'zoom' => $this->scale,
             'children' => self::collection($this->whenLoaded('children')),
+            'parents' => self::collection($this->whenLoaded('parents')),
         ];
     }
 }

@@ -19,7 +19,7 @@ class TagController extends Controller
     public function locations(): AnonymousResourceCollection
     {
         return TagResource::collection(Tag::query()
-            ->with('children.children')
+            ->with(['children.children', 'parents.parents'])
             ->where('TYPE','!=',0)
             ->where('parent', 0)
             ->where('COUNT', '>', 0)
