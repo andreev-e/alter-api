@@ -21,7 +21,7 @@ class TagResource extends JsonResource
             'lng' => $this->lng,
             'zoom' => $this->scale,
             'children' => self::collection($this->whenLoaded('children')),
-            'parent' => $this->getParents(),
+            'parents' => $this->getParents(),
         ];
     }
 }
