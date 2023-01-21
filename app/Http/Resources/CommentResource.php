@@ -2,17 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
+/* @mixin Comment */
 class CommentResource extends JsonResource
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
     public function toArray($request)
     {
         return [
@@ -20,7 +15,7 @@ class CommentResource extends JsonResource
             'name' => $this->name,
             'comment' => $this->comment,
             'time' => date('Y-m-d H:i:s', $this->time),
-            'object' => $this->object,
+            'object_name' => $this->object->name,
         ];
     }
 }
