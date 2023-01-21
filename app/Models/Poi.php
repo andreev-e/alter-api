@@ -11,7 +11,7 @@ class Poi extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'relationship', 'TAGID')
+        return $this->belongsToMany(Tag::class, 'relationship', 'TAGID', 'POSTID')
             ->withPivot('POSTID');
     }
 
