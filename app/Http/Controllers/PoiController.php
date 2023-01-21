@@ -36,7 +36,7 @@ class PoiController extends Controller
 
         $pois->when($request->get('tag'), function($query) use ($request) {
             $query->has('tags', function($query) use ($request) {
-                $query->where('url', $request->get('tag'))->count();
+                $query->from('tags')->where('url', $request->get('tag'));
             });
         });
 
