@@ -16,7 +16,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
             && git pull
-            && composer update --ignore-platform-req=ext-http
+            && su altertravel.ru
+            && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom
+            && php artisan migrate
             && php artisan optimize
 
 
