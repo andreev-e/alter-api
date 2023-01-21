@@ -26,12 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
 Route::get('locations', [TagController::class, 'locations'])->name('locations');
 Route::get('poi', [PoiController::class, 'index'])->name('pois');
 
-Route::prefix('tag')->group(function() {
+Route::prefix('tag')->name('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
 });
 
 Route::prefix('comment')
+    ->name('comment')
     ->controller(CommentController::class)
     ->group(function() {
         Route::get('','index')->name('list');
