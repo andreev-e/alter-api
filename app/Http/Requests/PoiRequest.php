@@ -13,7 +13,7 @@ class PoiRequest extends FormRequest
             'west' => ['sometimes', 'numeric'],
             'north' => ['sometimes', 'numeric'],
             'east' => ['sometimes', 'numeric'],
-            'tag' => ['sometimes', 'string'],
+            'tag' => ['sometimes', 'string', 'exists:tags,url'],
         ];
     }
 }

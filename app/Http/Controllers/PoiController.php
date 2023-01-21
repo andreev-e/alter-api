@@ -40,9 +40,6 @@ class PoiController extends Controller
             });
         });
 
-        // dump($pois->limit(10)->get()->toArray());
-        // return;
-
         return PoiResource::collection($pois->limit(100)->get());
     }
 
