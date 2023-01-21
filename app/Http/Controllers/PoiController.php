@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PoiRequest;
 use App\Models\Poi;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\PoiResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -34,9 +35,9 @@ class PoiController extends Controller
             $pois->limit(100);
         }
 
-        $pois->when($request->has('tag'), function($query) use ($request) {
-            $query->has('tags', function($subQuery) use ($request) {
-                $subQuery->from('tags')
+        $pois->when($request->has('tag'), function(Builder $query) use ($request) {
+            $query->whereExists(function($subQuery) use ($request) {
+                $subQuery->select()->from('tags')
                     ->where('url', $request->get('tag'))->count();
             });
         });
