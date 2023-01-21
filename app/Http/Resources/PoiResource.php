@@ -31,6 +31,7 @@ class PoiResource extends JsonResource
             ),
             'addon' => $this->addon,
             'ytb' => $this->ytb,
+            'type' => $this->type,
         ];
     }
 }
