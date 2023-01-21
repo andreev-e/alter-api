@@ -32,9 +32,9 @@ class PoiController extends Controller
             $pois->with('tags')->limit(100);
         }
 
-        $pois->when($request->validated('tag'), function($query) use ($request) {
+        $pois->when($request->get('tag'), function($query) use ($request) {
             $query->has('tag', function($query) use ($request) {
-                $query->where('slug', $request->validated('tag'));
+                $query->where('slug', $request->get('tag'));
             });
         });
 
@@ -54,25 +54,11 @@ class PoiController extends Controller
         return new PoiResource($poi);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Poi  $poi
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Poi $poi)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Poi  $poi
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Poi $poi)
     {
         //
