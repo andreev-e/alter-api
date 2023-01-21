@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\TagController;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
     return $request->user();
 });
 
@@ -25,10 +26,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('locations', [TagController::class, 'locations'])->name('locations');
 Route::get('poi', [PoiController::class, 'index'])->name('pois');
 
-Route::prefix('tag')->group(function () {
+Route::prefix('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
 });
 
+Route::prefix('comment')
+    ->controller(CommentController::class)
+    ->group(function() {
+        Route::get('','index')->name('list');
+    });
 
 Route::get('{type}', [ResourceController::class, 'index'])->name('resource.index');
