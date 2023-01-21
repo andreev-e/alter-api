@@ -24,6 +24,12 @@ class PoiController extends Controller
             });
         });
 
+        $pois->when($request->has('location'), function(Builder $query) use ($request) {
+            $query->whereHas('locations', function(Builder $subQuery) use ($request) {
+                $subQuery->where('url', $request->get('location'));
+            });
+        });
+
         if ($request->south) {
             $pois->where('lat', '>', $request->south);
         }
