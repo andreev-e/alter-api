@@ -38,4 +38,12 @@ Route::prefix('comment')
         Route::get('','index')->name('list');
     });
 
+Route::prefix('poi')
+    ->name('poi')
+    ->controller(PoiController::class)
+    ->group(function() {
+        Route::get('','index')->name('list');
+        Route::get('{id}','index')->name('show');
+    });
+
 Route::get('{type}', [ResourceController::class, 'index'])->name('resource.index');
