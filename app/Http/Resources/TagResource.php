@@ -22,6 +22,9 @@ class TagResource extends JsonResource
             'zoom' => $this->scale,
             'children' => self::collection($this->whenLoaded('children')),
             'parents' => $this->getParents(),
+            'NAME_ROD_ED' => $this->NAME_ROD_ED,
+            'NAME_DAT_ED' => $this->NAME_DAT_ED,
+            'NAME_PREDLOZH_ED' => $this->NAME_PREDLOZH_ED,
         ];
     }
 }
