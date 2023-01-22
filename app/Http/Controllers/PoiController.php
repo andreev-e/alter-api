@@ -31,7 +31,7 @@ class PoiController extends Controller
         });
 
         $pois->when($request->has('categories'), function(Builder $query) use ($request) {
-            $query->whereIn('type', $request->has('categories'));
+            $query->whereIn('type', $request->get('categories'));
         });
 
         if ($request->south) {
