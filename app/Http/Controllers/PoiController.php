@@ -61,7 +61,7 @@ class PoiController extends Controller
 
     public function show(Poi $poi): PoiResource
     {
-        return new PoiResource($poi);
+        return new PoiResource($poi->load('locations', 'tags'));
     }
 
     public function update(Request $request, Poi $poi)
