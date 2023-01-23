@@ -14,7 +14,6 @@ class PoiController extends Controller
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
         $pois = Poi::query()
-            ->with(['tags', 'locations'])
             ->where('show', 1)
             ->orderBy('views', 'DESC');
 
