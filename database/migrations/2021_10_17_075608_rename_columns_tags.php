@@ -13,10 +13,10 @@ class RenameColumnsTags extends Migration
      */
     public function up()
     {
-//        Schema::table('tags', function (Blueprint $table) {
-//            $table->renameColumn('ID', 'id');
-//            $table->renameColumn('NAME', 'name');
-//        });
+        Schema::table('tags', function (Blueprint $table) {
+            $table->renameColumn('ID', 'id');
+            $table->renameColumn('NAME', 'name');
+        });
     }
 
     /**

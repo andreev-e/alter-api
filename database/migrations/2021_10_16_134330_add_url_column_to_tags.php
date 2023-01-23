@@ -13,9 +13,9 @@ class AddUrlColumnToTags extends Migration
      */
     public function up()
     {
-//        Schema::table('tags', function (Blueprint $table) {
-//            $table->char('url', 255);
-//        });
+        Schema::table('tags', function (Blueprint $table) {
+            $table->char('url', 255);
+        });
     }
 
     /**
