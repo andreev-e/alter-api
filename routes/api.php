@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,8 +25,7 @@ Route::middleware('auth:sanctum')->get('/profile', function(Request $request) {
 
 
 Route::get('locations', [TagController::class, 'locations'])->name('locations');
-Route::get('poi', [PoiController::class, 'index'])->name('pois');
-Route::get('user', [UserController::class, 'index'])->name('pois');
+Route::get('user', [UserController::class, 'index'])->name('user');
 
 Route::prefix('tag')->name('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');
