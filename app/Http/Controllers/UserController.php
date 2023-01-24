@@ -10,7 +10,9 @@ class UserController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::query()->orderBy('publications','desc')->paginate());
+        $users = User::query()->where('publications', '>', 0)
+            ->orderBy('publications','desc');
+        return UserResource::collection($users->paginate());
     }
 
 }
