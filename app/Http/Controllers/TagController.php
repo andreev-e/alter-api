@@ -22,7 +22,6 @@ class TagController extends Controller
             ->with(['children', 'parent.parent.parent'])
             ->where('TYPE','!=',0)
             ->where('parent', 0)
-            ->where('urnl', 0)
             ->where('COUNT', '>', 1)
             ->orderBy('COUNT', 'DESC')->get());
     }
