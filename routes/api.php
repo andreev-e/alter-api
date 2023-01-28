@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/profile', function(Request $request) {
 });
 
 
-Route::get('locations', [TagController::class, 'locations'])->name('locations');
+Route::get('countries', [TagController::class, 'countries'])->name('countries');
 Route::get('user', [UserController::class, 'index'])->name('user');
 
 Route::prefix('tag')->name('tag')->group(function() {

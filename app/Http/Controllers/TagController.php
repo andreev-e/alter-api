@@ -16,7 +16,7 @@ class TagController extends Controller
              ->orderBy('COUNT', 'DESC')->get());
     }
 
-    public function locations(): AnonymousResourceCollection
+    public function countries(): AnonymousResourceCollection
     {
         return TagResource::collection(Tag::query()
             ->with(['children', 'parent.parent.parent'])
@@ -24,11 +24,6 @@ class TagController extends Controller
             ->where('parent', 0)
             ->where('COUNT', '>', 1)
             ->orderBy('COUNT', 'DESC')->get());
-    }
-
-    public function store(Request $request)
-    {
-        //
     }
 
     public function show(Tag $tag): TagResource
