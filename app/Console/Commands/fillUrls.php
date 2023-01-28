@@ -39,9 +39,9 @@ class fillUrls extends Command
      */
     public function handle()
     {
-        $tags = Tag::all(); 
+        $tags = Tag::all();
         foreach($tags as $tag) {
-            $tag->url = Str::slug($tag->NAME);
+            $tag->url = Str::slug($tag->name);
             $tag->save();
         }
         echo "Done";
