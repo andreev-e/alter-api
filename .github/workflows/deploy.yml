@@ -20,5 +20,6 @@ jobs:
             && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom
             && php artisan migrate
             && php artisan optimize
+            && php artisan fill:url
 
 
