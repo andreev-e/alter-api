@@ -9,9 +9,14 @@ class Comment extends Model
 {
     protected $primaryKey = 'commentid';
 
-    public function object() 
+    public function object()
     {
         return $this->hasOne(Poi::class, 'id', 'backlink')->select('id', 'name');
     }
-    
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'username', 'name')->select('id', 'name');
+    }
+
 }
