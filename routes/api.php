@@ -32,6 +32,10 @@ Route::prefix('tag')->name('tag')->group(function() {
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
 });
 
+Route::prefix('user')->name('tag')->group(function() {
+    Route::get('/{user:username}', [UserController::class, 'show'])->name('username');
+});
+
 Route::prefix('comment')
     ->name('comment')
     ->controller(CommentController::class)

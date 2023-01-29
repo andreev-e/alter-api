@@ -15,4 +15,9 @@ class UserController extends Controller
         return UserResource::collection($users->paginate());
     }
 
+    public function show(User $user): UserResource
+    {
+        return new UserResource($user);
+    }
+
 }
