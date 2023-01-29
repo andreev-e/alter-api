@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 
-class fillUrls extends Command
+class FillUrls extends Command
 {
     /**
      * The name and signature of the console command.
@@ -39,7 +39,7 @@ class fillUrls extends Command
      */
     public function handle()
     {
-        $tags = Tag::all();
+        $tags = Tag::query()->where('url', '')->get();
         foreach($tags as $tag) {
             $tag->url = Str::slug($tag->name);
             $tag->save();
