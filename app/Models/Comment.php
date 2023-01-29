@@ -16,7 +16,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'username', 'name')->select('id', 'name');
+        return $this->hasOne(User::class, 'username', 'name');
     }
 
 }
