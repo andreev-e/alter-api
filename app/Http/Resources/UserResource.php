@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             'homepage' => $this->homepage,
             'userlevel' => $this->userlevel,
             'regdate' => $this->regdate,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
         ];
     }
 }

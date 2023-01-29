@@ -17,7 +17,6 @@ class CommentResource extends JsonResource
             'email' => $this->email,
             'comment' => $this->comment,
             'time' => $this->time,
-            'backlink' => $this->backlink,
             'object_name' => $this->object->name,
         ];
     }
