@@ -14,6 +14,7 @@ class PoiRequest extends FormRequest
             'north' => ['sometimes', 'numeric'],
             'east' => ['sometimes', 'numeric'],
             'tag' => ['sometimes', 'string', 'exists:tags,url'],
+            'user' => ['sometimes', 'string', 'exists:users,username'],
             'location' => ['sometimes', 'string', 'exists:tags,url'],
             'categories' => ['sometimes', 'array'],
             'categories.*' => ['sometimes', 'string'],

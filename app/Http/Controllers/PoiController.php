@@ -33,6 +33,10 @@ class PoiController extends Controller
             $query->whereIn('type', $request->get('categories'));
         });
 
+        $pois->when($request->has('user'), function(Builder $query) use ($request) {
+            $query->where('author', $request->get('user'));
+        });
+
         if ($request->south) {
             $pois->where('lat', '>', $request->south);
         }
