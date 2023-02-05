@@ -4,8 +4,10 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Cache;
 
 class Poi extends Model
@@ -39,5 +41,11 @@ class Poi extends Model
     {
         return $this->hasMany(Comment::class, 'backlink')->where('approved', '=', 1)->orderBy('time', 'desc');
     }
+
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'username','author');
+    }
+
 
 }
