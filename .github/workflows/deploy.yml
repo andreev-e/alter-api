@@ -15,6 +15,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
+            && git stash push --include-untracked
+            && git stash drop
             && git pull
             && su altertravel.ru
             && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom
