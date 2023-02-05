@@ -19,6 +19,7 @@ class PoiResourceCollection extends JsonResource
             'url' => Str::slug($this->name),
             'ytb' => $this->ytb,
             'type' => $this->type,
+            'dist' => $this->dist,
         ];
     }
 }
