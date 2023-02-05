@@ -12,7 +12,7 @@ class PoiResource extends PoiResourceCollection
     public function toArray($request): array
     {
         return [
-            parent::toArray($request),
+            ...parent::toArray($request),
             'description' => htmlspecialchars_decode($this->description),
             'route' => htmlspecialchars_decode($this->route),
             'route_o' => htmlspecialchars_decode($this->route_o),
