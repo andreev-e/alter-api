@@ -6,7 +6,7 @@ use App\Http\Requests\PoiRequest;
 use App\Models\Poi;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Http\Resources\PoiResource;
+use App\Http\Resources\PoiResourceCollection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
@@ -51,10 +51,10 @@ class PoiController extends Controller
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
-            return PoiResource::collection($pois->limit(50)->get());
+            return PoiResourceCollection::collection($pois->limit(50)->get());
         }
 
-        return PoiResource::collection($pois->paginate(20));
+        return PoiResourceCollection::collection($pois->paginate(20));
     }
 
     public function store(Request $request)
@@ -62,9 +62,9 @@ class PoiController extends Controller
         //
     }
 
-    public function show(Poi $poi): PoiResource
+    public function show(Poi $poi): PoiResourceCollection
     {
-        return new PoiResource($poi->load('locations', 'tags'));
+        return new PoiResourceCollection($poi->load('locations', 'tags'));
     }
 
     public function update(Request $request, Poi $poi)

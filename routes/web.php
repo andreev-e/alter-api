@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\TagResource;
-use App\Http\Resources\PoiResource;
+use App\Http\Resources\PoiResourceCollection;
 use App\Models\Tag;
 use App\Models\Poi;
 use App\Http\Controllers\TagController;
