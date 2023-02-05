@@ -13,7 +13,13 @@ class PoiResource extends PoiResourceCollection
     {
         return [
             parent::toArray($request),
+            'description' => htmlspecialchars_decode($this->description),
+            'route' => htmlspecialchars_decode($this->route),
+            'route_o' => htmlspecialchars_decode($this->route_o),
             'nearest' => PoiResourceCollection::collection($this->nearest),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'locations' => TagResource::collection($this->whenLoaded('locations')),
+            'addon' => $this->addon,
         ];
     }
 }

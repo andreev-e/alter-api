@@ -17,12 +17,6 @@ class PoiResourceCollection extends JsonResource
             'lat' => $this->lat,
             'lng' => $this->lng,
             'url' => Str::slug($this->name),
-            'description' => htmlspecialchars_decode($this->description),
-            'route' => htmlspecialchars_decode($this->route),
-            'route_o' => htmlspecialchars_decode($this->route_o),
-            'tags' => TagResource::collection($this->whenLoaded('tags')),
-            'locations' => TagResource::collection($this->whenLoaded('locations')),
-            'addon' => $this->addon,
             'ytb' => $this->ytb,
             'type' => $this->type,
         ];
