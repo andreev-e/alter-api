@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PoiRequest;
+use App\Http\Resources\PoiResource;
 use App\Models\Poi;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -62,9 +63,9 @@ class PoiController extends Controller
         //
     }
 
-    public function show(Poi $poi): PoiResourceCollection
+    public function show(Poi $poi): PoiResource
     {
-        return new PoiResourceCollection($poi->load('locations', 'tags'));
+        return new PoiResource($poi->load('locations', 'tags'));
     }
 
     public function update(Request $request, Poi $poi)

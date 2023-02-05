@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Collection;
 
 class Poi extends Model
 {
@@ -26,11 +25,12 @@ class Poi extends Model
             ->orderBy('COUNT', 'desc');
     }
 
-    public function getNearestAttribute(): Collection
+    public function getNearestAttribute()
     {
-        return Cache::remember('nearest:' . $this->id, 0, static function() {
+        return Cache::remember('nearest:' . $this->id, 0, function() {
             return self::query()
-                ->select(DB::raw('(6371 * acos(cos(radians(lat)) * cos(radians(lat)) * cos(radians(lng) - radians(lng)) + sin(radians(lat)) * sin(radians(lat)))) AS `dist`'))
+                ->select(DB::raw("*, (6371 * acos(cos(radians($this->lat)) * cos(radians(lat)) * cos(radians(lng) - radians($this->lng)) +
+                    sin(radians(42.269581)) * sin(radians($this->lat)))) AS `dist`"))
                 ->orderBy('dist', 'desc')->limit(5)->get();
         });
     }
