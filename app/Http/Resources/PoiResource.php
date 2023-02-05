@@ -13,7 +13,7 @@ class PoiResource extends PoiResourceCollection
     {
         return [
             parent::toArray($request),
-            'nearest' => self::collection($this->nearest),
+            'nearest' => PoiResourceCollection::collection($this->nearest),
         ];
     }
 }
