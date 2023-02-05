@@ -32,7 +32,7 @@ class Poi extends Model
             return self::query()
                 ->select(DB::raw("*, (6371 * acos(cos(radians($this->lat)) * cos(radians(lat)) * cos(radians(lng) - radians($this->lng)) +
                     sin(radians(42.269581)) * sin(radians($this->lat)))) AS `dist`"))
-                ->orderBy('dist', 'desc')->limit(4)->get();
+                ->orderBy('dist')->limit(20)->get();
         });
     }
 
