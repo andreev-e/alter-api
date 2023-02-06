@@ -22,5 +22,6 @@ jobs:
             && php artisan migrate
             && php artisan optimize
             && php artisan fill:url
+            && php artisan cache:clear
 
 
