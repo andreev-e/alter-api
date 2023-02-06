@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 
-Route::middleware('auth:sanctum')->get('/profile', function(Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('api/user', function(Request $request) {
+    return Auth::user();
 });
 
 
@@ -35,7 +35,7 @@ Route::prefix('tag')->name('tag')->group(function() {
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
 });
 
-Route::prefix('user')->name('tag')->group(function() {
+Route::prefix('user')->name('user')->group(function() {
     Route::get('/{user:username}', [UserController::class, 'show'])->name('username');
 });
 
