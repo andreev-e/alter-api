@@ -2,12 +2,12 @@
 
 return [
     'defaults' => [
-        'guard' => 'sanctum',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
     'guards' => [
-        'sanctum' => [
+        'api' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
