@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Console\Input\Input;
 
 class LoginController extends Controller
 {
-    public function authenticate(LoginRequest $request)
+    public function authenticate(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
 
@@ -31,4 +32,10 @@ class LoginController extends Controller
 
         return response()->json('Wrong credentials');
     }
+
+    public function user(): JsonResponse
+    {
+        return response()->json(Auth::user());
+    }
+
 }

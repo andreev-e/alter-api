@@ -22,9 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 
-Route::middleware('auth:sanctum')->get('api/user', function(Request $request) {
-    return Auth::user();
-});
+Route::middleware('auth:sanctum')
+    ->get('api/user', [LoginController::class, 'user'])->name('user.login');
 
 
 Route::get('countries', [TagController::class, 'countries'])->name('countries');
