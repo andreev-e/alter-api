@@ -37,7 +37,7 @@ class Poi extends Model
         return Cache::remember('nearest:' . $this->id, 1000 * 60 * 60, function() {
             return self::query()
                 ->select(DB::raw("*, (6371 * acos(cos(radians($this->lat)) * cos(radians(lat)) * cos(radians(lng) - radians($this->lng)) +
-                    sin(radians(42.269581)) * sin(radians($this->lat)))) AS dist"))
+                    sin(radians($this->lat)) * sin(radians($this->lat)))) AS 'dist'"))
                 ->where('lat', '<>', 0)
                 ->where('lng', '<>', 0)
                 ->havingRaw('dist IS NOT NULL')
