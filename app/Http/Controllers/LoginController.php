@@ -17,7 +17,6 @@ class LoginController extends Controller
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
             return response()->json(Auth::getUser());
         }
 
@@ -27,7 +26,6 @@ class LoginController extends Controller
             if ($user->password == md5($credentials['password'])) {
 //                $user->password = Hash::make(Input::get('password'));
 //                $user->save();
-                $request->session()->regenerate();
                 Auth::login($user);
                 return response()->json($user);
             }
