@@ -34,7 +34,7 @@ class LoginController extends Controller
 
     public function user()
     {
-        return response()->json(Auth::user());
+        return response()->json(Auth::user(), Auth::user() ? 200 : 401);
     }
 
     public function logout(Request $request)
