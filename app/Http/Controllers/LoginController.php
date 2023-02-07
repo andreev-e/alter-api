@@ -32,7 +32,7 @@ class LoginController extends Controller
             }
         }
 
-        return response()->json('Wrong credentials');
+        return response()->json('Wrong credentials', 401);
     }
 
     public function user(Request $request)
