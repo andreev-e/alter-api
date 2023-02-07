@@ -11,3 +11,9 @@
 |
 */
 
+use App\Http\Controllers\LoginController;
+
+Route::get('api/user', [LoginController::class, 'user'])->name('user.login');
+Route::post('login', [LoginController::class, 'authenticate'])->name('login');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
