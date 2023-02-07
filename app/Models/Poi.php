@@ -40,6 +40,7 @@ class Poi extends Model
                     sin(radians($this->lat)) * sin(radians($this->lat)))) AS 'dist'"))
                 ->where('lat', '<>', 0)
                 ->where('lng', '<>', 0)
+                ->where('id', '<>', $this->id)
                 ->havingRaw('dist IS NOT NULL')
                 ->orderBy('dist')->limit(4)->get();
         });
