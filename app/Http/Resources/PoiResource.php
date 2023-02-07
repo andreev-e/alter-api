@@ -13,7 +13,7 @@ class PoiResource extends PoiResourceCollection
             parent::toArray($request),
             [
                 'addon' => $this->addon,
-                'author' => new UserResource($this->whenLoaded('user')),
+                'user' => new UserResource($this->whenLoaded('user')),
                 'description' => strip_tags(htmlspecialchars_decode($this->description)),
                 'route' => htmlspecialchars_decode($this->route),
                 'route_o' => htmlspecialchars_decode($this->route_o),

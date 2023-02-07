@@ -20,6 +20,7 @@ class PoiResourceCollection extends JsonResource
             'ytb' => $this->ytb,
             'type' => $this->type,
             'dist' => $this->dist,
+            'author' => $this->author,
         ];
     }
 }
