@@ -37,7 +37,6 @@ class LoginController extends Controller
 
     public function user(Request $request)
     {
-        dump(Auth::getUser());
         return $request->user();
     }
 }
