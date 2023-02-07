@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +27,8 @@ class LoginController extends Controller
             if ($user->password == md5($credentials['password'])) {
 //                $user->password = Hash::make(Input::get('password'));
 //                $user->save();
-                Auth::loginUsingId($user->username);
-                var_dump($user);
-                return response()->json('Ok old');
+                Auth::login($user);
+                return response()->json($user);
             }
         }
 
@@ -37,7 +37,7 @@ class LoginController extends Controller
 
     public function user(Request $request)
     {
+        dump(Auth::getUser());
         return $request->user();
     }
-
 }

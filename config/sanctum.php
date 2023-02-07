@@ -51,5 +51,4 @@ return [
     'prefix' => 'api/sanctum',
 
     'guard' => 'api',
-
 ];
