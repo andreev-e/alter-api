@@ -35,9 +35,10 @@ class LoginController extends Controller
         return response()->json('Wrong credentials');
     }
 
-    public function user(Request $request)
+    public function user(Request $request): JsonResponse
     {
-        return $request->user();
+        var_dump($request->toArray());
+        response()->json('Ok');
     }
     public function logout(Request $request)
     {
