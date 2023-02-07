@@ -34,7 +34,7 @@ class LoginController extends Controller
 
     public function user()
     {
-        return response()->json(['fake' => 'user', 'user' => Auth::user()]);
+        return response()->json(Auth::user());
     }
 
     public function logout(Request $request)
