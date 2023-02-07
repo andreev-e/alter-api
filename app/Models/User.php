@@ -8,6 +8,8 @@ class User extends Authenticatable
 {
     protected $primaryKey = 'username';
 
+    public $incrementing = false;
+
     protected $fillable = [
         'name',
         'email',
