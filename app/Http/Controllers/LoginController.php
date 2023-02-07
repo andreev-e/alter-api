@@ -27,7 +27,8 @@ class LoginController extends Controller
 //                $user->password = Hash::make(Input::get('password'));
 //                $user->save();
                 Auth::loginUsingId($user->username);
-                return response()->json('Ok');
+                var_dump($user);
+                return response()->json('Ok old');
             }
         }
 
