@@ -35,11 +35,12 @@ class LoginController extends Controller
         return response()->json('Wrong credentials');
     }
 
-    public function user(Request $request): JsonResponse
+    public function user(Request $request)
     {
         var_dump($request->toArray());
         response()->json('Ok');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
