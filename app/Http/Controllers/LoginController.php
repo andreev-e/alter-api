@@ -18,7 +18,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return response()->json('Ok');
+            return response()->json(Auth::getUser());
         }
 
         $user = User::query()->where('email', '=', $credentials['email'])->first();

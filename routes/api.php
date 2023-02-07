@@ -25,7 +25,6 @@ Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 Route::middleware('web')
     ->get('api/user', [LoginController::class, 'user'])->name('user.login');
 
-
 Route::get('countries', [TagController::class, 'countries'])->name('countries');
 Route::get('user', [UserController::class, 'index'])->name('user');
 
