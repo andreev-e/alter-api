@@ -25,7 +25,7 @@ class CommentController extends Controller
         if ($id && $type === 'poi') {
             $comments->where('backlink', $id);
         }
-        $comments->with('user');
+        $comments->with(['user', 'object']);
 
         return CommentResource::collection($comments->paginate());
     }
