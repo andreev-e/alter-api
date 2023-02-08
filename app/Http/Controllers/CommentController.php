@@ -30,6 +30,7 @@ class CommentController extends Controller
         if (Auth::user()) {
             $comment = new Comment([
                 'name' => Auth::user()->username,
+                'email' => Auth::user()->email,
                 'approved' => 1,
             ]);
         } else {
