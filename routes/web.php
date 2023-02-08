@@ -18,6 +18,10 @@ Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login'
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::prefix('comment')->group(function() {
+    Route::post('/api/comment', [CommentController::class, 'store'])->name('store');
+});
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::prefix('comment')->group(function() {
         Route::post('/api/comment', [CommentController::class, 'store'])->name('store');
