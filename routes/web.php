@@ -19,6 +19,7 @@ Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::post('/api/comment', [CommentController::class, 'store'])->name('store');
+Route::delete('/api/comment/{comment:commentid}', [CommentController::class, 'destroy'])->name('destroy');
 
 
 

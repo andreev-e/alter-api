@@ -60,6 +60,8 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        //
+        if (Auth::user()->username === 'andreev') {
+            $comment->delete();
+        }
     }
 }

@@ -19,6 +19,7 @@ class CommentResource extends JsonResource
             'time' => $this->time,
             'object_name' => $this->object->name,
             'backlink' => $this->backlink,
+            'approved' => $this->approved,
         ];
     }
 }
