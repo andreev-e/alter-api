@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -22,9 +23,9 @@ class CommentController extends Controller
         return CommentResource::collection($comments->paginate());
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        return 'store';
+        return response()->json('Store');
     }
 
     public function update(Request $request, Comment $comment)
