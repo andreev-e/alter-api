@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddCommentRequest;
 use App\Models\Comment;
 use Auth;
 use Carbon\Carbon;
@@ -25,7 +26,7 @@ class CommentController extends Controller
         return CommentResource::collection($comments->paginate());
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(AddCommentRequest $request): JsonResponse
     {
         if (Auth::user()) {
             $comment = new Comment([
@@ -43,7 +44,7 @@ class CommentController extends Controller
         $comment->fill([
             'backlink' => $request->get('id'),
             'comment' => $request->get('comment'),
-            'time' => Carbon::now()->unix() / 1000,
+            'time' => Carbon::now()->unix(),
         ])->save();
         return response()->json('Ok');
     }
