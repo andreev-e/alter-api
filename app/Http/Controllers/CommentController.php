@@ -18,10 +18,14 @@ class CommentController extends Controller
         $id = (integer) $request->input('id');
         $type = $request->input('type');
 
-        $comments = Comment::where('approved', 1)->orderBy('time', 'DESC');
+        $comments = Comment::query()
+            ->when(!$request->input('pending'), function($query) {
+                $query->where('approved', 1);
+            })->orderBy('time', 'DESC');
         if ($id && $type === 'poi') {
             $comments->where('backlink', $id);
         }
+        $comments->with('user');
 
         return CommentResource::collection($comments->paginate());
     }
