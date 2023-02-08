@@ -28,12 +28,12 @@ class CommentController extends Controller
     public function store(Request $request): JsonResponse
     {
         if (Auth::user()) {
-            $comment = Comment::query()->create([
+            $comment = new Comment([
                 'name' => Auth::user()->username,
                 'approved' => 1,
             ]);
         } else {
-            $comment =  Comment::query()->create([
+            $comment =  new Comment([
                 'name' => '',
                 'email' => $request->get('email'),
                 'approved' => 0,
