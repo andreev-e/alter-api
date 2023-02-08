@@ -11,6 +11,7 @@ class AddCommentRequest extends FormRequest
         return [
             'id' => ['required', 'numeric'],
             'comment' => ['required', 'string'],
+            'email' => ['sometimes', 'email'],
         ];
     }
 }
