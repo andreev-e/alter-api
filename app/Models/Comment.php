@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
     protected $primaryKey = 'commentid';
+
+    protected $fillable = [
+        'backlink',
+        'name',
+        'comment',
+        'time',
+        'approved',
+        'email',
+    ];
 
     public function object()
     {
