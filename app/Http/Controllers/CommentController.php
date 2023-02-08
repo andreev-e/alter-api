@@ -24,7 +24,7 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-        //
+        return 'store';
     }
 
     public function update(Request $request, Comment $comment)

@@ -11,9 +11,17 @@
 |
 */
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LoginController;
 
 Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login');
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::prefix('comment')->group(function() {
+        Route::post('/api/comment', [CommentController::class, 'store'])->name('store');
+    });
+});
+
 
