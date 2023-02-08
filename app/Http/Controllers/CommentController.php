@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
@@ -25,7 +27,16 @@ class CommentController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        return response()->json('Store');
+        if (Auth::user()) {
+            Comment::query()->create([
+                'backlink' => $request->get('id'),
+                'name' => Auth::user()->username,
+                'comment' => $request->get('comment'),
+                'time' => Carbon::now()->unix() / 1000,
+                'approved' => 0,
+            ]);
+        }
+        return response()->json('Ok');
     }
 
     public function update(Request $request, Comment $comment)
