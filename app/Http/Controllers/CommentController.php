@@ -28,14 +28,22 @@ class CommentController extends Controller
     public function store(Request $request): JsonResponse
     {
         if (Auth::user()) {
-            Comment::query()->create([
-                'backlink' => $request->get('id'),
+            $comment = Comment::query()->create([
                 'name' => Auth::user()->username,
-                'comment' => $request->get('comment'),
-                'time' => Carbon::now()->unix() / 1000,
+                'approved' => 1,
+            ]);
+        } else {
+            $comment =  Comment::query()->create([
+                'name' => '',
+                'email' => $request->get('email'),
                 'approved' => 0,
             ]);
         }
+        $comment->fill([
+            'backlink' => $request->get('id'),
+            'comment' => $request->get('comment'),
+            'time' => Carbon::now()->unix() / 1000,
+        ])->save();
         return response()->json('Ok');
     }
 
