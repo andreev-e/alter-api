@@ -17,6 +17,11 @@ class Comment extends Model
         'email',
     ];
 
+
+    protected $casts = [
+        'approved' => 'boolean',
+    ];
+
     public function object()
     {
         return $this->hasOne(Poi::class, 'id', 'backlink')->select('id', 'name');

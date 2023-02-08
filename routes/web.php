@@ -18,8 +18,12 @@ Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login'
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::post('/api/comment', [CommentController::class, 'store'])->name('store');
-Route::delete('/api/comment/{comment:commentid}', [CommentController::class, 'destroy'])->name('destroy');
+
+Route::prefix('/api/comment')->controller(CommentController::class)->group(function() {
+    Route::post('', 'store')->name('store');
+    Route::delete('{comment:commentid}', 'destroy')->name('destroy');
+    Route::post('{comment:commentid}/approve', 'approve')->name('approve');
+});
 
 
 
