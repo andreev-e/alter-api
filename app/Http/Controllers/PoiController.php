@@ -12,16 +12,24 @@ use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
 {
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
-        $pois = Poi::query()
-            ->where('show', 1)
-            ->orderBy('views', 'DESC');
+        $pois = Poi::query()->orderBy('views', 'DESC');
+
+        if (Auth::user()) {
+            if (Auth::user()->username !== 'andreev') {
+                $pois->orWhere(function(Builder $query) {
+                    $query->where('show', 1);
+                    $query->where('author', Auth::user()->username);
+                });
+            }
+        } else {
+            $pois->where('show', 1);
+        }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
             $query->whereHas('tags', function(Builder $subQuery) use ($request) {
