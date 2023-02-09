@@ -77,14 +77,15 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        if (Auth::user()->username === 'andreev' || Auth::user()->username === $comment->name) {
+        if (Auth::user() &&
+            (Auth::user()->username === 'andreev' || Auth::user()->username === $comment->name)) {
             $comment->delete();
         }
     }
 
     public function approve(Comment $comment)
     {
-        if (Auth::user()->username === 'andreev') {
+        if (Auth::user() && Auth::user()->username === 'andreev') {
             $comment->approved = true;
             $comment->save();
             return response()->json('Ok');

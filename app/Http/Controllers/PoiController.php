@@ -79,10 +79,10 @@ class PoiController extends Controller
         return PoiResourceCollection::collection($pois->paginate(20));
     }
 
-    public function store(PoiCreateRequest $request): JsonResponse
+    public function store(PoiCreateRequest $request): JsonResponse|PoiResource
     {
         if (Auth::user()) {
-            Poi::query()->create(
+            $poi = Poi::query()->create(
                 array_merge(
                     $request->validated(),
                     [
@@ -90,8 +90,9 @@ class PoiController extends Controller
                         'show' => false,
                     ])
             );
+            return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
-        return response()->json('Ok');
+        return response()->json('No ok', 405);
     }
 
     public function show(Poi $poi): PoiResource
@@ -119,7 +120,7 @@ class PoiController extends Controller
 
     public function approve(Poi $poi)
     {
-        if (Auth::user()->username === 'andreev') {
+        if (Auth::user() && Auth::user()->username === 'andreev') {
             $poi->approved = true;
             $poi->save();
             return response()->json('Ok');
