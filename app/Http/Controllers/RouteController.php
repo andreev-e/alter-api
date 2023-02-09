@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RouteRequest;
+use App\Http\Resources\PoiResource;
+use App\Http\Resources\RouteResource;
 use App\Http\Resources\RouteResourceCollection;
 use App\Models\Route;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,5 +23,10 @@ class RouteController extends Controller
         });
 
         return RouteResourceCollection::collection($pois->paginate(20));
+    }
+
+    public function show(Route $route): RouteResource
+    {
+        return new RouteResource($route);
     }
 }
