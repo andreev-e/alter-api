@@ -16,8 +16,8 @@ class PoiUpdateRequest extends FormRequest
             'route_o' => ['sometimes', 'string'],
             'addon' => ['sometimes', 'string'],
             'links' => ['sometimes', 'string'],
-            'lat' => ['sometimes', 'numeric', 'min:-90', 'max:90'],
-            'lng' => ['sometimes', 'numeric', 'min:-180', 'max:180'],
+            'lat' => ['required', 'numeric', 'min:-90', 'max:90'],
+            'lng' => ['required', 'numeric', 'min:-180', 'max:180'],
         ];
     }
 }
