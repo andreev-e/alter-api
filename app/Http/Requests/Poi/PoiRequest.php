@@ -19,6 +19,7 @@ class PoiRequest extends FormRequest
             'route' => ['sometimes', 'numeric', 'exists:routes,id'],
             'categories' => ['sometimes', 'array'],
             'categories.*' => ['sometimes', 'string'],
+            'latest' => ['sometimes', 'boolean'],
         ];
     }
 }

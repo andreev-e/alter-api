@@ -17,7 +17,13 @@ class PoiController extends Controller
 {
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
-        $pois = Poi::query()->orderBy('views', 'DESC');
+        $pois = Poi::query();
+
+        if ($request->latest) {
+            $pois->orderBy('id', 'desc');
+        } else {
+            $pois->orderBy('views', 'desc');
+        }
 
         if (Auth::user()) {
             if (Auth::user()->username !== 'andreev') {
