@@ -2,13 +2,21 @@
 
 namespace App\Http\Requests\Poi;
 
-class PoiCreateRequest extends PoiUpdateRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class PoiCreateRequest extends FormRequest
 {
     public function rules()
     {
         return array_merge(
-            parent::rules(),
             [
+                'description' => ['required', 'string'],
+                'name' => ['required', 'string'],
+                'type' => ['required', 'string'],
+                'route' => ['sometimes', 'nullable', 'string'],
+                'route_o' => ['sometimes', 'nullable', 'string'],
+                'addon' => ['sometimes', 'nullable', 'string'],
+                'links' => ['sometimes', 'nullable', 'string'],
                 'lat' => ['required', 'numeric', 'min:-90', 'max:90'],
                 'lng' => ['required', 'numeric', 'min:-180', 'max:180'],
             ]
