@@ -31,7 +31,7 @@ class CommentController extends Controller
 
         if ($type === 'route') {
             $comments = RouteComment::query()
-                ->orderBy('time', 'DESC');
+                ->orderBy('date', 'DESC');
             if ($request->input('id')) {
                 $comments->where('backlink', (integer)$request->input('id'));
             }
