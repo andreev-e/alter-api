@@ -51,6 +51,5 @@ Route::prefix('route')
     ->name('route')
     ->controller(RouteController::class)
     ->group(function() {
-        Route::get('','index')->name('list');
         Route::get('{route}','show')->name('show');
     });
