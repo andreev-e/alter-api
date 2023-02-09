@@ -21,9 +21,9 @@ class PoiController extends Controller
 
         if (Auth::user()) {
             if (Auth::user()->username !== 'andreev') {
-                $pois->orWhere(function(Builder $query) {
-                    $query->where('show', 1);
-                    $query->where('author', Auth::user()->username);
+                $pois->where(function(Builder $query) {
+                    $query->orWhere('show', 1);
+                    $query->orWhere('author', Auth::user()->username);
                 });
             }
         } else {
