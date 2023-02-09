@@ -17,7 +17,7 @@ class NullableColumnsPoiTable extends Migration
     {
         Schema::table('poi', function(Blueprint $table) {
             foreach ($this->columns as $column) {
-                $table->text($column)->nullable(true)->change();
+                $table->text($column)->nullable()->change();
             }
         });
     }
