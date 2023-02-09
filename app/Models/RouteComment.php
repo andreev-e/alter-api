@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Comment extends Model
+class RouteComment extends Model
 {
     protected $primaryKey = 'commentid';
 
-    protected $fillable = [
-        'backlink',
-        'name',
-        'comment',
-        'time',
-        'approved',
-        'email',
+    protected $casts = [
+        'approved' => 'boolean',
     ];
 
     public function object(): HasOne
@@ -25,7 +21,6 @@ class Comment extends Model
 
     public function user(): HasOne
     {
-        return $this->hasOne(User::class, 'username', 'name');
+        return $this->hasOne(User::class, 'name', 'name');
     }
-
 }

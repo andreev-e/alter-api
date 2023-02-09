@@ -6,6 +6,7 @@ use App\Http\Requests\Comment\AddCommentRequest;
 use App\Http\Requests\Comment\EditCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\RouteComment;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -16,16 +17,28 @@ class CommentController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $id = (integer)$request->input('id');
         $type = $request->input('type');
 
-        $comments = Comment::query()
-            ->when(!$request->input('pending'), function($query) {
-                $query->where('approved', 1);
-            })->orderBy('time', 'DESC');
-        if ($id && $type === 'poi') {
-            $comments->where('backlink', $id);
+        if ($type === 'poi') {
+            $comments = Comment::query()
+                ->when(!$request->input('pending'), function($query) {
+                    $query->where('approved', 1);
+                })->orderBy('time', 'DESC');
+            if ($request->input('id')) {
+                $comments->where('backlink', (integer)$request->input('id'));
+            }
         }
+
+        if ($type === 'route') {
+            $comments = RouteComment::query()
+                ->when(!$request->input('pending'), function($query) {
+                    $query->where('approved', 1);
+                })->orderBy('time', 'DESC');
+            if ($request->input('id')) {
+                $comments->where('backlink', (integer)$request->input('id'));
+            }
+        }
+
         $comments->with(['user', 'object']);
 
         return CommentResource::collection($comments->paginate());
