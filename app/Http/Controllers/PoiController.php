@@ -40,7 +40,7 @@ class PoiController extends Controller
         });
 
         if ($request->route) {
-            $route = Route::query()->find($request->route);
+            $route = \App\Models\Route::query()->find($request->route);
             if ($route) {
                 $pois->whereIn('id', explode('|',$route->POINTS));
             }
