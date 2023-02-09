@@ -21,7 +21,6 @@ class PoiController extends Controller
     {
         $pois = Poi::query()->orderBy('views', 'DESC');
 
-        dump(Auth::user());
         if (Auth::user()) {
             if (Auth::user()->username !== 'andreev') {
                 $pois->orWhere(function(Builder $query) {
@@ -30,7 +29,7 @@ class PoiController extends Controller
                 });
             }
         } else {
-            $pois->where('show', 1);
+//            $pois->where('show', 1);
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
