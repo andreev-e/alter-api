@@ -54,5 +54,3 @@ Route::prefix('route')
         Route::get('','index')->name('list');
         Route::get('{route}','show')->name('show');
     });
-
-Route::get('{type}', [ResourceController::class, 'index'])->name('resource.index');
