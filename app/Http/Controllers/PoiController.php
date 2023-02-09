@@ -19,12 +19,6 @@ class PoiController extends Controller
     {
         $pois = Poi::query();
 
-        if ($request->has('latest')) {
-            $pois->orderBy('id', 'desc');
-        } else {
-            $pois->orderBy('views', 'desc');
-        }
-
         if (Auth::user()) {
             if (Auth::user()->username !== 'andreev') {
                 $pois->orWhere(function(Builder $query) {
@@ -74,6 +68,12 @@ class PoiController extends Controller
         }
         if ($request->west) {
             $pois->where('lng', '>', $request->west);
+        }
+
+        if ($request->has('latest')) {
+            $pois->orderBy('id', 'desc');
+        } else {
+            $pois->orderBy('views', 'desc');
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
