@@ -46,6 +46,9 @@ Route::prefix('poi')
     ->group(function() {
         Route::get('','index')->name('list');
         Route::get('{poi}','show')->name('show');
+        Route::post('', 'store')->name('store');
+        Route::patch('{poi}', 'update')->name('update');
+        Route::delete('{poi}', 'destroy')->name('destroy');
     });
 
 Route::prefix('route')

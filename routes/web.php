@@ -27,12 +27,6 @@ Route::prefix('/api/comment')->name('comment')->controller(CommentController::cl
     Route::delete('{comment:commentid}', 'destroy')->name('destroy');
 });
 
-Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)->group(function() {
-    Route::post('', 'store')->name('store');
-    Route::patch('{poi}', 'update')->name('update');
-    Route::delete('{poi}', 'destroy')->name('destroy');
-});
-
 
 
 
