@@ -22,6 +22,7 @@ Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 Route::prefix('/api/comment')->controller(CommentController::class)->group(function() {
     Route::post('', 'store')->name('store');
     Route::delete('{comment:commentid}', 'destroy')->name('destroy');
+    Route::patch('{comment:commentid}', 'update')->name('update');
     Route::post('{comment:commentid}/approve', 'approve')->name('approve');
 });
 

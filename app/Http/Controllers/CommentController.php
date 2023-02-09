@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddCommentRequest;
+use App\Http\Requests\Comment\AddCommentRequest;
+use App\Http\Requests\Comment\EditCommentRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommentController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $id = (integer) $request->input('id');
+        $id = (integer)$request->input('id');
         $type = $request->input('type');
 
         $comments = Comment::query()
@@ -39,7 +40,7 @@ class CommentController extends Controller
                 'approved' => 1,
             ]);
         } else {
-            $comment =  new Comment([
+            $comment = new Comment([
                 'name' => '',
                 'email' => $request->get('email'),
                 'approved' => 0,
@@ -53,9 +54,14 @@ class CommentController extends Controller
         return response()->json('Ok');
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(EditCommentRequest $request, Comment $comment)
     {
-        //
+        if (Auth::user()) {
+            if ($comment->name === Auth::user()->username || Auth::user()->username === 'andreev') {
+                $comment->update($request->validated());
+            }
+        }
+        return response()->json('Ok');
     }
 
     public function destroy(Comment $comment)
