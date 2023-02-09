@@ -17,6 +17,19 @@ class Poi extends Model
         'lat',
         'lng',
         'name',
+        'description',
+        'addon',
+        'route',
+        'route_o',
+        'links',
+        'type',
+        'show',
+    ];
+
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
+        'show'=> 'boolean',
     ];
 
     public function tags(): BelongsToMany

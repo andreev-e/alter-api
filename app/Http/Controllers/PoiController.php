@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PoiRequest;
+use App\Http\Requests\Poi\PoiCreateRequest;
+use App\Http\Requests\Poi\PoiRequest;
+use App\Http\Requests\Poi\PoiUpdateRequest;
 use App\Http\Resources\PoiResource;
+use App\Http\Resources\PoiResourceCollection;
 use App\Models\Poi;
 use App\Models\Route;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\PoiResourceCollection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
@@ -66,9 +70,16 @@ class PoiController extends Controller
         return PoiResourceCollection::collection($pois->paginate(20));
     }
 
-    public function store(Request $request)
+    public function store(PoiCreateRequest $request): JsonResponse
     {
-        //
+        if (Auth::user()) {
+            Poi::query()->create([
+                ...$request->validated(),
+                'author' => Auth::user()->username,
+                'show' => false,
+            ]);
+        }
+        return response()->json('Ok');
     }
 
     public function show(Poi $poi): PoiResource
@@ -76,9 +87,12 @@ class PoiController extends Controller
         return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
-    public function update(Request $request, Poi $poi)
+    public function update(PoiUpdateRequest $request, Poi $poi): JsonResponse
     {
-        //
+        if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+            $poi->update($request->validated());
+        }
+        return response()->json('Ok');
     }
 
     public function destroy(Poi $poi)

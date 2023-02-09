@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Poi;
 
 use Illuminate\Foundation\Http\FormRequest;
 
