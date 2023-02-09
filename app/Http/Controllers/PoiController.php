@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PoiRequest;
 use App\Http\Resources\PoiResource;
 use App\Models\Poi;
+use App\Models\Route;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Resources\PoiResourceCollection;
@@ -37,6 +38,13 @@ class PoiController extends Controller
         $pois->when($request->has('user'), function(Builder $query) use ($request) {
             $query->where('author', $request->get('user'));
         });
+
+        if ($request->route) {
+            $route = Route::query()->find($request->route);
+            if ($route) {
+                $pois->whereIn('id', explode('|',$route->POINTS));
+            }
+        }
 
         if ($request->south) {
             $pois->where('lat', '>', $request->south);
