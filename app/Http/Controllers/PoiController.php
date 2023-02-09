@@ -112,7 +112,12 @@ class PoiController extends Controller
     public function destroy(Poi $poi)
     {
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
-            $poi->delete();
+            if ($poi->show) {
+                $poi->show = false;
+                $poi->save();
+            } else {
+                $poi->delete();
+            }
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);
