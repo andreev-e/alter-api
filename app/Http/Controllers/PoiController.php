@@ -7,6 +7,7 @@ use App\Http\Requests\Poi\PoiRequest;
 use App\Http\Requests\Poi\PoiUpdateRequest;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\PoiResourceCollection;
+use App\Models\Comment;
 use App\Models\Poi;
 use App\Models\Route;
 use Auth;
@@ -20,8 +21,9 @@ class PoiController extends Controller
     {
         $pois = Poi::query()->orderBy('views', 'DESC');
 
-        dump(Auth::user());
+
         if (Auth::user()) {
+            dump(Auth::user());
             if (Auth::user()->username !== 'andreev') {
                 $pois->orWhere(function(Builder $query) {
                     $query->where('show', 1);
@@ -112,6 +114,16 @@ class PoiController extends Controller
     {
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->delete();
+            return response()->json('Ok');
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function approve(Poi $poi)
+    {
+        if (Auth::user()->username === 'andreev') {
+            $poi->approved = true;
+            $poi->save();
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);

@@ -30,6 +30,7 @@ Route::prefix('/api/comment')->name('comment')->controller(CommentController::cl
 Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)->group(function() {
     Route::post('', 'store')->name('store');
     Route::patch('{poi}', 'update')->name('update');
+    Route::post('{poi}/approve', 'approve')->name('approve');
     Route::delete('{poi}', 'destroy')->name('destroy');
 });
 

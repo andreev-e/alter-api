@@ -87,6 +87,8 @@ class CommentController extends Controller
         if (Auth::user()->username === 'andreev') {
             $comment->approved = true;
             $comment->save();
+            return response()->json('Ok');
         }
+        return response()->json('No ok', 405);
     }
 }
