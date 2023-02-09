@@ -44,7 +44,6 @@ Route::prefix('poi')
     ->name('poi')
     ->controller(PoiController::class)
     ->group(function() {
-        Route::get('','index')->name('list');
         Route::get('{poi}','show')->name('show');
     });
 

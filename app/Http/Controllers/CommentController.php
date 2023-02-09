@@ -70,9 +70,10 @@ class CommentController extends Controller
         if (Auth::user()) {
             if ($comment->name === Auth::user()->username || Auth::user()->username === 'andreev') {
                 $comment->update($request->validated());
+                return response()->json('Ok');
             }
         }
-        return response()->json('Ok');
+        return response()->json('No ok', 405);
     }
 
     public function destroy(Comment $comment)
@@ -80,7 +81,9 @@ class CommentController extends Controller
         if (Auth::user() &&
             (Auth::user()->username === 'andreev' || Auth::user()->username === $comment->name)) {
             $comment->delete();
+            return response()->json('Ok');
         }
+        return response()->json('No ok', 405);
     }
 
     public function approve(Comment $comment)

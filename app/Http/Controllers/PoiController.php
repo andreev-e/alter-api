@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Poi\PoiCreateRequest;
 use App\Http\Requests\Poi\PoiRequest;
-use App\Http\Requests\Poi\PoiUpdateRequest;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\PoiResourceCollection;
-use App\Models\Comment;
 use App\Models\Poi;
 use App\Models\Route;
 use Auth;
@@ -29,7 +27,7 @@ class PoiController extends Controller
                 });
             }
         } else {
-//            $pois->where('show', 1);
+            $pois->where('show', 1);
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
