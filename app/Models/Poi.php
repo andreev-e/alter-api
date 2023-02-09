@@ -24,6 +24,7 @@ class Poi extends Model
         'links',
         'type',
         'show',
+        'author',
     ];
 
     protected $casts = [

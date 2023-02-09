@@ -11,6 +11,8 @@ class NullableColumnsPoiTable extends Migration
         'route',
         'addon',
         'links',
+        'rating',
+        'user_rating',
     ];
 
     public function up()
