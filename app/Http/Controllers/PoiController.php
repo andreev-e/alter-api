@@ -121,7 +121,7 @@ class PoiController extends Controller
     public function approve(Poi $poi)
     {
         if (Auth::user() && Auth::user()->username === 'andreev') {
-            $poi->approved = true;
+            $poi->show = true;
             $poi->save();
             return response()->json('Ok');
         }
