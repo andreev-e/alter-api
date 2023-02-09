@@ -31,9 +31,7 @@ class CommentController extends Controller
 
         if ($type === 'route') {
             $comments = RouteComment::query()
-                ->when(!$request->input('pending'), function($query) {
-                    $query->where('approved', 1);
-                })->orderBy('time', 'DESC');
+                ->orderBy('time', 'DESC');
             if ($request->input('id')) {
                 $comments->where('backlink', (integer)$request->input('id'));
             }
