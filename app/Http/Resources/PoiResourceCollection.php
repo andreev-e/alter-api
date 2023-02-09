@@ -23,6 +23,7 @@ class PoiResourceCollection extends JsonResource
             'author' => $this->author,
             'views' => $this->views,
             'show' => $this->show,
+            'date' => $this->date,
         ];
     }
 }
