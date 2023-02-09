@@ -73,11 +73,14 @@ class PoiController extends Controller
     public function store(PoiCreateRequest $request): JsonResponse
     {
         if (Auth::user()) {
-            Poi::query()->create([
-                ...$request->validated(),
-                'author' => Auth::user()->username,
-                'show' => false,
-            ]);
+            Poi::query()->create(
+                array_merge(
+                    $request->validated(),
+                    [
+                        'author' => Auth::user()->username,
+                        'show' => false,
+                    ])
+            );
         }
         return response()->json('Ok');
     }
@@ -89,7 +92,6 @@ class PoiController extends Controller
 
     public function update(PoiCreateRequest $request, Poi $poi): JsonResponse
     {
-        dump(Auth::user(), $poi->author, Auth::user()->username === 'andreev');
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->update($request->validated());
             return response()->json('Ok');
