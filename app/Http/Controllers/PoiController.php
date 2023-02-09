@@ -89,6 +89,7 @@ class PoiController extends Controller
 
     public function update(PoiUpdateRequest $request, Poi $poi): JsonResponse
     {
+        dump(Auth::user()->username, $poi->author);
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->update($request->validated());
         }
