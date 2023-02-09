@@ -20,6 +20,7 @@ class PoiResource extends PoiResourceCollection
                 'nearest' => PoiResourceCollection::collection($this->nearest),
                 'tags' => TagResource::collection($this->whenLoaded('tags')),
                 'locations' => TagResource::collection($this->whenLoaded('locations')),
+                'links' => $this->links,
             ]);
     }
 }
