@@ -24,5 +24,6 @@ jobs:
             && php artisan optimize
             && php artisan fill:url
             && php artisan cache:clear
+            && php artisan storage:link
 
 

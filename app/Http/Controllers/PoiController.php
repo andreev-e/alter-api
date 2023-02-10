@@ -11,6 +11,7 @@ use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
@@ -132,6 +133,20 @@ class PoiController extends Controller
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->delete();
+            return response()->json('Ok');
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function storeImage(Request $request, Poi $poi): JsonResponse
+    {
+        if (Auth::user() &&
+            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+
+            if($request->hasFile('image') && $request->file('image')->isValid()){
+                $poi->addMediaFromRequest('image')->toMediaCollection('image');
+            }
+
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);
