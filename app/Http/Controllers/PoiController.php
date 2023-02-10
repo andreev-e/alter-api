@@ -20,6 +20,7 @@ class PoiController extends Controller
         $pois = Poi::query();
 
         if (Auth::user()) {
+            dump('you are logged id');
             if (Auth::user()->username !== 'andreev') {
                 $pois->where(function(Builder $query) {
                     $query->orWhere('author', Auth::user()->username);
