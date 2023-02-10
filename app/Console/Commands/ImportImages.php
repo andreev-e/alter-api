@@ -19,9 +19,10 @@ class ImportImages extends Command
 
     public function handle()
     {
-        $poi = Poi::query()->first();
-        if ($poi) {
-            echo $poi->id;
+        $pois = Poi::query()->whereNull('image_processed')
+            ->limit(20)->get();
+        foreach ($pois as $poi) {
+            echo $poi->id . '<br>';
             try {
             $poi->addMediaFromUrl('https://altertravel.ru/images/' . $poi->id . '.jpg', 'image/jpeg')
                 ->storingConversionsOnDisk('s3')
@@ -39,6 +40,9 @@ class ImportImages extends Command
                     echo $e->getMessage(). '<br>';
                 }
             }
+
+            $poi->image_processed = 1;
+            $poi->save();
         }
     }
 }
