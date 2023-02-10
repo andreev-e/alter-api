@@ -11,19 +11,19 @@
         "ext-http": "*",
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.5.0",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "spatie/laravel-medialibrary": "*"
+        "spatie/laravel-medialibrary": "9.12.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "nunomaduro/collision": "^5.0",
+        "facade/ignition": "^2.14",
+        "fakerphp/faker": "^1.21.0",
+        "laravel/sail": "^1.17.0",
+        "nunomaduro/collision": "^5.11.0",
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
