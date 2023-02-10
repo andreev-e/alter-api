@@ -25,5 +25,6 @@ jobs:
             && php artisan fill:url
             && php artisan cache:clear
             && php artisan storage:link
+            && php artisan import:images
 
 
