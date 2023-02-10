@@ -146,6 +146,7 @@ class PoiController extends Controller
 
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $poi->addMediaFromRequest('image')
+                    ->storingConversionsOnDisk('s3')
                     ->toMediaCollection('image');
             }
 
