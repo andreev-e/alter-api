@@ -23,11 +23,11 @@ class PoiController extends Controller
             if (Auth::user()->username !== 'andreev') {
                 $pois->where(function(Builder $query) {
                     $query->orWhere('author', Auth::user()->username);
-                    $query->orWhere('show', true);
+                    $query->orWhere('show', 1);
                 });
             }
         } else {
-            $pois->where('show', true);
+            $pois->where('show', 1);
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
@@ -113,25 +113,32 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function destroy(Poi $poi)
+    public function approve(Poi $poi): JsonResponse
     {
-        if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
-            if ($poi->show) {
-                $poi->show = false;
-                $poi->save();
-            } else {
-                $poi->delete();
-            }
+        if (Auth::user() && Auth::user()->username === 'andreev') {
+            $poi->show = true;
+            $poi->save();
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);
     }
 
-    public function approve(Poi $poi)
+    public function disapprove(Poi $poi): JsonResponse
     {
-        if (Auth::user() && Auth::user()->username === 'andreev') {
-            $poi->show = true;
+        if (Auth::user() &&
+            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+            $poi->show = false;
             $poi->save();
+            return response()->json('Ok');
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function destroy(Poi $poi): JsonResponse
+    {
+        if (Auth::user() &&
+            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+            $poi->delete();
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);

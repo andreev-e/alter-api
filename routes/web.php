@@ -32,6 +32,7 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)->group(
     Route::post('', 'store')->name('store');
     Route::patch('{poi}', 'update')->name('update');
     Route::post('{poi}/approve', 'approve')->name('approve');
+    Route::post('{poi}/disapprove', 'disapprove')->name('disapprove');
     Route::delete('{poi}', 'destroy')->name('destroy');
 });
 
