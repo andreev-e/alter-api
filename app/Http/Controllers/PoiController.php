@@ -147,7 +147,7 @@ class PoiController extends Controller
                 $poi->addMediaFromRequest('image')->toMediaCollection('image');
             }
 
-            return response()->json('Ok');
+            return response()->json($poi->getMedia('image'));
         }
         return response()->json('No ok', 405);
     }
