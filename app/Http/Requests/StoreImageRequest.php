@@ -9,7 +9,7 @@ class StoreImageRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => ['requires', 'image', 'mimes:jpg,jpeg'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg'],
         ];
     }
 }
