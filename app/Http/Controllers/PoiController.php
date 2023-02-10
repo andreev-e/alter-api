@@ -143,8 +143,9 @@ class PoiController extends Controller
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
 
-            if($request->hasFile('image') && $request->file('image')->isValid()){
-                $poi->addMediaFromRequest('image')->toMediaCollection('image');
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $poi->addMediaFromRequest('image')
+                    ->toMediaCollection('image');
             }
 
             return response()->json($poi->getMedia('image'));
