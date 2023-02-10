@@ -82,7 +82,6 @@ class Poi extends Model implements HasMedia
             ->crop('crop-center', 350, 350);
 
         $this->addMediaConversion('full')
-            ->width(1920)
-            ->crop('crop-center', 1920, 1920);
+            ->width(1920);
     }
 }
