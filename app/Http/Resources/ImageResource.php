@@ -12,8 +12,8 @@ class ImageResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'original_url' => $this->original_url,
-            'preview_url' => $this->preview_url,
+            'original' => $this->getUrl('full'),
+            'preview' => $this->getUrl('thumb'),
             'created_at' => $this->created_at,
         ];
     }
