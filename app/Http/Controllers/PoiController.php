@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Poi\PoiCreateRequest;
 use App\Http\Requests\Poi\PoiRequest;
+use App\Http\Requests\StoreImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\PoiResourceCollection;
@@ -139,7 +140,7 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function storeImage(Request $request, Poi $poi): JsonResponse
+    public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
     {
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
