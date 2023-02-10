@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Poi\PoiCreateRequest;
 use App\Http\Requests\Poi\PoiRequest;
+use App\Http\Resources\ImageResource;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\PoiResourceCollection;
 use App\Models\Poi;
@@ -148,7 +149,7 @@ class PoiController extends Controller
                     ->toMediaCollection('image');
             }
 
-            return response()->json($poi->getMedia('image'));
+            return response()->json(ImageResource::collection($poi->media));
         }
         return response()->json('No ok', 405);
     }
