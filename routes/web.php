@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PoiController;
 
 Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login');
@@ -37,6 +38,7 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
         Route::post('{poi}/disprove', 'disprove')->name('disprove');
         Route::delete('{poi}', 'destroy')->name('destroy');
         Route::post('{poi}/image', 'storeImage')->name('image.store');
+        Route::delete('{poi}/image/{media}', 'destroyImage')->name('image.destroy');
     });
 
 

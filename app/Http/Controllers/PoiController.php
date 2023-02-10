@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PoiController extends Controller
 {
@@ -151,6 +152,16 @@ class PoiController extends Controller
                     ->toMediaCollection('image','s3');
             }
 
+            return response()->json(ImageResource::collection($poi->media));
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function destroyImage(Poi $poi, Media $media)
+    {
+        if (Auth::user() &&
+            (Auth::user()->username === $media->model->author || Auth::user()->username === 'andreev')) {
+            $media->delete();
             return response()->json(ImageResource::collection($poi->media));
         }
         return response()->json('No ok', 405);
