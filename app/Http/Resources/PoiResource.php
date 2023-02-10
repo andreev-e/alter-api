@@ -10,7 +10,7 @@ class PoiResource extends PoiResourceCollection
     public function toArray($request): array
     {
         return array_merge(
-            collect(parent::toArray($request))->except('dist')->toArray(),
+            collect(parent::toArray($request))->except('dist', 'thumb')->toArray(),
             [
                 'addon' => $this->addon,
                 'user' => new UserResource($this->whenLoaded('user')),
