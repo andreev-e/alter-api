@@ -123,7 +123,7 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function disapprove(Poi $poi): JsonResponse
+    public function disprove(Poi $poi): JsonResponse
     {
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
