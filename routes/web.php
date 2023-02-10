@@ -13,7 +13,6 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PoiController;
 
 Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login');
