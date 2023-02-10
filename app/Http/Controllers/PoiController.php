@@ -11,16 +11,16 @@ use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PoiController extends Controller
 {
-    public function index(PoiRequest $request): AnonymousResourceCollection
+    public function index(PoiRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $pois = Poi::query();
 
+        dump('you are not logged in');
         if (Auth::user()) {
-            dump('you are logged id');
+            dump('you are logged in');
             if (Auth::user()->username !== 'andreev') {
                 $pois->where(function(Builder $query) {
                     $query->orWhere('author', Auth::user()->username);
