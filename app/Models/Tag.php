@@ -15,6 +15,8 @@ class Tag extends Model
         'name',
         'TYPE',
         'parent',
+        'lat',
+        'lng',
     ];
 
     public $timestamps = false;

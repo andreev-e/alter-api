@@ -90,6 +90,8 @@ class PoiGeocodeJob implements ShouldQueue
         ], [
             'parent' => $parent,
             'url' => Str::slug($tagName),
+            'lat' => $this->poi->lat,
+            'lng' => $this->poi->lng,
         ]);
 
         return $tag->id;
