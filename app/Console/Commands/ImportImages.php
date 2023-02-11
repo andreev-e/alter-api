@@ -19,10 +19,12 @@ class ImportImages extends Command
 
     public function handle()
     {
+        $left = Poi::query()->select('id')->whereNull('image_processed')
+            ->count();
         $pois = Poi::query()->select('id')->whereNull('image_processed')
             ->limit(1000)->get();
         foreach ($pois as $poi) {
-            echo $poi->id . "\n\r";
+            echo 'Left:' . $left-- . ' ' . $poi->id . "\n\r";
             try {
             $poi->addMediaFromUrl('https://altertravel.ru/images/' . $poi->id . '.jpg', 'image/jpeg')
                 ->storingConversionsOnDisk('s3')
