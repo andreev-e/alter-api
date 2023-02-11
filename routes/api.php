@@ -1,13 +1,10 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
-use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,5 +48,6 @@ Route::prefix('route')
     ->name('route')
     ->controller(RouteController::class)
     ->group(function() {
+        Route::get('', 'index')->name('list');
         Route::get('{route}','show')->name('show');
     });
