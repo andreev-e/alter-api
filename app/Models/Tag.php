@@ -19,6 +19,11 @@ class Tag extends Model
         'lng',
     ];
 
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
+    ];
+
     public $timestamps = false;
 
     public function getUrlAttribute($url)
