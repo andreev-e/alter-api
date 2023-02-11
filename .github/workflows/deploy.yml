@@ -25,6 +25,5 @@ jobs:
             && php artisan fill:url
             && php artisan cache:clear
             && php artisan storage:link
-            && nohup php artisan queue:work --queue=geocode --daemon &
 
 
