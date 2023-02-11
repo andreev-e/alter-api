@@ -17,6 +17,7 @@ class Tag extends Model
         'parent',
         'lat',
         'lng',
+        'scale',
     ];
 
     protected $casts = [

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\FillUrls;
+use App\Console\Commands\RegionsProcess;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(FillUrls::class)->hourly();
+        $schedule->command(FillUrls::class)->daily();
+        $schedule->command(RegionsProcess::class)->daily();
     }
 
     /**

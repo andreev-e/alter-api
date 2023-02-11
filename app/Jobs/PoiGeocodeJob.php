@@ -45,16 +45,16 @@ class PoiGeocodeJob implements ShouldQueue
         $file = $result->getBody();
 
         if ($file) {
-            $file = $this->getBetween($file, "<featureMember xmlns=\"http://www.opengis.net/gml\">",
+            $file = getBetween($file, "<featureMember xmlns=\"http://www.opengis.net/gml\">",
                 "</featureMember>");
-            $country = str_replace("xml:lang=\"ru\">", "", $this->getBetween($file, "<CountryName>", "</CountryName>"));
+            $country = str_replace("xml:lang=\"ru\">", "", getBetween($file, "<CountryName>", "</CountryName>"));
             $adm_area = str_replace("xml:lang=\"ru\">", "",
-                $this->getBetween($file, "<AdministrativeAreaName>", "</AdministrativeAreaName>"));
+                getBetween($file, "<AdministrativeAreaName>", "</AdministrativeAreaName>"));
             $locality = str_replace("xml:lang=\"ru\">", "",
-                $this->getBetween($file, "<LocalityName>", "</LocalityName>"));
+                getBetween($file, "<LocalityName>", "</LocalityName>"));
             if (trim($locality) === "") {
                 $locality = str_replace("xml:lang=\"ru\">", "",
-                    $this->getBetween($file, "<SubAdministrativeAreaName>", "</SubAdministrativeAreaName>"));
+                    getBetween($file, "<SubAdministrativeAreaName>", "</SubAdministrativeAreaName>"));
             }
 
             if ($country != '') {
@@ -70,16 +70,6 @@ class PoiGeocodeJob implements ShouldQueue
             $this->poi->tags()->sync(array_filter([$countryTag, $admAreaTag, $localityTag]));
         }
 
-    }
-
-    private function getBetween($content, $start, $end): string
-    {
-        $r = explode($start, $content);
-        if (isset($r[1])) {
-            $r = explode($end, $r[1]);
-            return $r[0];
-        }
-        return '';
     }
 
     private function addTag(string $tagName, int $type, int $parent = 0): int
