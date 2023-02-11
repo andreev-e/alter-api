@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class NullableColumnsPoiTable extends Migration
 {
-    private $columns = [
+    private array $columns = [
         'route_o',
         'route',
         'addon',
@@ -29,7 +29,7 @@ class NullableColumnsPoiTable extends Migration
         'metki_time',
     ];
 
-    private $zeros = [
+    private array $zeros = [
         'views',
         'views_month',
         'views_today',

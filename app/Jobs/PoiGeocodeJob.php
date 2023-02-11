@@ -6,11 +6,11 @@ use App\Models\Poi;
 use App\Models\Tag;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 class PoiGeocodeJob implements ShouldQueue
 {
@@ -23,6 +23,7 @@ class PoiGeocodeJob implements ShouldQueue
      */
     public function __construct(private Poi $poi)
     {
+        $this->queue = 'geocode';
     }
 
     /**
@@ -42,16 +43,6 @@ class PoiGeocodeJob implements ShouldQueue
         }
 
         $file = $result->getBody();
-//        if ($curl = curl_init()) {
-//            curl_setopt($curl, CURLOPT_URL, $url);
-//            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-//            curl_setopt($curl, CURLOPT_AUTOREFERER, true);
-//            curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-//            curl_setopt($curl, CURLOPT_HEADER, true);
-//            curl_setopt($curl, CURLOPT_FRESH_CONNECT, false);
-//
-//            $file = curl_exec($curl);
-//        }
 
         if ($file) {
             $file = $this->getBetween($file, "<featureMember xmlns=\"http://www.opengis.net/gml\">",
@@ -66,15 +57,17 @@ class PoiGeocodeJob implements ShouldQueue
                     $this->getBetween($file, "<SubAdministrativeAreaName>", "</SubAdministrativeAreaName>"));
             }
 
-            if ($country) {
-                $this->addTag($country, 1);
+            if ($country != '') {
+                $countryTag = $this->addTag($country, 1);
             }
-            if ($adm_area) {
-                $this->addTag($adm_area, 2);
+            if ($countryTag && $adm_area != '') {
+                $admAreaTag = $this->addTag($adm_area, 2, $countryTag);
             }
-            if ($locality) {
-                $this->addTag($locality, 3);
+            if ($admAreaTag && $locality != '') {
+                $localityTag = $this->addTag($locality, 3, $admAreaTag);
             }
+
+            $this->poi->tags()->sync(array_filter([$countryTag, $admAreaTag, $localityTag]));
         }
 
     }
@@ -89,15 +82,16 @@ class PoiGeocodeJob implements ShouldQueue
         return '';
     }
 
-    private function addTag(string $tagName, int $type): void
+    private function addTag(string $tagName, int $type, int $parent = 0): int
     {
         $tag = Tag::query()->firstOrCreate([
             'name' => $tagName,
-            'type' => $type
+            'TYPE' => $type,
+        ], [
+            'parent' => $parent,
+            'url' => Str::slug($tagName),
         ]);
 
-        $this->poi->tags()->attach($tag);
-            Tag::query()->where('name', $tag)
-                ->where('type', $type)->count();
+        return $tag->id;
     }
 }

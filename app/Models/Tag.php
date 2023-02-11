@@ -10,7 +10,12 @@ class Tag extends Model
 {
     protected $hidden = array('lat', 'lng', 'scale');
 
-    protected $fillable = ['url'];
+    protected $fillable = [
+        'url',
+        'name',
+        'TYPE',
+        'parent',
+    ];
 
     public $timestamps = false;
 
