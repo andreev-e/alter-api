@@ -34,7 +34,7 @@ class PoiGeocodeJob implements ShouldQueue
     public function handle(Client $client)
     {
         error_reporting(E_ERROR | E_PARSE);
-        $url = 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $this->poi->lat . ',' . $this->poi->lng . '&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';
+        $url = 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $this->poi->lng . ',' . $this->poi->lat . '&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';
 
         $result = $client->get($url);
 
