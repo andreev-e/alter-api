@@ -21,6 +21,7 @@ class PoiResource extends PoiResourceCollection
                 'tags' => TagResource::collection($this->whenLoaded('tags')),
                 'locations' => TagResource::collection($this->whenLoaded('locations')),
                 'links' => $this->links,
+                'copyright' => $this->copyright,
                 'images' => ImageResource::collection($this->media),
             ]);
     }

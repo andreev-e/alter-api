@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\PoiGeocodeJob;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +38,20 @@ class Poi extends Model implements HasMedia
         'lng' => 'float',
         'show'=> 'boolean',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::created(function($poi) {
+                PoiGeocodeJob::dispatch($poi);
+        });
+        self::updated(function($poi) {
+            PoiGeocodeJob::dispatch($poi);
+            if ($poi->isDirty('lat') || $poi->isDirty('lng')) {
+//                PoiGeocodeJob::dispatch();
+            }
+        });
+    }
 
     public function tags(): BelongsToMany
     {
