@@ -13,7 +13,6 @@ use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -99,6 +98,11 @@ class PoiController extends Controller
 
     public function show(Poi $poi): PoiResource
     {
+        $poi->update([
+            'views' => $poi->views + 1,
+            'views_month' => $poi->views_month + 1,
+            'views_today' => $poi->views_today + 1,
+        ]);
         return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
@@ -152,7 +156,7 @@ class PoiController extends Controller
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $poi->addMediaFromRequest('image')
                     ->storingConversionsOnDisk('s3')
-                    ->toMediaCollection('image','s3');
+                    ->toMediaCollection('image', 's3');
             }
 
             return response()->json(ImageResource::collection($poi->media));
