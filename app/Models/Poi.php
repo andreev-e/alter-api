@@ -72,8 +72,12 @@ class Poi extends Model implements HasMedia
     {
         return Cache::remember('nearest:' . $this->id, 1000 * 60 * 60, function() {
             return self::query()
-                ->select(DB::raw("*, (6371 * acos(cos(radians($this->lat)) * cos(radians(lat)) * cos(radians(lng) - radians($this->lng)) +
-                    sin(radians($this->lat)) * sin(radians($this->lat)))) AS 'dist'"))
+                ->select(DB::raw("*,
+                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
+                     * COS(RADIANS($this->lat))
+                     * COS(RADIANS(lng - $this->lng))
+                     + SIN(RADIANS(lat))
+                     * SIN(RADIANS($this->lat))))) AS 'dist'"))
                 ->where('lat', '<>', 0)
                 ->where('lng', '<>', 0)
                 ->where('id', '<>', $this->id)
