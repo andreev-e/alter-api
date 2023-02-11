@@ -24,7 +24,8 @@ jobs:
             && php artisan optimize
             && php artisan fill:url
             && php artisan cache:clear
-            && php artisan storage:link
             && cp queue-worker.conf /etc/supervisor/conf.d
+            && supervisorctl reread
+            && service supervisor restart
 
 
