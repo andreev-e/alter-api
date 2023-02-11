@@ -35,8 +35,8 @@ class RegionsProcess extends Command
                 $low = explode(" ", getBetween($file, "<lowerCorner>", "</lowerCorner>"));
                 $upp = explode(" ", getBetween($file, "<upperCorner>", "</upperCorner>"));
 
-                $lng = ((int)$low[0] + (int)$upp[0]) / 2;
-                $lat = ((int)$low[1] + (int)$upp[1]) / 2;
+                $lng = ((float)$low[0] + (float)$upp[0]) / 2;
+                $lat = ((float)$low[1] + (float)$upp[1]) / 2;
 
                 $for_scale = max(abs($low[0] - $upp[0]), abs($low[1] - $upp[1]));
 

@@ -25,8 +25,6 @@ class Tag extends Model
         'lng' => 'float',
     ];
 
-    public $timestamps = false;
-
     public function getUrlAttribute($url)
     {
         if ($this->TYPE !== 0) {
