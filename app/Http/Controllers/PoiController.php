@@ -91,6 +91,7 @@ class PoiController extends Controller
                         'show' => false,
                     ])
             );
+            $poi->tags()->attach($request->get('tags'));
             return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('No ok', 405);
@@ -105,6 +106,7 @@ class PoiController extends Controller
     {
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->update($request->validated());
+            $poi->tags()->sync($request->get('tags'));
             return response()->json('Ok');
         }
         return response()->json('No ok', 405);
@@ -135,6 +137,7 @@ class PoiController extends Controller
     {
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+            $poi->tags()->detach();
             $poi->delete();
             return response()->json('Ok');
         }
