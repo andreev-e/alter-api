@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(FillUrls::class)->daily();
+        $schedule->command(FillUrls::class)->everyMinute();
         $schedule->command(RegionsProcess::class)->daily();
         $schedule->command(TagCount::class)->daily();
 
