@@ -23,7 +23,9 @@ class PoiController extends Controller
         $pois = Poi::query();
 
         if (!$request->has('withDisproved')) {
-            $pois->where('show', 1);
+            $pois->where('show', 1)
+            ->where('lat', '<>', 0)
+            ->where('lng', '<>', 0);
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
