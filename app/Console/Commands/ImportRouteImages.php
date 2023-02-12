@@ -22,7 +22,7 @@ class ImportRouteImages extends Command
         $left = Route::query()->select('id')->whereNull('image_processed')
             ->count();
         $routes = Route::query()->select('id')->whereNull('image_processed')
-            ->limit(1)->get();
+            ->limit(100)->get();
         foreach ($routes as $route) {
             echo 'Left:' . $left-- . ' ' . $route->id . "\n\r";
 

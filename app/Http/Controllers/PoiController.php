@@ -76,7 +76,7 @@ class PoiController extends Controller
             return PoiResourceCollection::collection($pois->limit(50)->get());
         }
 
-        return PoiResourceCollection::collection($pois->paginate(20));
+        return PoiResourceCollection::collection($pois->paginate(24));
     }
 
     public function store(PoiCreateRequest $request): JsonResponse|PoiResource

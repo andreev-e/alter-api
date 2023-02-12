@@ -22,7 +22,7 @@ class RouteController extends Controller
             $query->where('author', $request->get('user'));
         });
 
-        return RouteResourceCollection::collection($pois->paginate(20));
+        return RouteResourceCollection::collection($pois->paginate(24));
     }
 
     public function show(Route $route): RouteResource
