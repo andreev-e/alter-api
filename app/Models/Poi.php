@@ -88,7 +88,9 @@ class Poi extends Model implements HasMedia
 
     public function twits(): HasMany
     {
-        return $this->hasMany(Comment::class, 'backlink')->where('approved', '=', 1)->orderBy('time', 'desc');
+        return $this->hasMany(Comment::class, 'backlink')
+            ->where('approved', '=', 1)
+            ->orderBy('time', 'desc');
     }
 
     public function user(): BelongsTo
@@ -96,6 +98,9 @@ class Poi extends Model implements HasMedia
         return $this->belongsTo(User::class, 'username', 'author');
     }
 
+    /**
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')

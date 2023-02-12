@@ -6,9 +6,9 @@ use App\Models\Poi;
 use Exception;
 use Illuminate\Console\Command;
 
-class ImportImages extends Command
+class ImportPoiImages extends Command
 {
-    protected $signature = 'import:images';
+    protected $signature = 'import:poi-images';
 
     protected $description = 'Command description';
 

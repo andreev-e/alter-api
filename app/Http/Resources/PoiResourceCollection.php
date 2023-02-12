@@ -24,6 +24,7 @@ class PoiResourceCollection extends JsonResource
             'views' => $this->views,
             'views_month' => $this->views_month,
             'views_today' => $this->views_today,
+            'comments' => $this->comments,
             'show' => $this->show,
             'date' => $this->date,
             'thumb' => $this->getFirstMediaUrl('image', 'thumb'),

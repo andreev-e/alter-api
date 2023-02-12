@@ -21,6 +21,7 @@ class RouteResource extends RouteResourceCollection
                 'transport_ship' => $this->transport_ship,
                 'transport_bike' => $this->transport_bike,
                 'transport_walk' => $this->transport_walk,
+                'images' => ImageResource::collection($this->media),
             ]);
     }
 }
