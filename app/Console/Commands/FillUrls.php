@@ -19,7 +19,7 @@ class FillUrls extends Command
 
     public function handle()
     {
-        $tags = Tag::query()->where('url', '')->get();
+        $tags = Tag::query()->select('id', 'name')->where('url', '')->get();
         foreach($tags as $tag) {
             $tag->url = Str::slug($tag->name);
             $tag->save();
