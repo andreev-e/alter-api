@@ -90,7 +90,7 @@ class PoiController extends Controller
                         'show' => false,
                     ])
             );
-            $poi->tags()->attach($request->get('tags'));
+            $poi->tags()->sync($request->get('tags'));
             return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('No ok', 405);
