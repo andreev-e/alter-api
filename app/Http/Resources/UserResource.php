@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'regdate' => $this->regdate,
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
         ];
     }
 }

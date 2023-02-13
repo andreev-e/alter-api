@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable  implements HasMedia
 {
-    protected $primaryKey = 'username';
-
-    public $incrementing = false;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -42,5 +43,12 @@ class User extends Authenticatable
 
     public function getAuthPassword() {
         return $this->password;
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(600)
+            ->crop('crop-center', 600, 600);
     }
 }
