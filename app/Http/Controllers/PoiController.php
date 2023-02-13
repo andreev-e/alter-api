@@ -108,33 +108,33 @@ class PoiController extends Controller
         return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
-    public function update(PoiCreateRequest $request, Poi $poi): JsonResponse
+    public function update(PoiCreateRequest $request, Poi $poi): PoiResource | JsonResponse
     {
         if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->update($request->validated());
             $poi->tags()->sync($request->get('tags'));
-            return response()->json('Ok');
+            return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('No ok', 405);
     }
 
-    public function approve(Poi $poi): JsonResponse
+    public function approve(Poi $poi): PoiResource | JsonResponse
     {
         if (Auth::user() && Auth::user()->username === 'andreev') {
             $poi->show = true;
             $poi->save();
-            return response()->json('Ok');
+            return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('No ok', 405);
     }
 
-    public function disprove(Poi $poi): JsonResponse
+    public function disprove(Poi $poi): PoiResource | JsonResponse
     {
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->show = false;
             $poi->save();
-            return response()->json('Ok');
+            return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('No ok', 405);
     }
