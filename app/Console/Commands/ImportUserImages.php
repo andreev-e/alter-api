@@ -44,11 +44,9 @@ class ImportUserImages extends Command
             } catch (Exception $e) {
                 echo $e->getMessage() . "\n\r";
             }
-
-
+            $user->image_processed = 1;
+            $user->save();
         }
 
-        $user->image_processed = 1;
-        $user->save();
     }
 }

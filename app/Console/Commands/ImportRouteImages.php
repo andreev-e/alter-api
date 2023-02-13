@@ -36,9 +36,10 @@ class ImportRouteImages extends Command
                     echo $e->getMessage() . "\n\r";
                 }
             }
+            $route->image_processed = 1;
+            $route->save();
         }
 
-        $route->image_processed = 1;
-        $route->save();
+
     }
 }
