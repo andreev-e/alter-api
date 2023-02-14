@@ -144,6 +144,7 @@ class PoiController extends Controller
         if (Auth::user() &&
             (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
             $poi->tags()->detach();
+            $poi->clearMediaCollection('poi-image');
             $poi->delete();
             return response()->json('Ok');
         }

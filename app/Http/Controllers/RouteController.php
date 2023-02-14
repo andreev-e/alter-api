@@ -6,17 +6,23 @@ use App\Http\Requests\RouteRequest;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\RouteResourceCollection;
+use App\Models\Poi;
 use App\Models\Route;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class RouteController extends Controller
 {
     public function index(RouteRequest $request): AnonymousResourceCollection
     {
         $pois = Route::query()
-            ->where('show', 1)
             ->orderBy('views', 'DESC');
+
+        if (!$request->has('withDisproved')) {
+            $pois->where('show', 1);
+        }
 
         $pois->when($request->has('user'), function(Builder $query) use ($request) {
             $query->where('author', $request->get('user'));
@@ -29,4 +35,37 @@ class RouteController extends Controller
     {
         return new RouteResource($route);
     }
+
+    public function approve(Route $route): PoiResource | JsonResponse
+    {
+        if (Auth::user() && Auth::user()->username === 'andreev') {
+            $route->show = true;
+            $route->save();
+            return new PoiResource($route);
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function disprove(Route $route): PoiResource | JsonResponse
+    {
+        if (Auth::user() &&
+            (Auth::user()->username === $route->author || Auth::user()->username === 'andreev')) {
+            $route->show = false;
+            $route->save();
+            return new PoiResource($route);
+        }
+        return response()->json('Not ok', 405);
+    }
+
+    public function destroy(Route $route): JsonResponse
+    {
+        if (Auth::user() &&
+            (Auth::user()->username === $route->author || Auth::user()->username === 'andreev')) {
+            $route->clearMediaCollection('route-image');
+            $route->delete();
+            return response()->json('Ok');
+        }
+        return response()->json('Not ok', 405);
+    }
+
 }
