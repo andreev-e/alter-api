@@ -147,7 +147,7 @@ class PoiController extends Controller
             $poi->delete();
             return response()->json('Ok');
         }
-        return response()->json('No ok', 405);
+        return response()->json('Not ok', 405);
     }
 
     public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
