@@ -13,7 +13,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASSWORD }}
-          port: ${{ secrets.PORT }}
+          port: 22
           script: cd ${{ vars.TEST_PATH }}
             && git reset --hard
             && git pull
@@ -29,7 +29,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: root
           password: ${{ secrets.ROOT_PASSWORD }}
-          port: ${{ secrets.PORT }}
+          port: 22
           script: cd ${{ vars.TEST_PATH }}
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
