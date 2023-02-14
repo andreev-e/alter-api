@@ -24,8 +24,8 @@ class PoiController extends Controller
 
         if (!$request->has('withDisproved')) {
             $pois->where('show', 1)
-            ->where('lat', '<>', 0)
-            ->where('lng', '<>', 0);
+                ->where('lat', '<>', 0)
+                ->where('lng', '<>', 0);
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
@@ -83,19 +83,16 @@ class PoiController extends Controller
 
     public function store(PoiCreateRequest $request): JsonResponse|PoiResource
     {
-        if (Auth::user()) {
-            $poi = Poi::query()->create(
-                array_merge(
-                    $request->validated(),
-                    [
-                        'author' => Auth::user()->username,
-                        'show' => false,
-                    ])
-            );
-            $poi->tags()->sync($request->get('tags'));
-            return new PoiResource($poi->load('locations', 'tags', 'user'));
-        }
-        return response()->json('No ok', 405);
+        $poi = Poi::query()->create(
+            array_merge(
+                $request->validated(),
+                [
+                    'author' => Auth::user()->username,
+                    'show' => false,
+                ])
+        );
+        $poi->tags()->sync($request->get('tags'));
+        return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
     public function show(Poi $poi): PoiResource
@@ -108,9 +105,9 @@ class PoiController extends Controller
         return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
-    public function update(PoiCreateRequest $request, Poi $poi): PoiResource | JsonResponse
+    public function update(PoiCreateRequest $request, Poi $poi): PoiResource|JsonResponse
     {
-        if (Auth::user() && (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->update($request->validated());
             $poi->tags()->sync($request->get('tags'));
             return new PoiResource($poi->load('locations', 'tags', 'user'));
@@ -118,9 +115,9 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function approve(Poi $poi): PoiResource | JsonResponse
+    public function approve(Poi $poi): PoiResource|JsonResponse
     {
-        if (Auth::user() && Auth::user()->username === 'andreev') {
+        if (Auth::user()->username === 'andreev') {
             $poi->show = true;
             $poi->save();
             return new PoiResource($poi->load('locations', 'tags', 'user'));
@@ -128,10 +125,9 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function disprove(Poi $poi): PoiResource | JsonResponse
+    public function disprove(Poi $poi): PoiResource|JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->show = false;
             $poi->save();
             return new PoiResource($poi->load('locations', 'tags', 'user'));
@@ -141,8 +137,7 @@ class PoiController extends Controller
 
     public function destroy(Poi $poi): JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->tags()->detach();
             $poi->clearMediaCollection('poi-image');
             $poi->delete();
@@ -153,8 +148,7 @@ class PoiController extends Controller
 
     public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
 
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $poi->addMediaFromRequest('image')
@@ -169,8 +163,7 @@ class PoiController extends Controller
 
     public function destroyImage(Poi $poi, Media $media)
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $media->model->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $media->model->author || Auth::user()->username === 'andreev') {
             $media->delete();
             return response()->json(ImageResource::collection($poi->media));
         }
