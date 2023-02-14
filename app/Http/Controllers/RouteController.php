@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class RouteController extends Controller
 {
@@ -19,7 +20,6 @@ class RouteController extends Controller
             ->orderBy('views', 'DESC');
 
         if (Auth::user()) {
-            dd(Auth::user());
             if (Auth::user()->username !== 'andreev') {
                 $pois->where(function(Builder $subQuery) {
                     $subQuery->orWhere('author', Auth::user()->username)
@@ -47,29 +47,26 @@ class RouteController extends Controller
         if (Auth::user()->username === 'andreev') {
             $route->show = true;
             $route->save();
-            return new RouteResource($route);
         }
-        return response()->json('No ok', 405);
+        return new RouteResource($route);
     }
 
-    public function disprove(Route $route): RouteResource|JsonResponse
+    public function disprove(Route $route): RouteResource
     {
         if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
             $route->show = false;
             $route->save();
-            return new RouteResource($route);
         }
-        return response()->json('Not ok', 405);
+        return new RouteResource($route);
     }
 
-    public function destroy(Route $route): JsonResponse
+    public function destroy(Route $route): Response
     {
         if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
             $route->clearMediaCollection('route-image');
             $route->delete();
-            return response()->json('Ok');
         }
-        return response()->json('Not ok', 405);
+        return response()->noContent();
     }
 
 }
