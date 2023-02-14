@@ -27,6 +27,8 @@ class ImportUserImages extends Command
         foreach ($users as $user) {
             echo 'Left:' . $left-- . ' ' . $user->id . "\n\r";
 
+            $user->clearMediaCollection('user-image');
+
             try {
                 $user->addMediaFromUrl('https://altertravel.ru/authors/' . $user->username . '.jpg',
                     'image/jpeg')
