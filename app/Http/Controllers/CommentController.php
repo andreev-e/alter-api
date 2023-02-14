@@ -42,57 +42,41 @@ class CommentController extends Controller
         return CommentResource::collection($comments->paginate());
     }
 
-    public function store(AddCommentRequest $request): JsonResponse
+    public function store(AddCommentRequest $request): CommentResource
     {
-        if (Auth::user()) {
-            $comment = new Comment([
-                'name' => Auth::user()->username,
-                'email' => Auth::user()->email,
-                'approved' => 1,
-            ]);
-        } else {
-            $comment = new Comment([
-                'name' => '',
-                'email' => $request->get('email'),
-                'approved' => 0,
-            ]);
-        }
-        $comment->fill([
+        $comment = Comment::create([
+            'name' => Auth::user()->username,
+            'email' => Auth::user()->email,
+            'approved' => 1,
             'backlink' => $request->get('id'),
             'comment' => $request->get('comment'),
             'time' => Carbon::now()->unix(),
-        ])->save();
-        return response()->json('Ok');
+        ]);
+        return new CommentResource($comment);
     }
 
-    public function update(EditCommentRequest $request, Comment $comment)
+    public function update(EditCommentRequest $request, Comment $comment): CommentResource
     {
-        if (Auth::user()) {
-            if ($comment->name === Auth::user()->username || Auth::user()->username === 'andreev') {
-                $comment->update($request->validated());
-                return response()->json('Ok');
-            }
+        if ($comment->name === Auth::user()->username || Auth::user()->username === 'andreev') {
+            $comment->update($request->validated());
         }
-        return response()->json('No ok', 405);
+        return new CommentResource($comment);
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): \Illuminate\Http\Response|JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === 'andreev' || Auth::user()->username === $comment->name)) {
+        if (Auth::user()->username === 'andreev' || Auth::user()->username === $comment->name) {
             $comment->delete();
-            return response()->json('Ok');
         }
-        return response()->json('No ok', 405);
+        return response()->noContent();
     }
 
     public function approve(Comment $comment)
     {
-        if (Auth::user() && Auth::user()->username === 'andreev') {
+        if (Auth::user()->username === 'andreev') {
             $comment->approved = true;
             $comment->save();
-            return response()->json('Ok');
         }
-        return response()->json('No ok', 405);
+        return new CommentResource($comment);
     }
 }

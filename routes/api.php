@@ -37,15 +37,8 @@ Route::prefix('user')->name('user')->group(function() {
     Route::get('/{user:username}', [UserController::class, 'show'])->name('username');
 });
 
-Route::prefix('comment')->name('comment')
-    ->controller(CommentController::class)
-    ->group(function() {
-        Route::get('', 'index')->name('list');
-        Route::post('', 'store')->name('store');
-        Route::patch('{comment:commentid}', 'update')->name('update');
-        Route::post('{comment:commentid}/approve', 'approve')->name('approve');
-        Route::delete('{comment:commentid}', 'destroy')->name('destroy');
-    });
+Route::get('comment', [CommentController::class,'index'])->name('comment.list');
+
 
 Route::prefix('poi')->name('poi')
     ->controller(PoiController::class)
@@ -62,30 +55,41 @@ Route::prefix('route')->name('route')
     });
 
 // AUTHORIZED
-Route::prefix('poi')->name('poi')
-    ->controller(PoiController::class)
-    ->middleware('auth')
-    ->group(function() {
-        Route::post('', 'store')->name('store');
-        Route::patch('{poi}', 'update')->name('update');
-        Route::post('{poi}/approve', 'approve')->name('approve');
-        Route::post('{poi}/disprove', 'disprove')->name('disprove');
-        Route::delete('{poi}', 'destroy')->name('destroy');
-        Route::post('{poi}/image', 'storeImage')->name('image.store');
-        Route::delete('{poi}/image/{media}', 'destroyImage')->name('image.destroy');
-    });
 
-Route::prefix('route')->name('route')
-    ->controller(RouteController::class)
-    ->middleware('auth')
-    ->group(function() {
-        Route::post('', 'store')->name('store');
-        Route::patch('{route}', 'update')->name('update');
-        Route::post('{route}/approve', 'approve')->name('approve');
-        Route::post('{route}/disprove', 'disprove')->name('disprove');
-        Route::delete('{route}', 'destroy')->name('destroy');
-        Route::post('{route}/image', 'storeImage')->name('image.store');
-        Route::delete('{route}/image/{media}', 'destroyImage')->name('image.destroy');
-    });
+Route::middleware('auth')->group(function() {
+    Route::prefix('poi')->name('poi')
+        ->controller(PoiController::class)
+        ->group(function() {
+            Route::post('', 'store')->name('store');
+            Route::patch('{poi}', 'update')->name('update');
+            Route::post('{poi}/approve', 'approve')->name('approve');
+            Route::post('{poi}/disprove', 'disprove')->name('disprove');
+            Route::delete('{poi}', 'destroy')->name('destroy');
+            Route::post('{poi}/image', 'storeImage')->name('image.store');
+            Route::delete('{poi}/image/{media}', 'destroyImage')->name('image.destroy');
+        });
+
+    Route::prefix('route')->name('route')
+        ->controller(RouteController::class)
+        ->group(function() {
+            Route::post('', 'store')->name('store');
+            Route::patch('{route}', 'update')->name('update');
+            Route::post('{route}/approve', 'approve')->name('approve');
+            Route::post('{route}/disprove', 'disprove')->name('disprove');
+            Route::delete('{route}', 'destroy')->name('destroy');
+            Route::post('{route}/image', 'storeImage')->name('image.store');
+            Route::delete('{route}/image/{media}', 'destroyImage')->name('image.destroy');
+        });
+
+    Route::prefix('comment')->name('comment')
+        ->controller(CommentController::class)
+        ->group(function() {
+            Route::post('', 'store')->name('store');
+            Route::patch('{comment:commentid}', 'update')->name('update');
+            Route::post('{comment:commentid}/approve', 'approve')->name('approve');
+            Route::delete('{comment:commentid}', 'destroy')->name('destroy');
+        });
+});
+
 
 
