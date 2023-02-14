@@ -65,7 +65,6 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "platform-check": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true
