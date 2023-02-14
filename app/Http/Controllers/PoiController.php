@@ -30,13 +30,9 @@ class PoiController extends Controller
                 });
             }
         } else {
-            $pois->where('show', 1);
-        }
-
-        if (!$request->has('withDisproved')) {
             $pois->where('show', 1)
                 ->where('lat', '<>', 0)
-                ->where('lng', '<>', 0);
+                ->where('lng', '<>', 0);;
         }
 
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
