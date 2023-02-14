@@ -15,7 +15,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
-            && su altertravel.ru
             && git reset --hard
             && git pull
             && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
