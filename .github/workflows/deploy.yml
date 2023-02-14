@@ -30,7 +30,7 @@ jobs:
           port: 22
           script: cd ${{ vars.TEST_PATH }}
             && php -v
-            && echo composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
+            && /opt/php81/bin/php /usr/local/bin/composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
             && php artisan migrate
             && php artisan optimize
