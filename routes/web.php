@@ -45,8 +45,8 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
 
 Route::prefix('/api/route')->name('route')->controller(RouteController::class)
     ->group(function() {
+        Route::get('', 'index')->middleware('auth:sanctum')->name('list');
         Route::get('{route}','show')->name('show');
-        Route::get('', 'index')->name('list');
         Route::post('', 'store')->name('store');
         Route::patch('{route}', 'update')->name('update');
         Route::post('{route}/approve', 'approve')->name('approve');
