@@ -1,5 +1,6 @@
 <?php
-if (! function_exists('getBetween')) {
+
+if (!function_exists('getBetween')) {
     function getBetween($content, $start, $end): string
     {
         $r = explode($start, $content);
