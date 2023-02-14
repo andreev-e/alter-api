@@ -21,6 +21,7 @@ class RouteController extends Controller
             ->orderBy('views', 'DESC');
 
         if (Auth::user()) {
+            dd(Auth::user());
             if (Auth::user()->username !== 'andreev') {
                 $pois->where(function(Builder $subQuery) {
                     $subQuery->orWhere('author', Auth::user()->username)
