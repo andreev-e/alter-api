@@ -16,10 +16,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\RouteController;
 
-Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
-Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
-
-
 Route::prefix('/api/comment')->name('comment')
     ->controller(CommentController::class)
     ->group(function() {
