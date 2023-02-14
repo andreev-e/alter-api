@@ -55,7 +55,6 @@ Route::prefix('route')->name('route')
     });
 
 // AUTHORIZED
-
 Route::middleware('auth')->group(function() {
     Route::prefix('poi')->name('poi')
         ->controller(PoiController::class)
