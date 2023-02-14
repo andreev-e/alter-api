@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/api/user', [LoginController::class, 'user'])
-//    ->middleware('auth')
+    ->middleware('auth')
     ->name('user.login');
 
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
