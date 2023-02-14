@@ -31,6 +31,7 @@ Route::prefix('/api/comment')->name('comment')->controller(CommentController::cl
 
 Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
     ->group(function() {
+        Route::get('{poi}','show')->name('show');
         Route::get('', 'index')->name('list');
         Route::post('', 'store')->name('store');
         Route::patch('{poi}', 'update')->name('update');
@@ -44,6 +45,7 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
 
 Route::prefix('/api/route')->name('route')->controller(RouteController::class)
     ->group(function() {
+        Route::get('{route}','show')->name('show');
         Route::get('', 'index')->name('list');
         Route::post('', 'store')->name('store');
         Route::patch('{route}', 'update')->name('update');

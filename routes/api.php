@@ -37,16 +37,3 @@ Route::prefix('comment')
         Route::get('','index')->name('list');
     });
 
-Route::prefix('poi')
-    ->name('poi')
-    ->controller(PoiController::class)
-    ->group(function() {
-        Route::get('{poi}','show')->name('show');
-    });
-
-Route::prefix('route')
-    ->name('route')
-    ->controller(RouteController::class)
-    ->group(function() {
-        Route::get('{route}','show')->name('show');
-    });
