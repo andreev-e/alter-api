@@ -16,25 +16,25 @@ class RouteController extends Controller
 {
     public function index(RouteRequest $request): AnonymousResourceCollection
     {
-        $pois = Route::query()
+        $routes = Route::query()
             ->orderBy('views', 'DESC');
 
         if (Auth::user()) {
             if (Auth::user()->username !== 'andreev') {
-                $pois->where(function(Builder $subQuery) {
+                $routes->where(function(Builder $subQuery) {
                     $subQuery->orWhere('author', Auth::user()->username)
                         ->orWhere('show', 1);
                 });
             }
         } else {
-            $pois->where('show', 1);
+            $routes->where('show', 1);
         }
 
-        $pois->when($request->has('user'), function(Builder $query) use ($request) {
+        $routes->when($request->has('user'), function(Builder $query) use ($request) {
             $query->where('author', $request->get('user'));
         });
 
-        return RouteResourceCollection::collection($pois->paginate(24));
+        return RouteResourceCollection::collection($routes->paginate(24));
     }
 
     public function show(Route $route): RouteResource
