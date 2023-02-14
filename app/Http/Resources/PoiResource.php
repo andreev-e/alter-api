@@ -23,6 +23,7 @@ class PoiResource extends PoiResourceCollection
                 'links' => $this->links,
                 'copyright' => $this->copyright,
                 'images' => ImageResource::collection($this->media),
+                'thumb' => $this->getFirstMediaUrl('image', 'thumb'),
             ]);
     }
 }
