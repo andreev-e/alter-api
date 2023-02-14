@@ -11,8 +11,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ vars.USER_NAME }}
-          password: ${{ secrets.PASSWORD }}
+          username: ${{ secrets.USER_NAME }}
+          password: ${{ secrets.USER_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: cd ${{ vars.TEST_PATH }}
             && git reset --hard
@@ -24,6 +24,14 @@ jobs:
             && php artisan migrate
             && php artisan optimize
             && php artisan cache:clear
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ${{ secrets.ROOT_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: cd ${{ vars.TEST_PATH }}
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
