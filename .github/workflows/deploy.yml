@@ -9,16 +9,12 @@ jobs:
     steps:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.7
-        env:
-          HOST: ${{ secrets.HOST }}
-          PATH: ${{ vars.TEST_PATH }}
         with:
-          host: $HOST
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASSWORD }}
           port: ${{ secrets.PORT }}
-          envs: PATH
-          script: cd $PATH
+          script: cd ${{ vars.TEST_PATH }}
             && git reset --hard
             && git pull
             && php -v
@@ -30,12 +26,11 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: $HOST
+          host: ${{ secrets.HOST }}
           username: root
           password: ${{ secrets.ROOT_PASSWORD }}
           port: ${{ secrets.PORT }}
-          envs: PATH
-          script: cd $PATH
+          script: cd ${{ vars.TEST_PATH }}
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
