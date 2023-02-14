@@ -23,6 +23,7 @@ class RouteResourceCollection extends JsonResource
             'start' => $this->START,
             'finish' => $this->FINISH,
             'thumb' => $this->getFirstMediaUrl('route-image', 'thumb'),
+            'show' => $this->show,
         ];
     }
 }

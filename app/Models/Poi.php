@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -103,11 +104,19 @@ class Poi extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')
-            ->width(350)
-            ->crop('crop-center', 350, 350);
+        if ($media->with > 600 || $media->height > 600) {
+            $this->addMediaConversion('thumb')
+                ->width(600)
+                ->crop('crop-center', 600, 600);
+        } else {
+            $this->addMediaConversion('thumb');
+        }
 
-        $this->addMediaConversion('full')
-            ->width(1920);
+        if ($media->with > 1200 || $media->height > 1200) {
+            $this->addMediaConversion('full')
+                ->fit(Manipulations::FIT_MAX, 1200, 1200);
+        } else {
+            $this->addMediaConversion('full');
+        }
     }
 }

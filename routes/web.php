@@ -14,6 +14,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
+use App\Http\Controllers\RouteController;
 
 Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login');
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
@@ -38,6 +39,19 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
         Route::delete('{poi}', 'destroy')->name('destroy');
         Route::post('{poi}/image', 'storeImage')->name('image.store');
         Route::delete('{poi}/image/{media}', 'destroyImage')->name('image.destroy');
+    });
+
+
+Route::prefix('/api/route')->name('route')->controller(RouteController::class)
+    ->group(function() {
+        Route::get('', 'index')->name('list');
+        Route::post('', 'store')->name('store');
+        Route::patch('{route}', 'update')->name('update');
+        Route::post('{route}/approve', 'approve')->name('approve');
+        Route::post('{route}/disprove', 'disprove')->name('disprove');
+        Route::delete('{route}', 'destroy')->name('destroy');
+        Route::post('{route}/image', 'storeImage')->name('image.store');
+        Route::delete('{route}/image/{media}', 'destroyImage')->name('image.destroy');
     });
 
 

@@ -26,6 +26,8 @@ class ImportRouteImages extends Command
         foreach ($routes as $route) {
             echo 'Left:' . $left-- . ' ' . $route->id . "\n\r";
 
+            $route->clearMediaCollection('route-image');
+
             for ($i = 1; $i < 20; $i++) {
                 try {
                     $route->addMediaFromUrl('https://altertravel.ru/routes/' . $route->id . '/' . $i . '.jpg',
@@ -34,6 +36,9 @@ class ImportRouteImages extends Command
                         ->toMediaCollection('route-image', 's3');
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n\r";
+                    $route->image_processed = 1;
+                    $route->save();
+                    break;
                 }
             }
             $route->image_processed = 1;
