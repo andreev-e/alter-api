@@ -10,7 +10,7 @@ class PoiResource extends PoiResourceCollection
     public function toArray($request): array
     {
         return array_merge(
-            collect(parent::toArray($request))->except('dist', 'thumb')->toArray(),
+            collect(parent::toArray($request))->except('dist')->toArray(),
             [
                 'addon' => $this->addon,
                 'user' => new UserResource($this->whenLoaded('user')),
@@ -23,7 +23,6 @@ class PoiResource extends PoiResourceCollection
                 'links' => $this->links,
                 'copyright' => $this->copyright,
                 'images' => ImageResource::collection($this->media),
-                'thumb' => $this->getFirstMediaUrl('image', 'thumb'),
             ]);
     }
 }
