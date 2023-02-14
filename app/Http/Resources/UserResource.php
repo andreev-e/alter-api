@@ -21,7 +21,6 @@ class UserResource extends JsonResource
             'lat' => $this->lat,
             'lng' => $this->lng,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
-            'ava' => $this->media ? new ImageResource($this->media) : null,
         ];
     }
 }
