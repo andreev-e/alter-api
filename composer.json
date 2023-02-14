@@ -7,7 +7,6 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
         "ext-http": "*",
         "doctrine/dbal": "^3.5",
         "fruitcake/laravel-cors": "^2.2",
