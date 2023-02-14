@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RouteRequest;
-use App\Http\Resources\PoiResource;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\RouteResourceCollection;
-use App\Models\Poi;
 use App\Models\Route;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 
 class RouteController extends Controller
 {
