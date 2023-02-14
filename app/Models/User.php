@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -45,10 +46,12 @@ class User extends Authenticatable  implements HasMedia
         return $this->password;
     }
 
+    /**
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(600)
-            ->crop('crop-center', 600, 600);
+            ->fit(Manipulations::FIT_MAX, 600, 600);
     }
 }

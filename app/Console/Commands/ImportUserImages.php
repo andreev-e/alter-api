@@ -30,22 +30,22 @@ class ImportUserImages extends Command
             $user->clearMediaCollection('user-image');
 
             try {
-                $user->addMediaFromUrl('https://altertravel.ru/authors/' . $user->username . '.jpg',
-                    'image/jpeg')
-                    ->storingConversionsOnDisk('s3')
-                    ->toMediaCollection('user-image', 's3');
-            } catch (Exception $e) {
-                echo $e->getMessage() . "\n\r";
-            }
-
-            try {
                 $user->addMediaFromUrl('https://altertravel.ru/authors/' . $user->username . '_full.jpg',
                     'image/jpeg')
                     ->storingConversionsOnDisk('s3')
                     ->toMediaCollection('user-image', 's3');
             } catch (Exception $e) {
                 echo $e->getMessage() . "\n\r";
+                try {
+                    $user->addMediaFromUrl('https://altertravel.ru/authors/' . $user->username . '.jpg',
+                        'image/jpeg')
+                        ->storingConversionsOnDisk('s3')
+                        ->toMediaCollection('user-image', 's3');
+                } catch (Exception $e) {
+                    echo $e->getMessage() . "\n\r";
+                }
             }
+
             $user->image_processed = 1;
             $user->save();
         }
