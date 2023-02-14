@@ -20,7 +20,7 @@ jobs:
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
             && su altertravel.ru
-            && /opt/php81/bin/php /usr/local/bin/composer install --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
+            && /opt/php81/bin/php /usr/local/bin/composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml --ignore-platform-req=php
             && php artisan key:generate
             && php artisan migrate
             && php artisan optimize
