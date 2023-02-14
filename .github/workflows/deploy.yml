@@ -17,6 +17,7 @@ jobs:
             && su altertravel.ru
             && git reset --hard
             && git pull
+            && rm composer.lock
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
