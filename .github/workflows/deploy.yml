@@ -18,7 +18,6 @@ jobs:
             && git reset --hard
             && git pull
             && rm composer.lock
-            && rm /etc/supervisor/conf.d/schedule-worker.conf
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
             && service supervisor restart
