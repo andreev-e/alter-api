@@ -10,7 +10,6 @@ class RouteRequest extends FormRequest
     {
         return [
             'user' => ['sometimes', 'string', 'exists:users,username'],
-            'withDisproved' => ['sometimes', 'boolean'],
         ];
     }
 }
