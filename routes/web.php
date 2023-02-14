@@ -16,12 +16,15 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\RouteController;
 
-Route::get('/api/api/user', [LoginController::class, 'user'])->name('user.login');
+Route::get('/api/api/user', [LoginController::class, 'user'])
+    ->middleware('auth:sanctum')
+    ->name('user.login');
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::prefix('/api/comment')->name('comment')->controller(CommentController::class)
+Route::prefix('/api/comment')->name('comment')
+    ->controller(CommentController::class)
     ->group(function() {
         Route::post('', 'store')->name('store');
         Route::patch('{comment:commentid}', 'update')->name('update');
@@ -29,9 +32,10 @@ Route::prefix('/api/comment')->name('comment')->controller(CommentController::cl
         Route::delete('{comment:commentid}', 'destroy')->name('destroy');
     });
 
-Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
+Route::prefix('/api/poi')->name('poi')
+    ->controller(PoiController::class)
     ->group(function() {
-        Route::get('{poi}','show')->name('show');
+        Route::get('{poi}', 'show')->name('show');
         Route::get('', 'index')->name('list');
         Route::post('', 'store')->name('store');
         Route::patch('{poi}', 'update')->name('update');
@@ -43,10 +47,11 @@ Route::prefix('/api/poi')->name('poi')->controller(PoiController::class)
     });
 
 
-Route::prefix('/api/route')->name('route')->controller(RouteController::class)
+Route::prefix('/api/route')->name('route')
+    ->controller(RouteController::class)
     ->group(function() {
-        Route::get('', 'index')->middleware('auth:sanctum')->name('list');
-        Route::get('{route}','show')->name('show');
+        Route::get('', 'index')->name('list');
+        Route::get('{route}', 'show')->name('show');
         Route::post('', 'store')->name('store');
         Route::patch('{route}', 'update')->name('update');
         Route::post('{route}/approve', 'approve')->name('approve');

@@ -18,7 +18,9 @@ class LoginController extends Controller
             return response()->json(Auth::getUser());
         }
 
-        $user = User::query()->where('email', '=', $credentials['email'])->first();
+        $user = User::query()
+            ->where('email', '=', $credentials['email'])
+            ->first();
 
         if (isset($user)) {
             if ($user->password == md5($credentials['password'])) {
