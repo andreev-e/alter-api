@@ -17,6 +17,7 @@ jobs:
           script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
             && git reset --hard
             && git pull
+            && who
             && php -v
             && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
