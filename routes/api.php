@@ -40,7 +40,7 @@ Route::prefix('user')->name('user')->group(function() {
 Route::prefix('comment')->name('comment')
     ->controller(CommentController::class)
     ->group(function() {
-        Route::get('','index')->name('list');
+        Route::get('', 'index')->name('list');
         Route::post('', 'store')->name('store');
         Route::patch('{comment:commentid}', 'update')->name('update');
         Route::post('{comment:commentid}/approve', 'approve')->name('approve');
@@ -54,6 +54,14 @@ Route::prefix('poi')->name('poi')
         Route::get('', 'index')->name('list');
     });
 
+Route::prefix('route')->name('route')
+    ->controller(RouteController::class)
+    ->group(function() {
+        Route::get('', 'index')->name('list');
+        Route::get('{route}', 'show')->name('show');
+    });
+
+// AUTHORIZED
 Route::prefix('poi')->name('poi')
     ->controller(PoiController::class)
     ->middleware('auth')
@@ -69,9 +77,8 @@ Route::prefix('poi')->name('poi')
 
 Route::prefix('route')->name('route')
     ->controller(RouteController::class)
+    ->middleware('auth')
     ->group(function() {
-        Route::get('', 'index')->name('list');
-        Route::get('{route}', 'show')->name('show');
         Route::post('', 'store')->name('store');
         Route::patch('{route}', 'update')->name('update');
         Route::post('{route}/approve', 'approve')->name('approve');
@@ -80,3 +87,5 @@ Route::prefix('route')->name('route')
         Route::post('{route}/image', 'storeImage')->name('image.store');
         Route::delete('{route}/image/{media}', 'destroyImage')->name('image.destroy');
     });
+
+

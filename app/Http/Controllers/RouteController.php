@@ -42,9 +42,9 @@ class RouteController extends Controller
         return new RouteResource($route);
     }
 
-    public function approve(Route $route): RouteResource | JsonResponse
+    public function approve(Route $route): RouteResource|JsonResponse
     {
-        if (Auth::user() && Auth::user()->username === 'andreev') {
+        if (Auth::user()->username === 'andreev') {
             $route->show = true;
             $route->save();
             return new RouteResource($route);
@@ -52,10 +52,9 @@ class RouteController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function disprove(Route $route): RouteResource | JsonResponse
+    public function disprove(Route $route): RouteResource|JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $route->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
             $route->show = false;
             $route->save();
             return new RouteResource($route);
@@ -65,8 +64,7 @@ class RouteController extends Controller
 
     public function destroy(Route $route): JsonResponse
     {
-        if (Auth::user() &&
-            (Auth::user()->username === $route->author || Auth::user()->username === 'andreev')) {
+        if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
             $route->clearMediaCollection('route-image');
             $route->delete();
             return response()->json('Ok');
