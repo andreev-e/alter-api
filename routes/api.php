@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\TagController;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/api/user', [LoginController::class, 'user'])->name('user.login');
 
 Route::get('countries', [TagController::class, 'countries'])->name('countries');
 Route::get('user', [UserController::class, 'index'])->name('user');

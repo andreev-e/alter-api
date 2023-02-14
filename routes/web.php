@@ -16,9 +16,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\RouteController;
 
-Route::get('/api/api/user', [LoginController::class, 'user'])
-    ->middleware('auth:sanctum')
-    ->name('user.login');
 Route::post('/api/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/api/logout', [LoginController::class, 'logout'])->name('logout');
 
