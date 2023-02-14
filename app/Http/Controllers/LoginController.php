@@ -26,7 +26,7 @@ class LoginController extends Controller
             if ($user->password == md5($credentials['password'])) {
 //                $user->password = Hash::make(Input::get('password'));
 //                $user->save();
-                Auth::login($user);
+                Auth::login($user, true);
                 return response()->json('Ok');
             }
         }
