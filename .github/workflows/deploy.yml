@@ -14,7 +14,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: cd /var/www/altertravel.ru/data/www/api.altertravel.ru
+          script: cd ${{ vars.TEST_PATH }}
             && git reset --hard
             && git pull
             && su altertravel.ru
