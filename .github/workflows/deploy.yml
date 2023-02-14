@@ -18,6 +18,7 @@ jobs:
             && git reset --hard
             && git pull
             && php -v
+            && echo ${{ secrets.USERNAME }}
             && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
             && php artisan migrate
