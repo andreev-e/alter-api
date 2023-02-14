@@ -20,7 +20,14 @@ class RouteController extends Controller
         $pois = Route::query()
             ->orderBy('views', 'DESC');
 
-        if (!$request->has('withDisproved')) {
+        if (Auth::user()) {
+            if (Auth::user()->username !== 'andreev') {
+                $pois->where(function(Builder $subQuery) {
+                    $subQuery->orWhere('author', Auth::user()->username)
+                        ->orWhere('show', 1);
+                });
+            }
+        } else {
             $pois->where('show', 1);
         }
 
@@ -36,23 +43,23 @@ class RouteController extends Controller
         return new RouteResource($route);
     }
 
-    public function approve(Route $route): PoiResource | JsonResponse
+    public function approve(Route $route): RouteResource | JsonResponse
     {
         if (Auth::user() && Auth::user()->username === 'andreev') {
             $route->show = true;
             $route->save();
-            return new PoiResource($route);
+            return new RouteResource($route);
         }
         return response()->json('No ok', 405);
     }
 
-    public function disprove(Route $route): PoiResource | JsonResponse
+    public function disprove(Route $route): RouteResource | JsonResponse
     {
         if (Auth::user() &&
             (Auth::user()->username === $route->author || Auth::user()->username === 'andreev')) {
             $route->show = false;
             $route->save();
-            return new PoiResource($route);
+            return new RouteResource($route);
         }
         return response()->json('Not ok', 405);
     }
