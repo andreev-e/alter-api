@@ -18,7 +18,7 @@ jobs:
             && git reset --hard
             && git pull
             && php -v
-            && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
+            && composer install --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
             && php artisan migrate
             && php artisan optimize
