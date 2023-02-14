@@ -52,6 +52,12 @@ Route::prefix('poi')->name('poi')
     ->group(function() {
         Route::get('{poi}', 'show')->name('show');
         Route::get('', 'index')->name('list');
+    });
+
+Route::prefix('poi')->name('poi')
+    ->controller(PoiController::class)
+    ->middleware('auth')
+    ->group(function() {
         Route::post('', 'store')->name('store');
         Route::patch('{poi}', 'update')->name('update');
         Route::post('{poi}/approve', 'approve')->name('approve');
