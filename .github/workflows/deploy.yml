@@ -21,8 +21,7 @@ jobs:
             && cp deploy/schedule-worker.conf /etc/supervisor/conf.d
             && su altertravel.ru
             && php -v
-            && composer self-update --2.2
-            && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
+            && /usr/local/bin/composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
             && php artisan migrate
             && php artisan optimize
