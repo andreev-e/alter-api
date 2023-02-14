@@ -13,9 +13,10 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+//            'driver' => 'token',
+            'driver' => 'session',
             'provider' => 'users',
-            'hash' => false,
+//            'hash' => false,
         ],
     ],
 
