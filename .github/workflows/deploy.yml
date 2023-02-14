@@ -18,8 +18,8 @@ jobs:
             && who
             && git reset --hard
             && git pull
-            && /opt/php81/bin/php -v
-            && php composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
+            && php -v
+            && composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && php artisan key:generate
             && php artisan migrate
             && php artisan optimize
