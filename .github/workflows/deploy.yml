@@ -31,10 +31,10 @@ jobs:
           script: cd ${{ vars.TEST_PATH }}
             && php -v
             && /opt/php81/bin/php /usr/local/bin/composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
-            && php artisan key:generate
-            && php artisan migrate
-            && php artisan optimize
-            && php artisan cache:clear
+            && /opt/php81/bin/php artisan key:generate
+            && /opt/php81/bin/php artisan migrate
+            && /opt/php81/bin/php artisan optimize
+            && /opt/php81/bin/php artisan cache:clear
 
 
 
