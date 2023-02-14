@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
