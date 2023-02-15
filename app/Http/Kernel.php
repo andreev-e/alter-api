@@ -43,8 +43,8 @@ class Kernel extends HttpKernel
 //            EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Session\Middleware\StartSession::class,
+//            \App\Http\Middleware\EncryptCookies::class,
+//            \Illuminate\Session\Middleware\StartSession::class,
         ],
     ];
 
