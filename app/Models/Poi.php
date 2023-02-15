@@ -119,4 +119,14 @@ class Poi extends Model implements HasMedia
             $this->addMediaConversion('full');
         }
     }
+
+    public function routes(): BelongsToMany
+    {
+        return $this->belongsToMany(Route::class);
+    }
+
+    public function getDefaultRelationsAttribute(): array
+    {
+        return ['locations', 'tags', 'user', 'routes'];
+    }
 }

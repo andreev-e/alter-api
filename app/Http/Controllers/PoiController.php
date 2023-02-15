@@ -109,7 +109,7 @@ class PoiController extends Controller
             'views_month' => $poi->views_month + 1,
             'views_today' => $poi->views_today + 1,
         ]);
-        return new PoiResource($poi->load('locations', 'tags', 'user'));
+        return new PoiResource($poi->load($poi->defaultRelations));
     }
 
     public function update(PoiCreateRequest $request, Poi $poi): PoiResource|JsonResponse
@@ -117,7 +117,7 @@ class PoiController extends Controller
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->update($request->validated());
             $poi->tags()->sync($request->get('tags'));
-            return new PoiResource($poi->load('locations', 'tags', 'user'));
+            return new PoiResource($poi->load($poi->defaultRelations));
         }
         return response()->json('No ok', 405);
     }
@@ -127,7 +127,7 @@ class PoiController extends Controller
         if (Auth::user()->username === 'andreev') {
             $poi->show = true;
             $poi->save();
-            return new PoiResource($poi->load('locations', 'tags', 'user'));
+            return new PoiResource($poi->load($poi->defaultRelations));
         }
         return response()->json('No ok', 405);
     }

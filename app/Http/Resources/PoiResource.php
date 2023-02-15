@@ -19,6 +19,7 @@ class PoiResource extends PoiResourceCollection
                 'route_o' => htmlspecialchars_decode($this->route_o),
                 'nearest' => PoiResourceCollection::collection($this->nearest),
                 'tags' => TagResource::collection($this->whenLoaded('tags')),
+                'routes' => RouteResourceCollection::collection($this->whenLoaded('routes')),
                 'locations' => TagResource::collection($this->whenLoaded('locations')),
                 'links' => $this->links,
                 'copyright' => $this->copyright,
