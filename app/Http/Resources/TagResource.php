@@ -11,7 +11,7 @@ class TagResource extends TagResourceCollection
     public function toArray($request)
     {
         return array_merge(
-            collect(parent::toArray($request))->except('dist')->toArray(),
+            collect(parent::toArray($request))->toArray(),
             [
                 'lat' => $this->lat,
                 'lng' => $this->lng,

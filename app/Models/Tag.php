@@ -65,13 +65,13 @@ class Tag extends Model
     {
         if ($this->TYPE !== 0) {
             return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
-                $collection = collect();
+                $collection = [];
                 foreach ($this->pois as $poi) {
                     foreach ($poi->tags as $tag) {
-                        $collection->add($tag);
+                        $collection[$tag->id] = $tag;
                     }
                 }
-                return $collection;
+                return collect(array_values($collection));
             });
         }
         return null;
