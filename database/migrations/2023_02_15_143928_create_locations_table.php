@@ -17,7 +17,8 @@ class CreateLocationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->string('parent')->default(0);
+            $table->integer('parent')->default(0);
+            $table->integer('type')->default(0);
             $table->integer('count')->default(0);
             $table->float('lat');
             $table->float('lng');

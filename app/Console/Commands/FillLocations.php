@@ -21,9 +21,8 @@ class FillLocations extends Command
 
     public function handle()
     {
-        $pois = Poi::query()->limit(1)->get();
+        $pois = Poi::query()->oldest()->limit(500)->get();
         foreach ($pois as $poi) {
-            echo $poi->id;
             PoiGeocodeJob::dispatch($poi);
         }
         return 0;

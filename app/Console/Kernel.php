@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\DayReset;
+use App\Console\Commands\FillLocations;
 use App\Console\Commands\FillUrls;
 use App\Console\Commands\MonthReset;
 use App\Console\Commands\RegionsProcess;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(FillUrls::class)->daily();
+        $schedule->command(FillLocations::class)->daily();
         $schedule->command(RegionsProcess::class)->daily();
         $schedule->command(TagCount::class)->daily();
 
