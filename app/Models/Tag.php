@@ -28,15 +28,6 @@ class Tag extends Model
         'lng' => 'float',
     ];
 
-    public function getUrlAttribute($url)
-    {
-        if ($this->TYPE !== 0) {
-            return '/region/' . $url;
-        }
-
-        return '/tag/' . $url;
-    }
-
     public function pois()
     {
         return $this->belongsToMany(Poi::class, 'relationship', 'TAGID', 'POSTID');
