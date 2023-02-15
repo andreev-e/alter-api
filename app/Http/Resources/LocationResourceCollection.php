@@ -14,7 +14,7 @@ class LocationResourceCollection extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'count' => $this->COUNT,
+            'count' => $this->count,
             'url' => $this->url,
             'code' => $this->code,
             'name_rod_ed' => $this->name_rod_ed,
