@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\TagResourceCollection;
 use App\Models\Tag;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
@@ -10,14 +11,14 @@ class TagController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-         return TagResource::collection(Tag::query()
+         return TagResourceCollection::collection(Tag::query()
              ->where('TYPE','=',0)
              ->orderBy('name', 'DESC')->get());
     }
 
     public function countries(): AnonymousResourceCollection
     {
-        return TagResource::collection(Tag::query()
+        return TagResourceCollection::collection(Tag::query()
             ->with(['children', 'parent.parent.parent'])
             ->where('TYPE','!=',0)
             ->where('parent', 0)
