@@ -7,7 +7,6 @@ use App\Models\Tag;
 /* @mixin Tag */
 class TagResource extends TagResourceCollection
 {
-
     public function toArray($request)
     {
         return array_merge(
@@ -16,9 +15,6 @@ class TagResource extends TagResourceCollection
                 'lat' => $this->lat,
                 'lng' => $this->lng,
                 'zoom' => $this->scale,
-                'parents' => $this->getParents(),
-                'children' => self::collection($this->whenLoaded('children')),
-                'tags' => TagResourceCollection::collection($this->tags),
             ]);
     }
 }
