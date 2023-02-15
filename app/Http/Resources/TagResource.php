@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
-/* @mixin \App\Models\Tag */
+/* @mixin Tag */
 class TagResource extends JsonResource
 {
 
@@ -26,6 +26,7 @@ class TagResource extends JsonResource
             'NAME_DAT_ED' => $this->NAME_DAT_ED,
             'NAME_PREDLOZH_ED' => $this->NAME_PREDLOZH_ED,
             'NAME_en' => $this->NAME_en,
+            'tags' => self::collection($this->tags),
         ];
     }
 }

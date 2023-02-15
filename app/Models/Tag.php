@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Tag extends Model
@@ -65,5 +68,21 @@ class Tag extends Model
     public function parent(): hasMany
     {
         return $this->hasMany(self::class, 'id', 'parent');
+    }
+
+    public function getTagsAttribute(): ?Collection
+    {
+        if ($this->type !== 0) {
+            return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
+                $collection = collect();
+                foreach ($this->pois as $poi) {
+                    foreach ($poi->tags as $tag) {
+                        $collection->add($tag);
+                    }
+                }
+                return $collection;
+            });
+        }
+        return null;
     }
 }

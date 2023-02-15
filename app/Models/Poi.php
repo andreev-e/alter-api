@@ -71,7 +71,7 @@ class Poi extends Model implements HasMedia
 
     public function getNearestAttribute()
     {
-        return Cache::remember('nearest:' . $this->id, 1000 * 60 * 60, function() {
+        return Cache::remember('nearest:' . $this->id, 24 * 60 * 60, function() {
             return self::query()
                 ->select(DB::raw("*,
                 111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
