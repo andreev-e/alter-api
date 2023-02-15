@@ -61,7 +61,7 @@ class Tag extends Model
         return $this->hasMany(self::class, 'id', 'parent');
     }
 
-    public function getTagsAttribute(): ?Collection
+    public function getTagsAttribute(): Collection
     {
         if ($this->TYPE !== 0) {
             return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
@@ -74,6 +74,6 @@ class Tag extends Model
                 return collect(array_values($collection));
             });
         }
-        return null;
+        return collect();
     }
 }
