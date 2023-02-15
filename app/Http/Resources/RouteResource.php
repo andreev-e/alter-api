@@ -10,7 +10,8 @@ class RouteResource extends RouteResourceCollection
             parent::toArray($request),
             [
                 'description' => $this->description,
-                'encoded_route' => $this->encoded_route,
+                'encoded_route' => html_entity_decode($this->encoded_route),
+                'encoded_route1' => str_replace('\\\\','\\',$this->encoded_route),
                 'links' => $this->links,
                 'route' => $this->route,
                 'points' => explode('|',$this->POINTS),
@@ -21,6 +22,7 @@ class RouteResource extends RouteResourceCollection
                 'transport_ship' => $this->transport_ship,
                 'transport_bike' => $this->transport_bike,
                 'transport_walk' => $this->transport_walk,
+                'date' => $this->date,
                 'images' => ImageResource::collection($this->media),
             ]);
     }
