@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Route extends Model implements HasMedia
 {
     use InteractsWithMedia;
-
 
     public $timestamps = false;
     /**
@@ -34,5 +33,10 @@ class Route extends Model implements HasMedia
         } else {
             $this->addMediaConversion('full');
         }
+    }
+
+    public function pois(): BelongsToMany
+    {
+        return $this->belongsToMany(Poi::class);
     }
 }
