@@ -115,7 +115,7 @@ class PoiController extends Controller
     public function update(PoiCreateRequest $request, Poi $poi): PoiResource|JsonResponse
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
-            $poi->update($request->validated());
+            $poi->update($request->except('tags'));
             $poi->tags()->sync($request->get('tags'));
             return new PoiResource($poi->load($poi->defaultRelations));
         }

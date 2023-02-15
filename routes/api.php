@@ -39,7 +39,6 @@ Route::prefix('user')->name('user')->group(function() {
 
 Route::get('comment', [CommentController::class,'index'])->name('comment.list');
 
-
 Route::prefix('poi')->name('poi')
     ->controller(PoiController::class)
     ->group(function() {

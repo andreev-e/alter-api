@@ -67,7 +67,7 @@ class Tag extends Model
             return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
                 $collection = [];
                 $this->pois()->with('tags')
-                    ->chunk(50, function($pois) use (&$collection){
+                    ->chunk(200, function($pois) use (&$collection){
                     foreach ($pois as $poi) {
                         foreach ($poi->tags as $tag) {
                             $collection[$tag->id] = $tag;
