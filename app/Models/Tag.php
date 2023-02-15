@@ -72,7 +72,7 @@ class Tag extends Model
 
     public function getTagsAttribute(): ?Collection
     {
-        if ($this->type !== 0) {
+        if ($this->TYPE !== 0) {
             return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
                 $collection = collect();
                 foreach ($this->pois as $poi) {
