@@ -27,7 +27,7 @@ class PoiResourceCollection extends JsonResource
             'comments' => $this->comments,
             'show' => $this->show,
             'date' => $this->date,
-            'thumb' => $this->media->first()->getUrl('thumb'),
+            'thumb' => $this->media->first()?->getUrl('thumb'),
         ];
     }
 }
