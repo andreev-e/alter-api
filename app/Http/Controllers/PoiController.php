@@ -35,6 +35,13 @@ class PoiController extends Controller
                 ->where('lng', '<>', 0);;
         }
 
+        if ($request->route) {
+            $route = Route::query()->find($request->route);
+            if ($route) {
+                return PoiResourceCollection::collection($route->pois());
+            }
+        }
+
         $pois->when($request->has('tag'), function(Builder $query) use ($request) {
             $query->whereHas('tags', function(Builder $subQuery) use ($request) {
                 $subQuery->where('url', $request->get('tag'));
@@ -54,13 +61,6 @@ class PoiController extends Controller
         $pois->when($request->has('user'), function(Builder $query) use ($request) {
             $query->where('author', $request->get('user'));
         });
-
-        if ($request->route) {
-            $route = Route::query()->find($request->route);
-            if ($route) {
-                $pois->whereIn('id', explode('|', $route->POINTS));
-            }
-        }
 
         if ($request->south) {
             $pois->where('lat', '>', $request->south);

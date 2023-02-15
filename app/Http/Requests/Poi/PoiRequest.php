@@ -16,7 +16,7 @@ class PoiRequest extends FormRequest
             'tag' => ['sometimes', 'string'],
             'user' => ['sometimes', 'string'],
             'location' => ['sometimes', 'string'],
-            'route' => ['sometimes', 'numeric'],
+            'route' => ['sometimes', 'numeric', 'exists:roues,id'],
             'categories' => ['sometimes', 'array'],
             'categories.*' => ['sometimes', 'string'],
             'latest' => ['sometimes', 'boolean'],
