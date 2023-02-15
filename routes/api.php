@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\RouteController;
@@ -25,12 +26,16 @@ Route::get('/api/user', [LoginController::class, 'user'])
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('countries', [TagController::class, 'countries'])->name('countries');
 Route::get('user', [UserController::class, 'index'])->name('user');
 
 Route::prefix('tag')->name('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
+});
+
+Route::prefix('location')->name('location')->group(function() {
+    Route::get('', [LocationController::class, 'index'])->name('list');
+    Route::get('/{location:url}', [LocationController::class, 'show'])->name('slug');
 });
 
 Route::prefix('user')->name('user')->group(function() {

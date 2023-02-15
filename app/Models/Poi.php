@@ -64,9 +64,8 @@ class Poi extends Model implements HasMedia
 
     public function locations(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID')
-            ->where('TYPE', '<>', 0)
-            ->orderBy('COUNT', 'desc');
+        return $this->belongsToMany(Location::class)
+            ->orderBy('count', 'desc');
     }
 
     public function getNearestAttribute()

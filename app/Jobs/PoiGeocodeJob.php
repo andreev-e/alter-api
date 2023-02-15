@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Location;
 use App\Models\Poi;
-use App\Models\Tag;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -58,32 +58,32 @@ class PoiGeocodeJob implements ShouldQueue
             }
 
             if ($country != '') {
-                $countryTag = $this->addTag($country, 1);
+                $countryLocation = $this->addLocation($country, 1);
             }
-            if ($countryTag && $adm_area != '') {
-                $admAreaTag = $this->addTag($adm_area, 2, $countryTag);
+            if ($countryLocation && $adm_area != '') {
+                $admAreaLocation = $this->addLocation($adm_area, 2, $countryLocation);
             }
-            if ($admAreaTag && $locality != '') {
-                $localityTag = $this->addTag($locality, 3, $admAreaTag);
+            if ($admAreaLocation && $locality != '') {
+                $localityLocation = $this->addLocation($locality, 3, $admAreaLocation);
             }
 
-            $this->poi->tags()->sync(array_filter([$countryTag, $admAreaTag, $localityTag]));
+            $this->poi->locations()->sync(array_filter([$countryLocation, $admAreaLocation, $localityLocation]));
         }
 
     }
 
-    private function addTag(string $tagName, int $type, int $parent = 0): int
+    private function addLocation(string $locationName, int $type, int $parent = 0): int
     {
-        $tag = Tag::query()->firstOrCreate([
-            'name' => $tagName,
-            'TYPE' => $type,
+        $location = Location::query()->firstOrCreate([
+            'name' => $locationName,
+            'type' => $type,
         ], [
             'parent' => $parent,
-            'url' => Str::slug($tagName),
+            'url' => Str::slug($locationName),
             'lat' => $this->poi->lat,
             'lng' => $this->poi->lng,
         ]);
 
-        return $tag->id;
+        return $location->id;
     }
 }
