@@ -82,6 +82,7 @@ class PoiGeocodeJob implements ShouldQueue
             'url' => Str::slug($locationName),
             'lat' => $this->poi->lat,
             'lng' => $this->poi->lng,
+            'count' => 1,
         ]);
 
         return $location->id;

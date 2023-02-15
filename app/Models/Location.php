@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Cache;
 class Location extends Model
 {
     protected $fillable = [
-        'id',
         'name',
         'url',
         'parent',
