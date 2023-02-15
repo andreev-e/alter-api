@@ -116,7 +116,8 @@ class PoiController extends Controller
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->update($request->validated());
-            dump($poi->tags()->sync($request->get('tags')));
+            $poi->tags()->detach();
+            $poi->tags()->attach($request->get('tags'));
             return new PoiResource($poi->load($poi->defaultRelations));
         }
         return response()->json('No ok', 405);
