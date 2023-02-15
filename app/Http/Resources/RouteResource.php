@@ -10,8 +10,7 @@ class RouteResource extends RouteResourceCollection
             parent::toArray($request),
             [
                 'description' => $this->description,
-                'encoded_route' => html_entity_decode($this->encoded_route),
-                'encoded_route1' => str_replace('\\\\','\\',$this->encoded_route),
+                'encoded_route' => str_replace('\\\\','\\',$this->encoded_route),
                 'links' => $this->links,
                 'route' => $this->route,
                 'points' => explode('|',$this->POINTS),
