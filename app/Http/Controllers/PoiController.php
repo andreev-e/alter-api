@@ -34,6 +34,7 @@ class PoiController extends Controller
                     ->orWhere('lat', '<>', 0)
                     ->orWhere('lng', '<>', 0);
             });
+            var_dump($pois->toSql());
         }
 
         if ($request->route) {
