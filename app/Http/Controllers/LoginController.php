@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Hash;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,7 @@ class LoginController extends Controller
         return response()->noContent();
     }
 
-    public function user(): Response
+    public function user(): JsonResponse
     {
         return response()->json(Auth::user(), Auth::user() ? 200 : 401);
     }
@@ -58,5 +59,4 @@ class LoginController extends Controller
     {
         Auth::logout();
     }
-
 }
