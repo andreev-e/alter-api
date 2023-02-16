@@ -21,6 +21,7 @@ class User extends Authenticatable  implements HasMedia
         'email',
         'password',
         'username',
+        'userlevel',
     ];
 
     protected $hidden = [
@@ -29,7 +30,6 @@ class User extends Authenticatable  implements HasMedia
         'userid',
         'email_verified_at',
         'updated_at',
-        'created_at',
         'password_new',
     ];
 
