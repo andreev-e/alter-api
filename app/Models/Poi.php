@@ -82,7 +82,7 @@ class Poi extends Model implements HasMedia
                 ->where('lng', '<>', 0)
                 ->where('id', '<>', $this->id)
                 ->havingRaw('dist IS NOT NULL')
-                ->orderBy('dist')->limit(4)->get();
+                ->orderBy('dist')->limit(3)->get();
         });
     }
 
