@@ -22,7 +22,7 @@ class PoiController extends Controller
     {
         $pois = Poi::query();
 
-        if (!$request->withHidden) {
+        if (!$request->withHidden && !$request->onlyHidden) {
             $pois->where('show', 1)
                 ->where('lat', '<>', 0)
                 ->where('lng', '<>', 0);
@@ -30,11 +30,10 @@ class PoiController extends Controller
 
         if ($request->onlyHidden) {
             $pois->where(function(Builder $query) {
-                $query->orWhere('show', 0)
+                return $query->orWhere('show', 0)
                     ->orWhere('lat', '<>', 0)
                     ->orWhere('lng', '<>', 0);
             });
-            var_dump($pois->toSql());
         }
 
         if ($request->route) {
