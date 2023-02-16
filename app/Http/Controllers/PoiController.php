@@ -22,17 +22,10 @@ class PoiController extends Controller
     {
         $pois = Poi::query();
 
-        if (Auth::user()) {
-            if (Auth::user()->username !== 'andreev') {
-                $pois->where(function(Builder $subQuery) {
-                    $subQuery->orWhere('author', Auth::user()->username)
-                        ->orWhere('show', 1);
-                });
-            }
-        } else {
+        if (!$request->withHidden) {
             $pois->where('show', 1)
                 ->where('lat', '<>', 0)
-                ->where('lng', '<>', 0);;
+                ->where('lng', '<>', 0);
         }
 
         if ($request->route) {

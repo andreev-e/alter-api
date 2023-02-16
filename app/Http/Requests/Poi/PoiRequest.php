@@ -20,6 +20,7 @@ class PoiRequest extends FormRequest
             'categories' => ['sometimes', 'array'],
             'categories.*' => ['sometimes', 'string'],
             'latest' => ['sometimes', 'boolean'],
+            'withHidden' => ['sometimes', 'boolean'],
         ];
     }
 }
