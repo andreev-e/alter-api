@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function authenticate(LoginRequest $request): JsonResponse
+    public function authenticate(LoginRequest $request): UserResource|JsonResponse
     {
         $credentials = $request->validated();
 
@@ -27,7 +28,7 @@ class LoginController extends Controller
 //                $user->password = Hash::make(Input::get('password'));
 //                $user->save();
                 Auth::login($user, true);
-                return response()->json($user);
+                return new UserResource($user);
             }
         }
 
