@@ -146,6 +146,7 @@ class PoiController extends Controller
     public function destroy(Poi $poi): JsonResponse
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
+            $poi->twits()->delete();
             $poi->tags()->detach();
             $poi->clearMediaCollection('poi-image');
             $poi->delete();
