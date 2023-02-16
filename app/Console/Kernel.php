@@ -37,6 +37,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(MonthReset::class)->monthly();
         $schedule->command(DayReset::class)->daily();
+
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**
