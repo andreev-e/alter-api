@@ -24,6 +24,7 @@ Route::get('/api/user', [LoginController::class, 'user'])
 
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('register', [LoginController::class, 'register'])->name('register');
 
 Route::get('user', [UserController::class, 'index'])->name('user');
 
