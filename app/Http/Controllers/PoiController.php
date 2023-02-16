@@ -28,6 +28,14 @@ class PoiController extends Controller
                 ->where('lng', '<>', 0);
         }
 
+        if ($request->onlyHidden) {
+            $pois->where(function(Builder $query) {
+                $query->orWhere('show', 0)
+                    ->orWhere('lat', '<>', 0)
+                    ->orWhere('lng', '<>', 0);
+            });
+        }
+
         if ($request->route) {
             $route = Route::query()->find($request->route);
             if ($route) {
