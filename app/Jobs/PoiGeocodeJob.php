@@ -76,9 +76,9 @@ class PoiGeocodeJob implements ShouldQueue
     {
         $location = Location::query()->firstOrCreate([
             'name' => $locationName,
-            'type' => $type,
         ], [
             'parent' => $parent,
+            'type' => $type,
             'url' => Str::slug($locationName),
             'lat' => $this->poi->lat,
             'lng' => $this->poi->lng,

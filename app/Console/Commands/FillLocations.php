@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\PoiGeocodeJob;
-use App\Models\Location;
 use App\Models\Poi;
-use App\Models\Tag;
 use Illuminate\Console\Command;
 
 class FillLocations extends Command
@@ -21,7 +19,7 @@ class FillLocations extends Command
 
     public function handle()
     {
-        $pois = Poi::query()->oldest()->limit(500)->get();
+        $pois = Poi::query()->oldest()->limit(950)->get();
         foreach ($pois as $poi) {
             PoiGeocodeJob::dispatch($poi);
         }

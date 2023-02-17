@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Location;
 use App\Models\Tag;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
@@ -19,8 +20,10 @@ class RegionsProcess extends Command
 
     public function handle(Client $client)
     {
-        $tags = Tag::query()->whereIn('type', [1, 2, 3])
-            ->where('scale', 0)->limit(100)->get();
+        $tags = Location::query()
+            ->where('scale', 0)
+            ->orderBy('count', 'desc')
+            ->limit(30)->get();
         foreach ($tags as $tag) {
             echo $tag->id . ' ' . $tag->name;
             $url = 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $tag->name . '&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';
