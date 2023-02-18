@@ -9,7 +9,7 @@ class DeleteLocalThubms extends Command
 {
     protected $signature = 'delete:local-thumbs';
 
-    protected $description = 'Command description';
+    protected $description = 'Delete local thumbs';
 
     public function __construct()
     {
