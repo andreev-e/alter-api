@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\DayReset;
+use App\Console\Commands\DeleteLocalThubms;
 use App\Console\Commands\FillLocations;
 use App\Console\Commands\FillUrls;
 use App\Console\Commands\MonthReset;
@@ -30,15 +31,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(DeleteLocalThubms::class)->hourly();
+
         $schedule->command(FillUrls::class)->daily();
         $schedule->command(FillLocations::class)->daily();
         $schedule->command(RegionsProcess::class)->daily();
         $schedule->command(TagCount::class)->daily();
+        $schedule->command(DayReset::class)->daily();
+        $schedule->command('telescope:prune')->daily();
 
         $schedule->command(MonthReset::class)->monthly();
-        $schedule->command(DayReset::class)->daily();
-
-        $schedule->command('telescope:prune')->daily();
     }
 
     /**
