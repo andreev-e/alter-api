@@ -23,7 +23,7 @@ class RegionsProcess extends Command
         $tags = Location::query()
             ->where('scale', 0)
             ->orderBy('count', 'desc')
-            ->limit(30)->get();
+            ->limit(20)->get();
         foreach ($tags as $tag) {
             echo $tag->id . ' ' . $tag->name;
             $url = 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $tag->name . '&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';

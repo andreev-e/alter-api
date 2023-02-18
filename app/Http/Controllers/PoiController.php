@@ -157,6 +157,11 @@ class PoiController extends Controller
         return response()->json('Not ok', 405);
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
@@ -167,24 +172,11 @@ class PoiController extends Controller
                     ->preservingOriginal()
                     ->toMediaCollection('poi-image', 's3');
 
-                $image = $request->file('image');
-                $folder = 'tmp-img';
-
-                $localPath = Storage::disk('public')->put($folder, $image, 'public');
+                $localPath = Storage::disk('public')
+                    ->put(Poi::TMP_MEDIA_FOLDER, $request->file('image'), 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
-                $maxDimension = max($img->width(), $img->height());
-                $convRatio = $maxDimension / $poi::FULL_SIZE;
-                $width = round($img->width() / $convRatio);
-                $height = round($img->height() / $convRatio);
-
-                $media->setCustomProperty('author', Auth::user()->username);
-                $media->setCustomProperty('width', $width);
-                $media->setCustomProperty('height', $height);
-                $media->setCustomProperty('orig_width', $img->width());
-                $media->setCustomProperty('orig_height', $img->height());
-                $media->setCustomProperty('temporary_url', $localPath);
-                $media->save();
+                $this->setMediaCustomProperties($media, $localPath, $img);
 
                 $img->widen($poi::THUMB_SIZE)
                     ->crop($poi::THUMB_SIZE, $poi::THUMB_SIZE)
@@ -203,5 +195,21 @@ class PoiController extends Controller
             return response()->json(ImageResource::collection($poi->media));
         }
         return response()->json('No ok', 405);
+    }
+
+    private function setMediaCustomProperties(Media $media, string $localPath, $img): void
+    {
+        $maxDimension = max($img->width(), $img->height());
+        $convRatio = $maxDimension / Poi::FULL_SIZE;
+        $width = round($img->width() / $convRatio);
+        $height = round($img->height() / $convRatio);
+
+        $media->setCustomProperty('author', Auth::user()->username);
+        $media->setCustomProperty('width', $width);
+        $media->setCustomProperty('height', $height);
+        $media->setCustomProperty('orig_width', $img->width());
+        $media->setCustomProperty('orig_height', $img->height());
+        $media->setCustomProperty('temporary_url', $localPath);
+        $media->save();
     }
 }

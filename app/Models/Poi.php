@@ -23,6 +23,7 @@ class Poi extends Model implements HasMedia
     }
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;
+    public const TMP_MEDIA_FOLDER = 'tmp-img';
 
     protected $table = 'poi';
 

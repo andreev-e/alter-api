@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Poi;
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Storage;
@@ -19,7 +20,7 @@ class DeleteLocalThubms extends Command
 
     public function handle()
     {
-        $files = Storage::disk('public')->listContents('tmp-img');
+        $files = Storage::disk('public')->listContents(Poi::TMP_MEDIA_FOLDER);
         foreach ($files as $file) {
             if ($file['type'] === 'file' && $file['timestamp'] < now()->subMinutes(10)->getTimestamp()) {
                 Storage::disk('public')->delete($file['path']);
