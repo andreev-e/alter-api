@@ -173,7 +173,7 @@ class PoiController extends Controller
                 $image = $request->file('image');
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
 
-                $file = Storage::disk('local')->put('temporary-images/' . $fileName, $img, 'public');
+                $file = Storage::disk('local')->put('temporary-images/' . $fileName, $image, 'public');
                 $img = Image::make($file);
 
                 $media->setCustomProperty('author', Auth::user()->username);
