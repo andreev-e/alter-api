@@ -10,7 +10,7 @@ class TagCount extends Command
 {
     protected $signature = 'tag:count';
 
-    protected $description = 'Command description';
+    protected $description = 'Tag count';
 
     public function __construct()
     {

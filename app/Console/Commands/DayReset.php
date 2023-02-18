@@ -9,7 +9,7 @@ class DayReset extends Command
 {
     protected $signature = 'reset:day';
 
-    protected $description = 'Command description';
+    protected $description = 'Day reset';
 
     public function __construct()
     {

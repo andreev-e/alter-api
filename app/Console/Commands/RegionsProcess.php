@@ -11,7 +11,7 @@ class RegionsProcess extends Command
 {
     protected $signature = 'regions:process';
 
-    protected $description = 'Command description';
+    protected $description = 'Regions process';
 
     public function __construct()
     {

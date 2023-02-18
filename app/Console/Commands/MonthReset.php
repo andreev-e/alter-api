@@ -9,7 +9,7 @@ class MonthReset extends Command
 {
     protected $signature = 'reset:month';
 
-    protected $description = 'Command description';
+    protected $description = 'Month reset';
 
     public function __construct()
     {

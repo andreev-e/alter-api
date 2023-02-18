@@ -10,7 +10,7 @@ class FillLocations extends Command
 {
     protected $signature = 'fill:locations';
 
-    protected $description = 'Command description';
+    protected $description = 'Fill locations';
 
     public function __construct()
     {
