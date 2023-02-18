@@ -177,10 +177,14 @@ class PoiController extends Controller
                 $localPath = Storage::disk('local')->put('temporary-images/' . $fileName, $image, 'public');
                 $img = Image::make(Storage::disk('local')->get($localPath));
 
+                $maxDimension = max($img->width(), $img->height());
+                $convRatio = $maxDimension / $poi::FULL_SIZE;
+                $width = $img->width() / $convRatio;
+                $height = $img->height() / $convRatio;
+
                 $media->setCustomProperty('author', Auth::user()->username);
-                $media->setCustomProperty('orig_width', $img->width());
-                $media->setCustomProperty('orig_height', $img->height());
-                $media->setCustomProperty('orig_size', $img->filesize());
+                $media->setCustomProperty('orig_width', $width);
+                $media->setCustomProperty('orig_height', $height);
 
                 $media->save();
             }

@@ -15,6 +15,9 @@ class Route extends Model implements HasMedia
         ImageSizesTrait::registerMediaConversions insteadof InteractsWithMedia;
     }
 
+    public const FULL_SIZE = 1200;
+    public const THUMB_SIZE = 600;
+
     public $timestamps = false;
 
     public function pois(): BelongsToMany

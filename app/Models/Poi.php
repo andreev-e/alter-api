@@ -21,6 +21,8 @@ class Poi extends Model implements HasMedia
     use ImageSizesTrait {
         ImageSizesTrait::registerMediaConversions insteadof InteractsWithMedia;
     }
+    public const FULL_SIZE = 1200;
+    public const THUMB_SIZE = 600;
 
     protected $table = 'poi';
 
