@@ -191,8 +191,7 @@ class PoiController extends Controller
                 $media->save();
 
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
-//                Storage::disk('public')->delete($localPath);
-                $localPath = Storage::disk('public')->put($folder, $img, 'public');
+//                Storage::disk('public')->put($folder, $img, 'public');
                 dump(asset($localPath));
                 //https://api.altertravel.ru/storage/temporary-images/1676700560/5H9geOoTYSagw4ClVfEXXzPZYME8Bvkoe0WbnXOg.jpg
             }
