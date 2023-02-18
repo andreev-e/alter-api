@@ -24,6 +24,7 @@ class Location extends Model
         'name_dat_ed',
         'name_rod_ed',
         'name_predlozh_ed',
+        'code',
     ];
 
     protected $casts = [

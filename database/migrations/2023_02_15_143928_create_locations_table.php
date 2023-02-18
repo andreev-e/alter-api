@@ -23,7 +23,6 @@ class CreateLocationsTable extends Migration
             $table->float('lat');
             $table->float('lng');
             $table->integer('scale')->default(0);
-            $table->string('name_rod')->nullable();
             $table->string('name_en')->nullable();
             $table->string('name_dat_ed')->nullable();
             $table->string('name_rod_ed')->nullable();
