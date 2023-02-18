@@ -187,12 +187,12 @@ class PoiController extends Controller
                 $media->setCustomProperty('height', $height);
                 $media->setCustomProperty('orig_width', $img->width());
                 $media->setCustomProperty('orig_height', $img->height());
-                $media->setCustomProperty('temporary_url', 'storage/' . $localPath);
+                $media->setCustomProperty('temporary_url', $localPath);
                 $media->save();
 
-                dump(storage_path() . '/app/public/thumb');
+                dump(storage_path() . '/app/public/thumb/' . $localPath);
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE)
-                    ->save(storage_path() . '/app/public/thumb');
+                    ->save(storage_path() . '/app/public/thumb/' . $localPath);
                 Storage::disk('public')->delete($localPath);
             }
 
