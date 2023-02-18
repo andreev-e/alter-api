@@ -172,21 +172,23 @@ class PoiController extends Controller
                     ->toMediaCollection('image', 's3');
 
                 $image = $request->file('image');
-                $fileName = time() . '.' . $image->getClientOriginalExtension();
 
-                $localPath = Storage::disk('local')->put('temporary-images/' . $fileName, $image, 'public');
-                $img = Image::make(Storage::disk('local')->get($localPath));
+                $localPath = Storage::disk('local')->put('temporary-images/' . time(), $image, 'public');
+                $img = Image::make(Storage::disk('public')->get($localPath));
 
                 $maxDimension = max($img->width(), $img->height());
                 $convRatio = $maxDimension / $poi::FULL_SIZE;
-                $width = $img->width() / $convRatio;
-                $height = $img->height() / $convRatio;
+                $width = round($img->width() / $convRatio);
+                $height = round($img->height() / $convRatio);
 
                 $media->setCustomProperty('author', Auth::user()->username);
                 $media->setCustomProperty('orig_width', $width);
                 $media->setCustomProperty('orig_height', $height);
 
                 $media->save();
+
+                $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
+                $img->save();
             }
 
             return response()->json(ImageResource::collection($poi->media));
