@@ -27,7 +27,7 @@ class SetMediaWidthHeight extends Command
         $media = Media::query()
             ->where('custom_properties', '[]')
             ->where('model_type', '<>', 'App\Models\User')
-            ->limit(100)->cursor();
+            ->cursor();
         foreach ($media as $image) {
             /*  @var Media $image */
             try {

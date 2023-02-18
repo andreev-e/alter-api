@@ -14,7 +14,9 @@ use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Intervention\Image\Facades\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Storage;
 
 class PoiController extends Controller
 {
@@ -155,14 +157,30 @@ class PoiController extends Controller
         return response()->json('Not ok', 405);
     }
 
+    /**
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
     public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
 
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $poi->addMediaFromRequest('image')
+            if ($request->file('image')->isValid()) {
+                $media = $poi->addMediaFromRequest('image')
                     ->storingConversionsOnDisk('s3')
                     ->toMediaCollection('image', 's3');
+
+                $image = $request->file('image');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+                $img = Image::make($image->getRealPath());
+                Storage::disk('local')->put('temporary-images/' . $fileName, $img, 'public');
+
+                $media->setCustomProperty('author', Auth::user()->username);
+                $media->setCustomProperty('orig_width', $img->width());
+                $media->setCustomProperty('orig_height', $img->height());
+                $media->setCustomProperty('orig_size', $img->filesize());
+
+                $media->save();
             }
 
             return response()->json(ImageResource::collection($poi->media));
