@@ -28,7 +28,6 @@ class PoiResourceCollection extends JsonResource
             'show' => $this->show,
             'date' => $this->date,
             'thumb1' => $this->media->first()?->getUrl('thumb'),
-            'thumb' => asset($this->media->first()?->setCustomProperty('temporary_url')),
         ];
     }
 }

@@ -15,6 +15,7 @@ class ImageResource extends JsonResource
             'id' => $this->id,
             'original' => $this->getUrl('full'),
             'preview' => $this->getUrl('thumb'),
+            'thumb' => asset($this->getCustomProperty('temporary_url')),
             'created_at' => $this->created_at,
             'width' => $this->getCustomProperty('width'),
             'height' => $this->getCustomProperty('height'),
