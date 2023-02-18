@@ -191,7 +191,7 @@ class PoiController extends Controller
                 $media->save();
 
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE)
-                    ->save('storage/');
+                    ->save('storage/app/public');
                 Storage::disk('public')->delete($localPath);
             }
 
