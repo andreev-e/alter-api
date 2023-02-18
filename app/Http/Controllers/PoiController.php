@@ -172,8 +172,9 @@ class PoiController extends Controller
                     ->toMediaCollection('image', 's3');
 
                 $image = $request->file('image');
-                $folder = 'temporary-images/' . time();
-                $fullPath = $folder . '/'. $image->getFilename();
+                $folder = 'tmp-img/' . time();
+                dump($image->getRealPath());
+                $fullPath = $folder . '/' . $image->getFilename() . '.' . $image->getExtension();
 
                 $localPath = Storage::disk('public')->put($folder, $image, 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
