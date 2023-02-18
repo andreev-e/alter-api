@@ -172,7 +172,7 @@ class PoiController extends Controller
                     ->toMediaCollection('image', 's3');
 
                 $image = $request->file('image');
-                $folder = 'tmp-img/' . time();
+                $folder = 'tmp-img';
 
                 $localPath = Storage::disk('public')->put($folder, $image, 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
@@ -190,9 +190,10 @@ class PoiController extends Controller
                 $media->setCustomProperty('temporary_url', $localPath);
                 $media->save();
 
+                dump($localPath);
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
                 Storage::disk('public')->delete($localPath);
-                $img->save($localPath);
+                $img->save('_' . $localPath);
                 dump(asset($localPath));
                 //https://api.altertravel.ru/storage/temporary-images/1676700560/5H9geOoTYSagw4ClVfEXXzPZYME8Bvkoe0WbnXOg.jpg
             }
