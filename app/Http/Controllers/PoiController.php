@@ -190,9 +190,8 @@ class PoiController extends Controller
                 $media->setCustomProperty('temporary_url', $localPath);
                 $media->save();
 
-                dump(storage_path() . '/app/public/' . $localPath);
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE)
-                    ->save(storage_path() . '/app/public/' . $localPath);
+                    ->save(storage_path('/app/public/') . $localPath);
             }
 
             return response()->json(ImageResource::collection($poi->media));
