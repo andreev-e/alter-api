@@ -188,7 +188,6 @@ class PoiController extends Controller
                 $media->save();
 
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
-                $img->save();
             }
 
             return response()->json(ImageResource::collection($poi->media));
