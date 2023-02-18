@@ -173,7 +173,7 @@ class PoiController extends Controller
 
                 $image = $request->file('image');
 
-                $localPath = Storage::disk('local')->put('temporary-images/' . time(), $image, 'public');
+                $localPath = Storage::disk('public')->put('temporary-images/' . time(), $image, 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
                 $maxDimension = max($img->width(), $img->height());
