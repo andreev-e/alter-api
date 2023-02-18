@@ -20,7 +20,7 @@ class DeleteLocalThubms extends Command
     {
         $files = Storage::disk('public')->listContents('tmp-img');
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && $file['timestamp'] < now()->subHour()->getTimestamp()) {
+            if ($file['type'] === 'file' && $file['timestamp'] < now()->getTimestamp()) {
                 Storage::disk('public')->delete($file['path']);
             }
         }
