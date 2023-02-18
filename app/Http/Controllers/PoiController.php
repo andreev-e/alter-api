@@ -187,13 +187,12 @@ class PoiController extends Controller
                 $media->setCustomProperty('height', $height);
                 $media->setCustomProperty('orig_width', $img->width());
                 $media->setCustomProperty('orig_height', $img->height());
-                $media->setCustomProperty('temporary_url', $localPath);
+                $media->setCustomProperty('temporary_url', 'storage/' . $localPath);
                 $media->save();
 
                 dump($localPath);
-                $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
+                $img = $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
                 Storage::disk('public')->put('storage/' . $folder, $img, 'public');
-                //https://api.altertravel.ru/storage/temporary-images/1676700560/5H9geOoTYSagw4ClVfEXXzPZYME8Bvkoe0WbnXOg.jpg
             }
 
             return response()->json(ImageResource::collection($poi->media));
