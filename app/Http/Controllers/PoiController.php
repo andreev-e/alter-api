@@ -157,19 +157,15 @@ class PoiController extends Controller
         return response()->json('Not ok', 405);
     }
 
-    /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
-     */
     public function storeImage(StoreImageRequest $request, Poi $poi): JsonResponse
     {
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
 
-            if ($request->file('image')->isValid()) {
+            if ($request->file('image')) {
                 $media = $poi->addMediaFromRequest('image')
                     ->storingConversionsOnDisk('s3')
                     ->preservingOriginal()
-                    ->toMediaCollection('image', 's3');
+                    ->toMediaCollection('poi-image', 's3');
 
                 $image = $request->file('image');
                 $folder = 'tmp-img';
@@ -190,7 +186,7 @@ class PoiController extends Controller
                 $media->setCustomProperty('temporary_url', $localPath);
                 $media->save();
 
-                $img->resize($poi::THUMB_SIZE)
+                $img->widen($poi::THUMB_SIZE)
                     ->crop($poi::THUMB_SIZE, $poi::THUMB_SIZE)
                     ->save(storage_path('/app/public/') . $localPath);
             }
