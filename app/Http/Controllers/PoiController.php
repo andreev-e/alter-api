@@ -172,8 +172,10 @@ class PoiController extends Controller
                     ->toMediaCollection('image', 's3');
 
                 $image = $request->file('image');
+                $folder = 'temporary-images/' . time();
+                $fullPath = $folder . '/'. $image->getFilename();
 
-                $localPath = Storage::disk('public')->put('temporary-images/' . time(), $image, 'public');
+                $localPath = Storage::disk('public')->put($folder, $image, 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
                 $maxDimension = max($img->width(), $img->height());
@@ -182,12 +184,18 @@ class PoiController extends Controller
                 $height = round($img->height() / $convRatio);
 
                 $media->setCustomProperty('author', Auth::user()->username);
-                $media->setCustomProperty('orig_width', $width);
-                $media->setCustomProperty('orig_height', $height);
-
+                $media->setCustomProperty('width', $width);
+                $media->setCustomProperty('height', $height);
+                $media->setCustomProperty('orig_width', $img->width());
+                $media->setCustomProperty('orig_height', $img->height());
+                $media->setCustomProperty('temporary_url', $fullPath);
                 $media->save();
 
+                dump($fullPath);
                 $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
+                $img->save($fullPath);
+                dump(asset($fullPath));
+                //https://api.altertravel.ru/storage/temporary-images/1676700560/5H9geOoTYSagw4ClVfEXXzPZYME8Bvkoe0WbnXOg.jpg
             }
 
             return response()->json(ImageResource::collection($poi->media));
