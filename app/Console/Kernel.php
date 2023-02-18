@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(DeleteLocalThubms::class)->everyMinute();
+        $schedule->command(DeleteLocalThubms::class)->hourly();
 
         $schedule->command(FillUrls::class)->daily();
         $schedule->command(FillLocations::class)->daily();
