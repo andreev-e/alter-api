@@ -192,7 +192,7 @@ class PoiController extends Controller
 
                 dump($localPath);
                 $img = $img->resize($poi::THUMB_SIZE, $poi::THUMB_SIZE);
-                Storage::disk('public')->put('storage/' . $folder, $img, 'public');
+                Storage::disk('public')->put('storage/' . $localPath, $img, 'public');
             }
 
             return response()->json(ImageResource::collection($poi->media));
