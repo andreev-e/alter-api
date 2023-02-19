@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
 use App\Http\Requests\Poi\PoiCreateRequest;
 use App\Http\Requests\Poi\PoiRequest;
 use App\Http\Requests\StoreImageRequest;
@@ -20,6 +21,8 @@ use Storage;
 
 class PoiController extends Controller
 {
+    use SetsMediaCustomPropertiesTrait;
+
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
         $pois = Poi::query();
@@ -195,21 +198,5 @@ class PoiController extends Controller
             return response()->json(ImageResource::collection($poi->media));
         }
         return response()->json('No ok', 405);
-    }
-
-    private function setMediaCustomProperties(Media $media, string $localPath, $img): void
-    {
-        $maxDimension = max($img->width(), $img->height());
-        $convRatio = $maxDimension / Poi::FULL_SIZE;
-        $width = round($img->width() / $convRatio);
-        $height = round($img->height() / $convRatio);
-
-        $media->setCustomProperty('author', Auth::user()->username);
-        $media->setCustomProperty('width', $width);
-        $media->setCustomProperty('height', $height);
-        $media->setCustomProperty('orig_width', $img->width());
-        $media->setCustomProperty('orig_height', $img->height());
-        $media->setCustomProperty('temporary_url', $localPath);
-        $media->save();
     }
 }

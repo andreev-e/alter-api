@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\ImageResource;
@@ -63,7 +64,7 @@ class UserController extends Controller
                     ->put($user::TMP_MEDIA_FOLDER, $request->file('image'), 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
-                $this->setMediaCustomProperties($media, $localPath, $img);
+                $media->setCustomProperty('temporary_url', $localPath);
 
                 $img->widen($user::THUMB_SIZE)
                     ->crop($user::THUMB_SIZE, $user::THUMB_SIZE)
