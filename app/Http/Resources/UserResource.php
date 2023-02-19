@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'lat' => $this->lat,
             'lng' => $this->lng,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
-            'images' => ImageResource::collection($this->media),
+            'images' => AvatarResource::collection($this->media),
         ];
     }
 }
