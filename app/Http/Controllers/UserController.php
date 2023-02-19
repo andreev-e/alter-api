@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\AvatarResource;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\UserResource;
 use App\Models\Poi;
@@ -71,7 +72,7 @@ class UserController extends Controller
                     ->save(storage_path('/app/public/') . $localPath);
             }
 
-            return response()->json(ImageResource::collection($user->media));
+            return response()->json(AvatarResource::collection($user->media));
         }
         return response()->json('No ok', 405);
     }
@@ -80,7 +81,7 @@ class UserController extends Controller
     {
         if (Auth::user()->username === $media->model->username || Auth::user()->username === 'andreev') {
             $media->delete();
-            return response()->json(ImageResource::collection($user->media));
+            return response()->json(AvatarResource::collection($user->media));
         }
         return response()->json('No ok', 405);
     }
