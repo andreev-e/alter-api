@@ -64,9 +64,9 @@ Route::middleware('auth')->group(function() {
     Route::prefix('user')->name('user')
         ->controller(UserController::class)
         ->group(function() {
-            Route::patch('{user}', 'update')->name('update');
-            Route::post('{user}/image', 'storeImage')->name('image.store');
-            Route::delete('{user}/image/{media}', 'destroyImage')->name('image.destroy');
+            Route::patch('{user:username}', 'update')->name('update');
+            Route::post('{user:username}/image', 'storeImage')->name('image.store');
+            Route::delete('{user:username}/image/{media}', 'destroyImage')->name('image.destroy');
         });
 
     Route::prefix('poi')->name('poi')
