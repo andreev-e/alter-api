@@ -17,6 +17,7 @@ class PoiCreateRequest extends FormRequest
                 'route_o' => ['sometimes', 'nullable', 'string'],
                 'addon' => ['sometimes', 'nullable', 'string'],
                 'links' => ['sometimes', 'nullable', 'string'],
+                'ytb' => ['sometimes', 'nullable', 'string'],
                 'lat' => ['required', 'numeric', 'min:-90', 'max:90'],
                 'lng' => ['required', 'numeric', 'min:-180', 'max:180'],
                 'tags' => ['required', 'array'],

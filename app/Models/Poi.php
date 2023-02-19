@@ -37,6 +37,7 @@ class Poi extends Model implements HasMedia
         'route_o',
         'links',
         'type',
+        'ytb',
         'show',
         'author',
         'views',
