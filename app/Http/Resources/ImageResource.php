@@ -18,6 +18,7 @@ class ImageResource extends JsonResource
             'created_at' => $this->created_at,
             'width' => $this->getCustomProperty('width'),
             'height' => $this->getCustomProperty('height'),
+            'copyright' => $this->getCustomProperty('author'),
         ];
     }
 }
