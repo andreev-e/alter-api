@@ -173,7 +173,7 @@ class PoiController extends Controller
                     ->toMediaCollection('poi-image', 's3');
 
                 $localPath = Storage::disk('public')
-                    ->put(Poi::TMP_MEDIA_FOLDER, $request->file('image'), 'public');
+                    ->put($poi::TMP_MEDIA_FOLDER, $request->file('image'), 'public');
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
                 $this->setMediaCustomProperties($media, $localPath, $img);

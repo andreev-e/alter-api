@@ -16,6 +16,8 @@ class User extends Authenticatable  implements HasMedia
     use HasApiTokens;
     use InteractsWithMedia;
 
+    public const THUMB_SIZE = 600;
+    public const TMP_MEDIA_FOLDER = 'tmp-img';
     protected $fillable = [
         'name',
         'email',
@@ -60,10 +62,12 @@ class User extends Authenticatable  implements HasMedia
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        if ($media->with > 600 || $media->height > 600) {
-            $this->addMediaConversion('thumb')
-                ->fit(Manipulations::FIT_MAX, 600, 600);
+        if ($media) {
+            if ($media->with > self::THUMB_SIZE || $media->height > self::THUMB_SIZE) {
+                $this->addMediaConversion('thumb')
+                    ->fit(Manipulations::FIT_MAX, self::THUMB_SIZE, self::THUMB_SIZE);
+            }
+            $this->addMediaConversion('thumb');
         }
-        $this->addMediaConversion('thumb');
     }
 }
