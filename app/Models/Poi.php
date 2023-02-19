@@ -43,6 +43,7 @@ class Poi extends Model implements HasMedia
         'views',
         'views_month',
         'views_today',
+        'copyright',
     ];
 
     protected $casts = [
