@@ -66,6 +66,7 @@ class UserController extends Controller
                 $img = Image::make(Storage::disk('public')->get($localPath));
 
                 $media->setCustomProperty('temporary_url', $localPath);
+                $media->save();
 
                 $img->widen($user::THUMB_SIZE)
                     ->crop($user::THUMB_SIZE, $user::THUMB_SIZE)
