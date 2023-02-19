@@ -22,6 +22,10 @@ class User extends Authenticatable  implements HasMedia
         'password',
         'username',
         'userlevel',
+        'firstname',
+        'lastname',
+        'about',
+        'homepage',
     ];
 
     protected $hidden = [

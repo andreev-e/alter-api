@@ -35,7 +35,6 @@ class UserController extends Controller
             }
             return new UserResource($user->fresh());
         }
-        dump(Auth::user()->username, $user->username);
         return response()->json('No ok', 405);
     }
 }
