@@ -13,7 +13,7 @@ class TagController extends Controller
     {
          return TagResourceCollection::collection(Tag::query()
              ->where('TYPE','=',0)
-             ->orderBy('name', 'DESC')->get());
+             ->orderBy('COUNT', 'DESC')->get());
     }
 
     public function countries(): AnonymousResourceCollection
