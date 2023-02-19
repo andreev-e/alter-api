@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
