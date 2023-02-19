@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Auth;
 use Hash;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
@@ -23,7 +24,7 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function update(UpdateRequest $request, User $user): UserResource
+    public function update(UpdateRequest $request, User $user): UserResource|JsonResponse
     {
         if (Auth::user()->username === $user->username || Auth::user()->username === 'andreev') {
             $user->update($request->except('password'));
@@ -32,8 +33,9 @@ class UserController extends Controller
                 $user->password = Hash::make($request->get('password'));
                 $user->save();
             }
+            return new UserResource($user->fresh());
         }
-        return new UserResource($user->fresh());
+        dump(Auth::user()->username, $user->username);
+        return response()->json('No ok', 405);
     }
-
 }
