@@ -13,6 +13,7 @@ class RouteCreateRequest extends FormRequest
                 'name' => ['required', 'string'],
                 'description' => ['required', 'string'],
                 'route' => ['sometimes', 'nullable', 'string'],
+                'links' => ['sometimes', 'nullable', 'string'],
                 'cost' => ['sometimes', 'nullable', 'number'],
                 'days' => ['sometimes', 'nullable', 'number'],
             ]

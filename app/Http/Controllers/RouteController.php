@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Route\RouteCreateRequest;
 use App\Http\Requests\Route\RouteRequest;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Resources\RouteResource;
