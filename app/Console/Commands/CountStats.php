@@ -20,19 +20,19 @@ class CountStats extends Command
 
     public function handle()
     {
-        $users = User::all();
+        $users = User::query()->cursor();
         foreach ($users as $user) {
             $user->publications = $user->pois()->count();
             $user->save();
         }
 
-        $tags = Tag::query()->where('TYPE', 0)->get();
+        $tags = Tag::query()->where('TYPE', 0)->cursor();
         foreach ($tags as $tag) {
             $tag->COUNT = $tag->pois()->count();
             $tag->save();
         }
 
-        $locations = Location::all();
+        $locations = Location::query()->cursor();
         foreach ($locations as $location) {
             $location->count = $location->pois()->count();
             $location->save();

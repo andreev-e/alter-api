@@ -61,7 +61,7 @@ class User extends Authenticatable  implements HasMedia
 
     public function pois(): HasMany
     {
-        return $this->hasMany(Poi::class, 'author');
+        return $this->hasMany(Poi::class, 'author', 'username');
     }
 
     /**
