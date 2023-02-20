@@ -23,7 +23,6 @@
         "facade/ignition": "^2.14",
         "fakerphp/faker": "^1.21.0",
         "laravel/sail": "^1.17.0",
-        "laravel/telescope": "*",
         "nunomaduro/collision": "^5.11.0",
         "roave/security-advisories": "dev-latest"
     },
