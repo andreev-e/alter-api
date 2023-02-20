@@ -83,7 +83,13 @@ class PoiController extends Controller
 
         if ($request->has('latest')) {
             $pois->orderBy('id', 'desc');
-        } else {
+        }
+
+        if ($request->has('updated')) {
+            $pois->orderBy('updated_at', 'desc');
+        }
+
+        if (!$request->has('latest') &&!$request->has('updated')) {
             $pois->orderBy('views', 'desc');
         }
 
