@@ -4,11 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\Location;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Console\Command;
 
-class TagCount extends Command
+class CountStats extends Command
 {
-    protected $signature = 'tag:count';
+    protected $signature = 'count:stats';
 
     protected $description = 'Tag count';
 
@@ -19,6 +20,12 @@ class TagCount extends Command
 
     public function handle()
     {
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->publications = $user->pois()->count();
+            $user->save();
+        }
+
         $tags = Tag::query()->where('TYPE', 0)->get();
         foreach ($tags as $tag) {
             $tag->COUNT = $tag->pois()->count();

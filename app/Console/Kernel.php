@@ -8,7 +8,7 @@ use App\Console\Commands\FillLocations;
 use App\Console\Commands\FillUrls;
 use App\Console\Commands\MonthReset;
 use App\Console\Commands\RegionsProcess;
-use App\Console\Commands\TagCount;
+use App\Console\Commands\CountStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(FillUrls::class)->daily();
         $schedule->command(FillLocations::class)->daily();
         $schedule->command(RegionsProcess::class)->daily();
-        $schedule->command(TagCount::class)->daily();
+        $schedule->command(CountStats::class)->daily();
         $schedule->command('telescope:prune')->daily();
 
         $schedule->command(MonthReset::class)->monthly();
