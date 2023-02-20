@@ -20,6 +20,15 @@ class Route extends Model implements HasMedia
     public const TMP_MEDIA_FOLDER = 'tmp-img';
     public $timestamps = false;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'cost',
+        'days',
+        'route',
+        'links',
+    ];
+
     public function pois(): BelongsToMany
     {
         return $this->belongsToMany(Poi::class);
