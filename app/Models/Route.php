@@ -17,11 +17,16 @@ class Route extends Model implements HasMedia
 
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;
-
+    public const TMP_MEDIA_FOLDER = 'tmp-img';
     public $timestamps = false;
 
     public function pois(): BelongsToMany
     {
         return $this->belongsToMany(Poi::class);
+    }
+
+    public function getDefaultRelationsAttribute(): array
+    {
+        return ['pois'];
     }
 }
