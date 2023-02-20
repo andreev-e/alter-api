@@ -33,11 +33,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(DeleteLocalThubms::class)->hourly();
 
+        $schedule->command(DayReset::class)->daily();
         $schedule->command(FillUrls::class)->daily();
         $schedule->command(FillLocations::class)->daily();
         $schedule->command(RegionsProcess::class)->daily();
         $schedule->command(TagCount::class)->daily();
-        $schedule->command(DayReset::class)->daily();
         $schedule->command('telescope:prune')->daily();
 
         $schedule->command(MonthReset::class)->monthly();
