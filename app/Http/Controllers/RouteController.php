@@ -43,6 +43,10 @@ class RouteController extends Controller
 
     public function show(Route $route): RouteResource
     {
+        $route->timestamps = false;
+        $route->update([
+            'views' => $route->views + 1,
+        ]);
         return new RouteResource($route);
     }
 

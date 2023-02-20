@@ -116,6 +116,7 @@ class PoiController extends Controller
 
     public function show(Poi $poi): PoiResource
     {
+        $poi->timestamps = false;
         $poi->update([
             'views' => $poi->views + 1,
             'views_month' => $poi->views_month + 1,
