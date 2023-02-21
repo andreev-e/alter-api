@@ -16,7 +16,7 @@ jobs:
           script: cd ${{ vars.TEST_PATH }}
             && su altertravel.ru
             && git reset --hard
-            && git pull
+            && git pull https://github.com/andreev-e/alter-api
             && rm composer.lock
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
