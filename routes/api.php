@@ -19,11 +19,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/api/user', [LoginController::class, 'user'])
-    ->name('user.login');
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('register', [LoginController::class, 'register'])->name('register');
 
 Route::get('user', [UserController::class, 'index'])->name('user');
@@ -60,6 +57,10 @@ Route::prefix('route')->name('route')
 
 // AUTHORIZED
 Route::middleware('auth')->group(function() {
+
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/api/user', [LoginController::class, 'user'])
+        ->name('user.login');
 
     Route::prefix('user')->name('user')
         ->controller(UserController::class)
