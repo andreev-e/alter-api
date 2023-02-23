@@ -42,9 +42,8 @@ class CommentController extends Controller
             'name' => Auth::user()->username,
             'email' => Auth::user()->email,
             'approved' => 1,
-            'backlink' => $request->get('id'),
+            'commentable_id' => $request->get('id'),
             'comment' => $request->get('comment'),
-            'time' => Carbon::now()->unix(),
             'commentable_type' => $class,
         ]);
         return new CommentResource($comment);

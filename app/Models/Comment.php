@@ -11,13 +11,13 @@ class Comment extends Model
     protected $primaryKey = 'commentid';
 
     protected $fillable = [
-        'backlink',
+        'commentable_id',
         'name',
         'comment',
         'time',
         'approved',
         'email',
-        'type',
+        'commentable_type',
     ];
 
     public function commentable(): MorphTo
