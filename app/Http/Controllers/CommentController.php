@@ -10,6 +10,7 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -23,7 +24,8 @@ class CommentController extends Controller
 
         if ($request->has('id') && $request->has('type')) {
             $class = Commentables::fromName($request->get('type'))->value;
-            $commentable = $class::find($request->get('id'));
+            /* @var Model $class */
+            $commentable = $class::query()->find($request->get('id'));
             if ($commentable) {
                 $comments = $commentable->twits();
             }

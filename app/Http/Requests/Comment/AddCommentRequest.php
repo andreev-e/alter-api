@@ -14,7 +14,7 @@ class AddCommentRequest extends FormRequest
             'id' => ['required', 'numeric'],
             'comment' => ['required', 'string'],
             'email' => ['sometimes', 'email'],
-            'type' => ['required', new Enum(Commentables::class)],
+            'type' => ['required', 'in:' . Commentables::list()],
         ];
     }
 }
