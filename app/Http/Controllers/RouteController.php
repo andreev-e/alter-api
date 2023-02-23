@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
 use App\Http\Requests\Image\SortImageRequest;
 use App\Http\Requests\Image\StoreImageRequest;
 use App\Http\Requests\Route\RouteCreateRequest;
@@ -21,6 +22,8 @@ use Storage;
 
 class RouteController extends Controller
 {
+    use SetsMediaCustomPropertiesTrait;
+
     public function index(RouteRequest $request): AnonymousResourceCollection
     {
         $routes = Route::query()
