@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Poi;
+use App\Models\Route;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-/* @mixin Poi */
+/* @mixin Route */
 class RouteResourceCollection extends JsonResource
 {
     public function toArray($request): array
