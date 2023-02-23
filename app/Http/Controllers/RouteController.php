@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Image\SortImageRequest;
+use App\Http\Requests\Image\StoreImageRequest;
 use App\Http\Requests\Route\RouteCreateRequest;
 use App\Http\Requests\Route\RouteRequest;
-use App\Http\Requests\StoreImageRequest;
+use App\Http\Resources\ImageResource;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\RouteResourceCollection;
+use App\Models\Poi;
 use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -110,5 +113,14 @@ class RouteController extends Controller
             return response()->json(RouteResource::collection($route->media));
         }
         return response()->json('No ok', 405);
+    }
+
+    public function sortImages(SortImageRequest $request, Route $route): JsonResponse|Response
+    {
+        if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
+            $route->sortImages($request->get('order'));
+            return response()->json(ImageResource::collection($route->fresh()->media));
+        }
+        return response()->noContent(405);
     }
 }

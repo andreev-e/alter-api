@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ImageManualSortTrait;
 use App\Models\Traits\ImageSizesTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,6 +15,7 @@ class Route extends Model implements HasMedia
     use ImageSizesTrait {
         ImageSizesTrait::registerMediaConversions insteadof InteractsWithMedia;
     }
+    use ImageManualSortTrait;
 
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;

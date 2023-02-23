@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function() {
             Route::patch('{user:username}', 'update')->name('update');
             Route::post('{user:username}/image', 'storeImage')->name('image.store');
             Route::delete('{user:username}/image/{media}', 'destroyImage')->name('image.destroy');
+            Route::post('{user:username}/sort-images', 'sortImages')->name('sort-images');
         });
 
     Route::prefix('poi')->name('poi')
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function() {
             Route::patch('{poi}', 'update')->name('update');
             Route::post('{poi}/approve', 'approve')->name('approve');
             Route::post('{poi}/disprove', 'disprove')->name('disprove');
+            Route::post('{poi}/sort-images', 'sortImages')->name('sort-images');
             Route::delete('{poi}', 'destroy')->name('destroy');
             Route::post('{poi}/image', 'storeImage')->name('image.store');
             Route::delete('{poi}/image/{media}', 'destroyImage')->name('image.destroy');
@@ -89,6 +91,7 @@ Route::middleware('auth')->group(function() {
             Route::patch('{route}', 'update')->name('update');
             Route::post('{route}/approve', 'approve')->name('approve');
             Route::post('{route}/disprove', 'disprove')->name('disprove');
+            Route::post('{route}/sort-images', 'sortImages')->name('sort-images');
             Route::delete('{route}', 'destroy')->name('destroy');
             Route::post('{route}/image', 'storeImage')->name('image.store');
             Route::delete('{route}/image/{media}', 'destroyImage')->name('image.destroy');

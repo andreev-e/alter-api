@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Traits\ImageManualSortTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +17,7 @@ class User extends Authenticatable  implements HasMedia
     use Notifiable;
     use HasApiTokens;
     use InteractsWithMedia;
+    use ImageManualSortTrait;
 
     public const THUMB_SIZE = 600;
     public const TMP_MEDIA_FOLDER = 'tmp-img';

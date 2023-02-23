@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
-use App\Http\Requests\StoreImageRequest;
+use App\Http\Requests\Image\SortImageRequest;
+use App\Http\Requests\Image\StoreImageRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\AvatarResource;
 use App\Http\Resources\ImageResource;
@@ -12,8 +12,10 @@ use App\Models\Poi;
 use App\Models\User;
 use Auth;
 use Hash;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Intervention\Image\Facades\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Storage;
@@ -85,5 +87,14 @@ class UserController extends Controller
             return response()->json(AvatarResource::collection($user->media));
         }
         return response()->json('No ok', 405);
+    }
+
+    public function sortImages(SortImageRequest $request, User $user): JsonResponse|Response
+    {
+        if (Auth::user()->username === $user->author || Auth::user()->username === 'andreev') {
+            $user->sortImages($request->get('order'));
+            return response()->json(AvatarResource::collection($user->fresh()->media));
+        }
+        return response()->noContent(405);
     }
 }

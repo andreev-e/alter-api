@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
+use App\Http\Requests\Image\SortImageRequest;
+use App\Http\Requests\Image\StoreImageRequest;
 use App\Http\Requests\Poi\PoiCreateRequest;
 use App\Http\Requests\Poi\PoiRequest;
-use App\Http\Requests\StoreImageRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\PoiResource;
 use App\Http\Resources\PoiResourceCollection;
@@ -15,6 +16,7 @@ use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Intervention\Image\Facades\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Storage;
@@ -89,7 +91,7 @@ class PoiController extends Controller
             $pois->orderBy('updated_at', 'desc');
         }
 
-        if (!$request->has('latest') &&!$request->has('updated')) {
+        if (!$request->has('latest') && !$request->has('updated')) {
             $pois->orderBy('views', 'desc');
         }
 
@@ -198,12 +200,21 @@ class PoiController extends Controller
         return response()->json('No ok', 405);
     }
 
-    public function destroyImage(Poi $poi, Media $media)
+    public function destroyImage(Poi $poi, Media $media): JsonResponse|Response
     {
         if (Auth::user()->username === $media->model->author || Auth::user()->username === 'andreev') {
             $media->delete();
             return response()->json(ImageResource::collection($poi->media));
         }
         return response()->json('No ok', 405);
+    }
+
+    public function sortImages(SortImageRequest $request, Poi $poi): JsonResponse|Response
+    {
+        if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
+            $poi->sortImages($request->get('order'));
+            return response()->json(ImageResource::collection($poi->fresh()->media));
+        }
+        return response()->noContent(405);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\PoiGeocodeJob;
+use App\Models\Traits\ImageManualSortTrait;
 use App\Models\Traits\ImageSizesTrait;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -10,10 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Poi extends Model implements HasMedia
 {
@@ -21,6 +20,8 @@ class Poi extends Model implements HasMedia
     use ImageSizesTrait {
         ImageSizesTrait::registerMediaConversions insteadof InteractsWithMedia;
     }
+    use ImageManualSortTrait;
+
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;
     public const TMP_MEDIA_FOLDER = 'tmp-img';
