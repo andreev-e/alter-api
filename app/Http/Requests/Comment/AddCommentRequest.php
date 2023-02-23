@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Comment;
 
+use App\Enums\Commentables;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class AddCommentRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ class AddCommentRequest extends FormRequest
             'id' => ['required', 'numeric'],
             'comment' => ['required', 'string'],
             'email' => ['sometimes', 'email'],
-            'type' => ['required', 'string'],
+            'type' => ['required', new Enum(Commentables::class)],
         ];
     }
 }
