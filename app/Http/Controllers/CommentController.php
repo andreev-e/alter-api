@@ -45,6 +45,7 @@ class CommentController extends Controller
             'commentable_id' => $request->get('id'),
             'comment' => $request->get('comment'),
             'commentable_type' => $class,
+            'time' => 0,
         ]);
         return new CommentResource($comment);
     }
