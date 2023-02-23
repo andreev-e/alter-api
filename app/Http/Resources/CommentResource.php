@@ -13,11 +13,11 @@ class CommentResource extends JsonResource
         return [
             'commentid' => $this->commentid,
             'name' => $this->name,
-            'user' => new UserResource($this->whenLoaded('user')),
+            'user' => new UserResourceCollection($this->whenLoaded('user')),
             'email' => $this->email,
             'comment' => $this->comment,
             'time' => $this->time,
-            'object_name' => $this->object?->name,
+            'object_name' => $this->commentable?->name,
             'backlink' => $this->backlink,
             'approved' => $this->approved,
         ];

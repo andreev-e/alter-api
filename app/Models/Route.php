@@ -6,6 +6,7 @@ use App\Models\Traits\ImageManualSortTrait;
 use App\Models\Traits\ImageSizesTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -34,6 +35,13 @@ class Route extends Model implements HasMedia
     public function pois(): BelongsToMany
     {
         return $this->belongsToMany(Poi::class);
+    }
+
+    public function twits(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->where('approved', '=', 1)
+            ->orderBy('time', 'desc');
     }
 
     public function getDefaultRelationsAttribute(): array

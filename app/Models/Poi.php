@@ -9,7 +9,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -96,9 +96,9 @@ class Poi extends Model implements HasMedia
         });
     }
 
-    public function twits(): HasMany
+    public function twits(): MorphMany
     {
-        return $this->hasMany(Comment::class, 'backlink')
+        return $this->morphMany(Comment::class, 'commentable')
             ->where('approved', '=', 1)
             ->orderBy('time', 'desc');
     }

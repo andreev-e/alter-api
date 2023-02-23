@@ -17,27 +17,26 @@ class CommentController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
+        $comments = Comment::query();
+
         $type = $request->input('type');
 
         if ($type === 'poi') {
-            $comments = Comment::query()
-                ->when(!$request->input('pending'), function($query) {
+            $comments->when(!$request->input('pending'), function($query) {
                     $query->where('approved', 1);
-                })->orderBy('time', 'DESC');
+                });
             if ($request->input('id')) {
                 $comments->where('backlink', (integer)$request->input('id'));
             }
         }
 
         if ($type === 'route') {
-            $comments = RouteComment::query()
-                ->orderBy('date', 'DESC');
             if ($request->input('id')) {
                 $comments->where('backlink', (integer)$request->input('id'));
             }
         }
 
-        $comments->with(['user', 'object']);
+        $comments->with(['user', 'commentable'])->orderBy('time', 'DESC');
 
         return CommentResource::collection($comments->paginate());
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
@@ -19,9 +20,9 @@ class Comment extends Model
         'type',
     ];
 
-    public function object(): HasOne
+    public function commentable(): MorphTo
     {
-        return $this->hasOne(Poi::class, 'id', 'backlink')->select('id', 'name');
+        return $this->morphTo();
     }
 
     public function user(): HasOne
