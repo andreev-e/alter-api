@@ -18,6 +18,8 @@ class Comment extends Model
         'approved',
         'email',
         'commentable_type',
+        'created_at',
+        'updated_at',
     ];
 
     public function commentable(): MorphTo

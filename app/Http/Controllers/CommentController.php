@@ -18,9 +18,7 @@ class CommentController extends Controller
 {
     public function index(CommentRequest $request): AnonymousResourceCollection
     {
-        $comments = Comment::query()
-            ->with(['user', 'commentable'])
-            ->orderBy('time', 'DESC');
+        $comments = Comment::query();
 
         if ($request->has('id') && $request->has('type')) {
             $class = Commentables::fromName($request->get('type'))->value;
@@ -30,6 +28,9 @@ class CommentController extends Controller
                 $comments = $commentable->twits();
             }
         }
+
+        $comments->with(['user', 'commentable'])
+            ->orderBy('created_at', 'DESC');
 
         return CommentResource::collection($comments->paginate());
     }
