@@ -16,6 +16,7 @@ class Comment extends Model
         'time',
         'approved',
         'email',
+        'type',
     ];
 
     public function object(): HasOne

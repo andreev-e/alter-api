@@ -44,6 +44,14 @@ class CommentController extends Controller
 
     public function store(AddCommentRequest $request): CommentResource
     {
+        switch ($request->get('type')) {
+            case 'route':
+                $type = 'App\Models\Route';
+                break;
+            default:
+                $type = 'App\Models\Poi';
+        }
+
         $comment = Comment::create([
             'name' => Auth::user()->username,
             'email' => Auth::user()->email,
@@ -51,6 +59,7 @@ class CommentController extends Controller
             'backlink' => $request->get('id'),
             'comment' => $request->get('comment'),
             'time' => Carbon::now()->unix(),
+            'type' => $type,
         ]);
         return new CommentResource($comment);
     }
