@@ -16,7 +16,7 @@ class CommentResource extends JsonResource
             'name' => $this->name,
             'object_name' => $this->commentable->name,
             'object_id' => $this->commentable->id,
-            'object_type' => Commentables::tryFrom($this->commentable_type)->name,
+            'object_type' => $this->commentable::TYPE,
             'user' => new UserResourceCollection($this->whenLoaded('user')),
             'email' => $this->email,
             'comment' => $this->comment,

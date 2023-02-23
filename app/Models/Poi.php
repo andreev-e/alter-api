@@ -22,6 +22,7 @@ class Poi extends Model implements HasMedia
     }
     use ImageManualSortTrait;
 
+    public const TYPE = 'poi';
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;
     public const TMP_MEDIA_FOLDER = 'tmp-img';

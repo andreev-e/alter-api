@@ -2,41 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Commentables;
 use App\Http\Requests\Comment\AddCommentRequest;
+use App\Http\Requests\Comment\CommentRequest;
 use App\Http\Requests\Comment\EditCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
-use App\Models\RouteComment;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommentController extends Controller
 {
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(CommentRequest $request): AnonymousResourceCollection
     {
-        $comments = Comment::query();
+        $comments = Comment::query()
+            ->with(['user', 'commentable'])
+            ->orderBy('time', 'DESC');
 
-        $type = $request->input('type');
-
-        if ($type === 'poi') {
-            $comments->when(!$request->input('pending'), function($query) {
-                    $query->where('approved', 1);
-                });
-            if ($request->input('id')) {
-                $comments->where('backlink', (integer)$request->input('id'));
+        if ($request->has('id') && $request->has('type')) {
+            $class = Commentables::fromName($request->get('type'))->value;
+            $commentable = $class::find($request->get('id'));
+            if ($commentable) {
+                $comments = $commentable->twits();
             }
         }
-
-        if ($type === 'route') {
-            if ($request->input('id')) {
-                $comments->where('backlink', (integer)$request->input('id'));
-            }
-        }
-
-        $comments->with(['user', 'commentable'])->orderBy('time', 'DESC');
 
         return CommentResource::collection($comments->paginate());
     }

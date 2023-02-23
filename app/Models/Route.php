@@ -18,6 +18,7 @@ class Route extends Model implements HasMedia
     }
     use ImageManualSortTrait;
 
+    public const TYPE = 'route';
     public const FULL_SIZE = 1200;
     public const THUMB_SIZE = 600;
     public const TMP_MEDIA_FOLDER = 'tmp-img';
