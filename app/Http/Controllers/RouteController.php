@@ -18,6 +18,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Intervention\Image\Facades\Image;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Storage;
 
 class RouteController extends Controller
@@ -114,6 +115,15 @@ class RouteController extends Controller
             }
 
             return response()->json(RouteResource::collection($route->media));
+        }
+        return response()->json('No ok', 405);
+    }
+
+    public function destroyImage(Route $route, Media $media): JsonResponse|Response
+    {
+        if (Auth::user()->username === $media->model->author || Auth::user()->username === 'andreev') {
+            $media->delete();
+            return response()->json(ImageResource::collection($route->media));
         }
         return response()->json('No ok', 405);
     }
