@@ -23,7 +23,6 @@ class MigrateComments extends Command
     {
         foreach (Comment::query()->whereNull('created_at')->limit(1000)->get() as $comment) {
             $comment->created_at = new Carbon($comment->time);
-            $comment->updated_at = null;
             $comment->save();
         };
     }
