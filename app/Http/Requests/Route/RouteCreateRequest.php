@@ -16,6 +16,9 @@ class RouteCreateRequest extends FormRequest
                 'links' => ['sometimes', 'nullable', 'string'],
                 'cost' => ['sometimes', 'nullable', 'integer'],
                 'days' => ['sometimes', 'nullable', 'integer'],
+                'encoded_route' => ['sometimes', 'nullable', 'string'],
+                'start' => ['sometimes', 'nullable', 'string'],
+                'finish' => ['sometimes', 'nullable', 'string'],
             ]
         );
     }

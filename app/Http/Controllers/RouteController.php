@@ -10,7 +10,6 @@ use App\Http\Requests\Route\RouteRequest;
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\RouteResource;
 use App\Http\Resources\RouteResourceCollection;
-use App\Models\Poi;
 use App\Models\Route;
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,15 +29,14 @@ class RouteController extends Controller
         $routes = Route::query()
             ->orderBy('views', 'DESC');
 
-        if (Auth::user()) {
-            if (Auth::user()->username !== 'andreev') {
-                $routes->where(function(Builder $subQuery) {
-                    $subQuery->orWhere('author', Auth::user()->username)
-                        ->orWhere('show', 1);
-                });
-            }
+        if ($request->onlyHidden) {
+            $routes->where(function(Builder $query) {
+                return $query->orWhere('show', 0);
+            });
         } else {
-            $routes->where('show', 1);
+            if (!$request->withHidden) {
+                $routes->where('show', 1);
+            }
         }
 
         $routes->when($request->has('user'), function(Builder $query) use ($request) {
@@ -91,6 +89,19 @@ class RouteController extends Controller
             $route->delete();
         }
         return response()->noContent();
+    }
+
+    public function store(RouteCreateRequest $request): RouteResource
+    {
+        $route = Route::query()->create(
+            array_merge(
+                $request->validated(),
+                [
+                    'author' => Auth::user()->username,
+                    'show' => false,
+                ])
+        );
+        return new RouteResource($route->load('pois'));
     }
 
     public function storeImage(StoreImageRequest $request, Route $route): JsonResponse

@@ -102,7 +102,7 @@ class PoiController extends Controller
         return PoiResourceCollection::collection($pois->paginate(24));
     }
 
-    public function store(PoiCreateRequest $request): JsonResponse|PoiResource
+    public function store(PoiCreateRequest $request): PoiResource
     {
         $poi = Poi::query()->create(
             array_merge(

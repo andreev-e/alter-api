@@ -31,6 +31,15 @@ class Route extends Model implements HasMedia
         'days',
         'route',
         'links',
+        'encoded_route',
+        'start',
+        'finish',
+        'author',
+        'show',
+    ];
+
+    protected $casts = [
+        'show'=> 'boolean',
     ];
 
     public function pois(): BelongsToMany
