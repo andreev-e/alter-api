@@ -66,6 +66,10 @@ class PoiController extends Controller
             $query->whereIn('type', $request->get('categories'));
         });
 
+        $pois->when($request->has('list'), function(Builder $query) use ($request) {
+            $query->whereIn('id', $request->get('list'));
+        });
+
         $pois->when($request->has('user'), function(Builder $query) use ($request) {
             $query->where('author', $request->get('user'));
         });
