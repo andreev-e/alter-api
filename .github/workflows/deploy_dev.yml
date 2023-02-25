@@ -20,7 +20,7 @@ jobs:
             && su altertravel.ru
             && git checkout dev
             && git reset --hard
-            && git pull
+            && git pull origin dev
             && rm composer.lock
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
