@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.USER_PASSWORD }}
           port: 22
-          script: cd ${{ vars.TEST_PATH }}
+          script: cd ${{ vars.PROD_PATH }}
             && php -v
             && /opt/php81/bin/php /usr/local/bin/composer update --ignore-platform-req=ext-http --ignore-platform-req=ext-dom --ignore-platform-req=ext-simplexml
             && /opt/php81/bin/php artisan key:generate
