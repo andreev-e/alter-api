@@ -71,6 +71,8 @@ class PoiGeocodeJob implements ShouldQueue
             }
 
             $this->poi->locations()->sync(array_filter([$countryLocation, $admAreaLocation, $localityLocation]));
+            $this->poi->cant_geocode = null;
+            $this->poi->save();
         }
 
     }
