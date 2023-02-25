@@ -22,12 +22,14 @@ class FillLocations extends Command
     {
         $pois = Poi::query()
             ->where('show', 1)
+            ->whereNull('cant_geocode')
             ->whereNotExists(function($query) {
                 $query->select()->from('location_poi')
                     ->whereRaw('`poi`.`id` = `location_poi`.`poi_id`');
             })
-            ->limit(950)->get();
+            ->limit(1)->get();
         foreach ($pois as $poi) {
+            dump($poi->name, $poi->id);
             PoiGeocodeJob::dispatch($poi);
         }
         return 0;
