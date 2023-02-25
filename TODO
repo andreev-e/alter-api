@@ -1,4 +1,5 @@
 ROUTE EDIT
+ROUTE ZOOM or bounds
 
 Photo description
 Izbrannoye
@@ -6,3 +7,5 @@ Izbrannoye
 Когда создаешь новую точку центр карты там где была предыдущеая
 
 Карта сайта на все объекты
+
+При загрузке фото делат тач объекта
