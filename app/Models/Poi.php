@@ -52,6 +52,7 @@ class Poi extends Model implements HasMedia
         'lat' => 'float',
         'lng' => 'float',
         'show'=> 'boolean',
+        'cant_geocode'=> 'boolean',
     ];
 
     public static function boot()
