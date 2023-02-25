@@ -62,7 +62,7 @@ class Poi extends Model implements HasMedia
                 PoiGeocodeJob::dispatch($poi);
         });
         self::updated(function($poi) {
-            if ($poi->isDirty('lat') || $poi->isDirty('lng')) {
+            if (($poi->isDirty('lat') || $poi->isDirty('lng')) && !$poi->cant_geocode) {
                 PoiGeocodeJob::dispatch($poi);
             }
         });
