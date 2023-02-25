@@ -222,7 +222,7 @@ class PoiController extends Controller
     {
         $user = Auth::user();
         if ($user) {
-            $favorites = $user->favorites;
+            $favorites = $user->favorites ?? [];
 
             if (!in_array($poi->id, $favorites)) {
                 $favorites[] = $poi->id;
