@@ -19,6 +19,7 @@ jobs:
           script: cd ${{ vars.TEST_PATH }}
             && su altertravel.ru
             && git remote add origin https://github.com/andreev-e/alter-api.git
+            && git checkout dev
             && git reset --hard
             && git pull
             && rm composer.lock
