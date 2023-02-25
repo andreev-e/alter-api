@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'lng' => $this->lng,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
             'images' => AvatarResource::collection($this->media),
-            'favorites' => $this->favorites,
+            'favorites' => $this->favorites ?? [],
         ];
     }
 }

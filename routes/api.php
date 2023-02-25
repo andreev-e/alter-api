@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function() {
         ->group(function() {
             Route::post('', 'store')->name('store');
             Route::patch('{poi}', 'update')->name('update');
+            Route::patch('{poi}/toggle-favorite', 'toggleFavorite')->name('toggle-favorite');
             Route::post('{poi}/approve', 'approve')->name('approve');
             Route::post('{poi}/disprove', 'disprove')->name('disprove');
             Route::post('{poi}/sort-images', 'sortImages')->name('sort-images');

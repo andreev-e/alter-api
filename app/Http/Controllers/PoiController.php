@@ -217,4 +217,24 @@ class PoiController extends Controller
         }
         return response()->noContent(405);
     }
+
+    public function toggleFavorite(Poi $poi): JsonResponse
+    {
+        $user = Auth::user();
+        if ($user) {
+            $favorites = $user->favorites;
+
+            if (!in_array($poi->id, $favorites)) {
+                $favorites[] = $poi->id;
+            } else {
+                if (($key = array_search($poi->id, $favorites)) !== false) {
+                    unset($favorites[$key]);
+                }
+            }
+
+            $user->favorites = $favorites;
+            $user->save();
+        }
+        return response()->json($favorites);
+    }
 }
