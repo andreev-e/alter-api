@@ -62,6 +62,7 @@ class PoiGeocodeJob implements ShouldQueue
             } else {
                 $this->poi->cant_geocode = true;
                 $this->poi->save();
+                return;
             }
             if ($countryLocation && $adm_area != '') {
                 $admAreaLocation = $this->addLocation($adm_area, 2, $countryLocation);
