@@ -232,7 +232,7 @@ class PoiController extends Controller
                 }
             }
 
-            $user->favorites = $favorites;
+            $user->favorites = array_values($favorites);
             $user->save();
         }
         return response()->json($favorites);
