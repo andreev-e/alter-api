@@ -19,7 +19,7 @@ jobs:
           script: cd ${{ vars.PROD_PATH }}
             && su altertravel.ru
             && git reset --hard
-            && git pull origin master
+            && git pull origin master --allow-unrelated-histories
             && rm composer.lock
             && cp deploy/queue-worker.conf /etc/supervisor/conf.d
             && supervisorctl reread
