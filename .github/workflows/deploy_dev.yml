@@ -18,7 +18,7 @@ jobs:
           port: 22
           script: cd ${{ vars.TEST_PATH }}
             && su altertravel.ru
-            && git remote add altertravel https://github.com/andreev-e/alter-api
+            && git remote add origin https://github.com/andreev-e/alter-api.git
             && git reset --hard
             && git pull
             && rm composer.lock
