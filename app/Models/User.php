@@ -88,10 +88,13 @@ class User extends Authenticatable implements HasMedia
 
     public function getToModerateAttribute()
     {
-        return Poi::query()->where(function(Builder $query) {
-            return $query->orWhere('show', 0)
-                ->orWhere('lat', 0)
-                ->orWhere('lng', 0);
-        })->count();
+        if ($this->username === 'andreev') {
+            return Poi::query()->where(function(Builder $query) {
+                return $query->orWhere('show', 0)
+                    ->orWhere('lat', 0)
+                    ->orWhere('lng', 0);
+            })->count();
+        }
+        return 0;
     }
 }
