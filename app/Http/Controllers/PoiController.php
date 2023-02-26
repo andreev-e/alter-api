@@ -96,7 +96,7 @@ class PoiController extends Controller
         }
 
         if (!$request->has('latest') && !$request->has('updated')) {
-            $pois->orderBy('views', 'desc');
+            $pois->orderBy('views_month', 'desc');
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
