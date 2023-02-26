@@ -23,6 +23,7 @@ class PoiResource extends PoiResourceCollection
                 'locations' => TagResourceCollection::collection($this->whenLoaded('locations')),
                 'links' => $this->links,
                 'copyright' => $this->copyright,
+                'dominatecolor' => $this->dominatecolor,
                 'images' => ImageResource::collection($this->media),
             ]);
     }
