@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\ImageManualSortTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable  implements HasMedia
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable;
     use HasApiTokens;
@@ -42,6 +43,10 @@ class User extends Authenticatable  implements HasMedia
         'password_new',
     ];
 
+    protected $appends = [
+      'to_moderate'
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -57,7 +62,8 @@ class User extends Authenticatable  implements HasMedia
         return 'username';
     }
 
-    public function getAuthPassword() {
+    public function getAuthPassword()
+    {
         return $this->password;
     }
 
@@ -78,5 +84,14 @@ class User extends Authenticatable  implements HasMedia
             }
             $this->addMediaConversion('thumb');
         }
+    }
+
+    public function getToModerateAttribute()
+    {
+        return Poi::query()->where(function(Builder $query) {
+            return $query->orWhere('show', 0)
+                ->orWhere('lat', 0)
+                ->orWhere('lng', 0);
+        })->count();
     }
 }

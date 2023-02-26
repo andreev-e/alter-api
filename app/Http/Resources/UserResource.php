@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Poi;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
@@ -23,7 +25,6 @@ class UserResource extends JsonResource
             'lng' => $this->lng,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
             'images' => AvatarResource::collection($this->media),
-            'favorites' => $this->favorites ?? [],
         ];
     }
 }
