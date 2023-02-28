@@ -91,12 +91,12 @@ class PoiController extends Controller
             $pois->orderBy('id', 'desc');
         }
 
-        if ($request->has('updated')) {
-            $pois->orderBy('updated_at', 'desc');
+        if ($request->has('popular')) {
+            $pois->orderBy('views', 'desc');
         }
 
-        if (!$request->has('latest') && !$request->has('updated')) {
-            $pois->orderBy('views_month', 'desc');
+        if ($request->has('updated')) {
+            $pois->orderBy('updated_at', 'desc');
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
