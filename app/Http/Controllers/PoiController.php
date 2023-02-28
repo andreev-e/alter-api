@@ -197,6 +197,7 @@ class PoiController extends Controller
                 $img->widen($poi::THUMB_SIZE)
                     ->crop($poi::THUMB_SIZE, $poi::THUMB_SIZE)
                     ->save(storage_path('/app/public/') . $localPath);
+                $poi->touch();
             }
 
             return response()->json(ImageResource::collection($poi->media));

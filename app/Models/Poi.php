@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
@@ -115,8 +116,13 @@ class Poi extends Model implements HasMedia
         return $this->belongsToMany(Route::class);
     }
 
+    public function checkins(): HasMany
+    {
+        return $this->hasMany(Checkin::class);
+    }
+
     public function getDefaultRelationsAttribute(): array
     {
-        return ['locations', 'tags', 'user', 'routes'];
+        return ['locations', 'tags', 'user', 'routes', 'checkins.user'];
     }
 }

@@ -123,6 +123,7 @@ class RouteController extends Controller
                 $img->widen($route::THUMB_SIZE)
                     ->crop($route::THUMB_SIZE, $route::THUMB_SIZE)
                     ->save(storage_path('/app/public/') . $localPath);
+                $route->touch();
             }
 
             return response()->json(RouteResource::collection($route->media));
