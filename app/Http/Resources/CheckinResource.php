@@ -12,8 +12,8 @@ class CheckinResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time' => $this->time,
-            'user' => new UserResource($this->user),
+            'created_at' => $this->created_at,
+            'user' => new UserResourceCollection($this->user),
         ];
     }
 }

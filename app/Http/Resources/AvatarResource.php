@@ -13,7 +13,9 @@ class AvatarResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'preview' => $this->getCustomProperty('temporary_url') ? asset('storage/' . $this->getCustomProperty('temporary_url')) : $this->getUrl('thumb'),
+            'width' => $this->getCustomProperty('width'),
+            'height' => $this->getCustomProperty('height'),
+            'original' => $this->getCustomProperty('temporary_url') ? asset('storage/' . $this->getCustomProperty('temporary_url')) : $this->getUrl('thumb'),
         ];
     }
 }

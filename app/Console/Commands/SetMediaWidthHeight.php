@@ -26,12 +26,31 @@ class SetMediaWidthHeight extends Command
     {
         $media = Media::query()
             ->where('custom_properties', '[]')
+            ->where('model_type', '=', 'App\Models\User')
+            ->cursor();
+        foreach ($media as $image) {
+            /*  @var Media $image */
+            try {
+                $imageData = Storage::disk('s3')->get($image->getPath('thumb'));
+                $img = Image::make($imageData);
+                $image->setCustomProperty('width', $img->width());
+                $image->setCustomProperty('height', $img->height());
+                var_dump($image->id);
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+
+            $image->save();
+
+        }
+
+        $media = Media::query()
+            ->where('custom_properties', '[]')
             ->where('model_type', '<>', 'App\Models\User')
             ->cursor();
         foreach ($media as $image) {
             /*  @var Media $image */
             try {
-                $image->getPath('full');
                 $imageData = Storage::disk('s3')->get($image->getPath('full'));
                 $img = Image::make($imageData);
                 $image->setCustomProperty('width', $img->width());

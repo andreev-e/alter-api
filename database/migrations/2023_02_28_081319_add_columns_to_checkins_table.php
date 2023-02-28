@@ -2,6 +2,7 @@
 
 use App\Models\Checkin;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,8 @@ class AddColumnsToCheckinsTable extends Migration
                 $checkin->user_id = $user->id;
                 $checkin->save();
             }
+            $checkin->created_at = new Carbon($checkin->time);
+            $checkin->save();
         });
     }
 

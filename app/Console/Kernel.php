@@ -9,6 +9,7 @@ use App\Console\Commands\FillUrls;
 use App\Console\Commands\MonthReset;
 use App\Console\Commands\RegionsProcess;
 use App\Console\Commands\CountStats;
+use App\Console\Commands\SetMediaWidthHeight;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

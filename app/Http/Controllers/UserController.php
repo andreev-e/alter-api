@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $users = User::query()->where('publications', '>', 0)
             ->orderBy('publications', 'desc');
-        return UserResource::collection($users->paginate());
+        return UserResource::collection($users->paginate(50));
     }
 
     public function show(User $user): UserResource

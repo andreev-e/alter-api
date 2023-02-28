@@ -16,6 +16,7 @@ class UserResourceCollection extends JsonResource
             'publications' => $this->publications,
             'userlevel' => $this->userlevel,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
+            'images' => AvatarResource::collection($this->media),
         ];
     }
 }
