@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'lng' => $this->lng,
             'thumb' => $this->getFirstMediaUrl('user-image', 'thumb'),
             'images' => AvatarResource::collection($this->media),
+            'checkins' => CheckinResource::collection($this->whenLoaded('checkins')),
         ];
     }
 }

@@ -21,14 +21,15 @@ class UserController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $users = User::query()->where('publications', '>', 0)
+        $users = User::query()
+            ->where('publications', '>', 0)
             ->orderBy('publications', 'desc');
         return UserResource::collection($users->paginate(50));
     }
 
     public function show(User $user): UserResource
     {
-        return new UserResource($user);
+        return new UserResource($user->load(['checkins.poi', 'media']));
     }
 
     public function update(UpdateRequest $request, User $user): UserResource|JsonResponse

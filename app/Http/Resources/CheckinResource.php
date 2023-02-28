@@ -13,7 +13,8 @@ class CheckinResource extends JsonResource
         return [
             'id' => $this->id,
             'created_at' => $this->created_at,
-            'user' => new UserResourceCollection($this->user),
+            'user' => new UserResourceCollection($this->whenLoaded('user')),
+            'poi' => new PoiResource($this->whenLoaded('poi')),
         ];
     }
 }

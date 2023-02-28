@@ -47,11 +47,6 @@ class User extends Authenticatable implements HasMedia
       'to_moderate'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'favorites' => 'array',
@@ -96,5 +91,10 @@ class User extends Authenticatable implements HasMedia
             })->count();
         }
         return 0;
+    }
+
+    public function checkins(): HasMany
+    {
+        return $this->hasMany(Checkin::class);
     }
 }

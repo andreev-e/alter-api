@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
@@ -106,6 +107,13 @@ Route::middleware('auth')->group(function() {
             Route::post('{comment:commentid}/approve', 'approve')->name('approve');
             Route::delete('{comment:commentid}', 'destroy')->name('destroy');
         });
+
+    Route::prefix('checkin')->name('checkin')
+        ->controller(CheckinController::class)
+        ->group(function() {
+            Route::patch('{poi}', 'toggle')->name('toggle');
+        });
+
 });
 
 
