@@ -28,8 +28,8 @@ class DominateColor extends Command
         foreach ($pois as $poi) {
             /*  @var Poi $poi */
             $image = $poi->media->first();
+            $poi->dominatecolor = '-';
             if ($image) {
-
                 try {
                     dump($poi->id);
                     $imageData = Storage::disk('s3')->get($image->getPath('thumb'));
@@ -37,11 +37,11 @@ class DominateColor extends Command
                     $img->resize(1,1);
                     $rgb = $img->pickColor(0,0);
                     $poi->dominatecolor = sprintf("#%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2]);;
-                    $poi->save();
                 } catch (Exception $e) {
                     echo $e->getMessage();
                 }
             }
+            $poi->save();
         }
     }
 }
