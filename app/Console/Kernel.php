@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\DayReset;
 use App\Console\Commands\DeleteLocalThubms;
+use App\Console\Commands\DominateColor;
 use App\Console\Commands\FillLocations;
 use App\Console\Commands\FillUrls;
 use App\Console\Commands\MonthReset;
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(DeleteLocalThubms::class)->hourly();
+        $schedule->command(DominateColor::class)->hourly();
 
         $schedule->command(DayReset::class)->daily();
         $schedule->command(FillUrls::class)->daily();
