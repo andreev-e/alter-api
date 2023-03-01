@@ -100,7 +100,7 @@ class PoiController extends Controller
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
-            return PoiResourceCollection::collection($pois->limit(50)->get());
+            return PoiResourceCollection::collection($pois->limit(250)->get());
         }
 
         if ($request->has('keyword')) {
