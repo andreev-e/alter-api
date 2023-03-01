@@ -100,7 +100,7 @@ class PoiController extends Controller
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
-            $pois = $pois->limit(250)
+            $pois = $pois->limit(150)
                 ->orderBy('views', 'desc')
                 ->get();
             return PoiResourceCollection::collection($pois);
