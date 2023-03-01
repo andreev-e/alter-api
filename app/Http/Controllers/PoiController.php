@@ -103,6 +103,11 @@ class PoiController extends Controller
             return PoiResourceCollection::collection($pois->limit(50)->get());
         }
 
+        if ($request->has('keyword')) {
+            $pois->where('name', 'LIKE', '%'.$request->keyword.'%');
+            return PoiResourceCollection::collection($pois->limit(10)->get());
+        }
+
         return PoiResourceCollection::collection($pois->paginate(24));
     }
 

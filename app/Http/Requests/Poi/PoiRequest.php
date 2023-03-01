@@ -25,6 +25,7 @@ class PoiRequest extends FormRequest
             'updated' => ['sometimes', 'boolean'],
             'withHidden' => ['sometimes', 'boolean'],
             'onlyHidden' => ['sometimes', 'boolean'],
+            'keyword' => ['sometimes', 'string'],
         ];
     }
 }
