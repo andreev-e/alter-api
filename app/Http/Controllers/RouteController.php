@@ -61,6 +61,9 @@ class RouteController extends Controller
             $route->update($request->validated());
             return new RouteResource($route->load($route->defaultRelations));
         }
+
+        $route->pois()->sync($request->pois);
+
         return response()->json('No ok', 405);
     }
 
@@ -101,6 +104,10 @@ class RouteController extends Controller
                     'show' => false,
                 ])
         );
+
+        /* @var Route $route */
+        $route->pois()->sync($request->pois);
+
         return new RouteResource($route->load('pois'));
     }
 

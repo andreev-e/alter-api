@@ -19,6 +19,8 @@ class RouteCreateRequest extends FormRequest
                 'encoded_route' => ['sometimes', 'nullable', 'string'],
                 'start' => ['sometimes', 'nullable', 'string'],
                 'finish' => ['sometimes', 'nullable', 'string'],
+                'pois' => ['sometimes', 'array'],
+                'pois.*' => ['required', 'integer', 'exists:poi,id'],
             ]
         );
     }
