@@ -29,7 +29,7 @@ class UserResource extends JsonResource
                     'id' => 0,
                     'width' => User::THUMB_SIZE,
                     'height' => User::THUMB_SIZE,
-                    'original' => 'https://via.placeholder.com/600',
+                    'original' => 'https://robohash.org/' . $this->username,
                 ],
             ],
             'checkins' => CheckinResource::collection($this->whenLoaded('checkins')),
