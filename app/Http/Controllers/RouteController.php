@@ -59,10 +59,9 @@ class RouteController extends Controller
     {
         if (Auth::user()->username === $route->author || Auth::user()->username === 'andreev') {
             $route->update($request->validated());
+            $route->pois()->sync($request->pois);
             return new RouteResource($route->load($route->defaultRelations));
         }
-
-        $route->pois()->sync($request->pois);
 
         return response()->json('No ok', 405);
     }
