@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocationResource;
 use App\Http\Resources\TagResourceCollection;
 use App\Models\Tag;
 use App\Http\Resources\TagResource;
@@ -22,7 +23,9 @@ class TagController extends Controller
 
     public function show(Tag $tag): TagResource
     {
-        return new TagResource($tag);
+        return Cache::remember('tag:' . $tag->url, 60 * 60, function() use ($tag) {
+            return new TagResource($tag);
+        });
     }
 
     public function update(Request $request, $id)

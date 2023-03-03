@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Resources\LocationResource;
 use App\Http\Resources\LocationResourceCollection;
 use App\Http\Resources\TagResourceCollection;
@@ -25,7 +26,9 @@ class LocationController extends Controller
 
     public function show(Location $location): LocationResource
     {
-        return new LocationResource($location->load(['children', 'parent.parent.parent']));
+        return Cache::remember('location:' . $location->url, 60 * 60, function() use ($location) {
+            return new LocationResource($location->load(['children', 'parent.parent.parent']));
+        });
     }
 
     public function update(Request $request, Location $location)
