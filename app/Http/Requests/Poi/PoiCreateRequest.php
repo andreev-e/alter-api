@@ -21,7 +21,7 @@ class PoiCreateRequest extends FormRequest
                 'copyright' => ['sometimes', 'nullable', 'string'],
                 'lat' => ['required', 'numeric', 'min:-90', 'max:90'],
                 'lng' => ['required', 'numeric', 'min:-180', 'max:180'],
-                'tags' => ['required', 'array'],
+                'tags' => ['sometimes', 'array'],
                 'tags.*' => ['sometimes', 'integer', 'exists:tags,id'],
             ]
         );
