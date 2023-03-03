@@ -17,10 +17,12 @@ class UserResourceCollection extends JsonResource
             'publications' => $this->publications,
             'userlevel' => $this->userlevel,
             'images' => count($this->media) ? AvatarResource::collection($this->media) : [
-                'id' => 0,
-                'width' => User::THUMB_SIZE,
-                'height' => User::THUMB_SIZE,
-                'original' => 'https://via.placeholder.com/600',
+                [
+                    'id' => 0,
+                    'width' => User::THUMB_SIZE,
+                    'height' => User::THUMB_SIZE,
+                    'original' => 'https://via.placeholder.com/600',
+                ],
             ],
             'checkins' => CheckinResource::collection($this->whenLoaded('checkins')),
         ];
