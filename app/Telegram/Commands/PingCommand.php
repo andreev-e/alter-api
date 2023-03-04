@@ -16,6 +16,6 @@ class PingCommand extends UserCommand
 
     public function execute(): ServerResponse
     {
-        $this->replyToChat('Pong');
+        $this->replyToChat('Pong1');
     }
 }
