@@ -16,13 +16,13 @@ class Command extends UserCommand
     /** @var string Command description */
     protected $description = '';
     /** @var string Usage description */
-    protected $usage = '/nearest';
+    protected $usage = '';
     /** @var string Version */
     protected $version = '1.0.0';
 
     public function execute(): ServerResponse
     {
-        return $this->replyToChat($this->getMessage()->getText());
+        return $this->replyToChat($this->getMessage()->getText() . 'ech ');
     }
 
 }
