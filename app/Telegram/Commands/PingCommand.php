@@ -12,7 +12,6 @@ class PingCommand extends UserCommand
 {
     protected $name = 'ping';
     protected $description = 'Пинг';
-    protected $usage = '/ping';
     protected $version = '1.0.0';
 
     public function execute(): ServerResponse
