@@ -8,7 +8,7 @@ use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
 
-class NearestCommand extends UserCommand
+class Command extends UserCommand
 {
 
     /** @var string Command name */
