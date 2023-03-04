@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -97,6 +98,20 @@ class Poi extends Model implements HasMedia
                 ->havingRaw('dist IS NOT NULL')
                 ->orderBy('dist')->limit(3)->get();
         });
+    }
+
+    public static function nearest($lat, $lng): Builder
+    {
+        return self::query()->select(DB::raw("*,
+                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
+                     * COS(RADIANS($lat))
+                     * COS(RADIANS(lng - $lng))
+                     + SIN(RADIANS(lat))
+                     * SIN(RADIANS($lat))))) AS 'dist'"))
+            ->where('lat', '<>', 0)
+            ->where('lng', '<>', 0)
+            ->havingRaw('dist IS NOT NULL')
+            ->orderBy('dist');
     }
 
     public function twits(): MorphMany

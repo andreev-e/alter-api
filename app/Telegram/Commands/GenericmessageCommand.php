@@ -2,6 +2,8 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\Poi;
+use DB;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\TelegramException;
@@ -17,15 +19,19 @@ class GenericmessageCommand extends SystemCommand
 
     protected $description = 'Handle generic message';
 
-    protected $version = '1.2.0';
-
-    protected $need_mysql = true;
-
     /**
      * @throws \Longman\TelegramBot\Exception\TelegramException
      */
     public function execute(): ServerResponse
     {
-        return $this->replyToChat($this->getMessage()->getLocation()->getLatitude());
+        $lat = $this->getMessage()->getLocation()->getLatitude();
+        $lng = $this->getMessage()->getLocation()->getLongitude();
+        if ($lat && $lng) {
+            $nearest = Poi::nearest($lat, $lng)->first();
+
+            return $this->replyToChat($nearest->name);
+        }
+        return $this->replyToChat('Такое сообщение пока не поддерживается.
+        Вышлите ваши координаты и я пришлю вам что инетересного рядом');
     }
 }
