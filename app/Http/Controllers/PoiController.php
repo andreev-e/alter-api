@@ -13,6 +13,7 @@ use App\Http\Resources\PoiResourceCollection;
 use App\Models\Poi;
 use App\Models\Route;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -96,7 +97,8 @@ class PoiController extends Controller
         }
 
         if ($request->has('updated')) {
-            $pois->orderBy('updated_at', 'desc');
+            $pois->where('created_at', '<', Carbon::now()->subMonth())
+                ->orderBy('updated_at', 'desc');
         }
 
         if ($request->south || $request->north || $request->east || $request->west) {
