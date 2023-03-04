@@ -26,6 +26,6 @@ class GenericmessageCommand extends SystemCommand
      */
     public function execute(): ServerResponse
     {
-        return $this->replyToChat('!!');
+        return $this->replyToChat($this->getMessage()->getLocation()->getLatitude());
     }
 }
