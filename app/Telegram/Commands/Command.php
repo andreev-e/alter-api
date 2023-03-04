@@ -8,7 +8,7 @@ use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Request;
 
-class PingCommand extends UserCommand
+class Command extends UserCommand
 {
     protected $name = 'ping';
     protected $description = 'Пинг';
@@ -16,6 +16,6 @@ class PingCommand extends UserCommand
 
     public function execute(): ServerResponse
     {
-        $this->replyToChat('Pong1');
+        $this->replyToChat('Command');
     }
 }
