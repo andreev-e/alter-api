@@ -25,7 +25,7 @@ class GenericmessageCommand extends SystemCommand
         if ($location) {
             $lat = $location->getLatitude();
             $lng = $location->getLongitude();
-            $nearest = Poi::nearest($lat, $lng)->limit(3);
+            $nearest = Poi::nearest($lat, $lng)->limit(3)->get();
             $message = '';
             foreach ($nearest as $poi) {
                 $message .= $poi->name . '(' . $poi->dist / 1000 . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
