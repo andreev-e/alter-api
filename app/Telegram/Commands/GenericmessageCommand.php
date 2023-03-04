@@ -25,10 +25,10 @@ class GenericmessageCommand extends SystemCommand
         if ($location) {
             $lat = $location->getLatitude();
             $lng = $location->getLongitude();
-            $nearest = Poi::nearest($lat, $lng)->limit(3)->get();
+            $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
             $message = '';
             foreach ($nearest as $poi) {
-                $message .= $poi->name . ' (' . round($poi->dist) . ' км) https://altertravel.pro/poi/' . $poi->id . "\n\r";
+                $message .= $poi->name . ' (' . round($poi->dist, 1) . ' км) https://altertravel.pro/poi/' . $poi->id . "\n\r";
             }
             return $this->replyToChat($message);
         }
