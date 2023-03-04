@@ -14,6 +14,7 @@ use App\Models\Poi;
 use App\Models\Route;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -101,6 +102,8 @@ class PoiController extends Controller
                 ->orderBy('updated_at', 'desc');
         }
 
+
+
         if ($request->south || $request->north || $request->east || $request->west) {
             $pois = $pois->limit(150)
                 ->orderBy('views', 'desc')
@@ -109,7 +112,23 @@ class PoiController extends Controller
         }
 
         if ($request->has('keyword')) {
-            $pois->where('name', 'LIKE', '%'.$request->keyword.'%');
+            $pois->where('name', 'LIKE', '%' . $request->keyword . '%');
+
+            if ($request->has('near')) {
+                [$lat, $lng] = explode(';', $request->near);
+
+                $pois->select(DB::raw("*,
+                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
+                     * COS(RADIANS($lat))
+                     * COS(RADIANS(lng - $lng))
+                     + SIN(RADIANS(lat))
+                     * SIN(RADIANS($lat))))) AS 'dist'"))
+                    ->where('lat', '<>', 0)
+                    ->where('lng', '<>', 0)
+                    ->havingRaw('dist IS NOT NULL')
+                    ->orderBy('dist');
+            }
+
             return PoiResourceCollection::collection($pois->limit(10)->get());
         }
 
