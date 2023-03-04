@@ -16,7 +16,7 @@ class Command extends UserCommand
     /** @var string Command description */
     protected $description = '';
     /** @var string Usage description */
-    protected $usage = '';
+    protected $usage = '/';
     /** @var string Version */
     protected $version = '1.0.0';
 
