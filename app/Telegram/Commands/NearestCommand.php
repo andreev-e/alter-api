@@ -22,7 +22,7 @@ class NearestCommand extends UserCommand
 
     public function execute(): ServerResponse
     {
-
+        return $this->replyToChat($this->getMessage()->getText());
     }
 
 }
