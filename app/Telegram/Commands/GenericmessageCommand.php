@@ -3,11 +3,8 @@
 namespace App\Telegram\Commands;
 
 use App\Models\Poi;
-use DB;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
-use Longman\TelegramBot\Exception\TelegramException;
-use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Telegram;
 
 /**
@@ -27,11 +24,13 @@ class GenericmessageCommand extends SystemCommand
         $lat = $this->getMessage()->getLocation()->getLatitude();
         $lng = $this->getMessage()->getLocation()->getLongitude();
         if ($lat && $lng) {
-            $nearest = Poi::nearest($lat, $lng)->first();
-
-            return $this->replyToChat($nearest->name);
+            $nearest = Poi::nearest($lat, $lng)->limit(3);
+            $message = '';
+            foreach ($nearest as $poi) {
+                $message .= $poi->name . '(' . $poi->dist / 1000 . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
+            }
+            return $this->replyToChat($message);
         }
-        return $this->replyToChat('Такое сообщение пока не поддерживается.
-        Вышлите ваши координаты и я пришлю вам что инетересного рядом');
+        return $this->replyToChat($lat . ' ' . $lng);
     }
 }
