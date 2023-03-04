@@ -21,9 +21,10 @@ class GenericmessageCommand extends SystemCommand
      */
     public function execute(): ServerResponse
     {
-        $lat = $this->getMessage()->getLocation()->getLatitude();
-        $lng = $this->getMessage()->getLocation()->getLongitude();
-        if ($lat && $lng) {
+        $location = $this->getMessage()->getLocation();
+        if ($location) {
+            $lat = $location->getLatitude();
+            $lng = $location->getLongitude();
             $nearest = Poi::nearest($lat, $lng)->limit(3);
             $message = '';
             foreach ($nearest as $poi) {
@@ -31,6 +32,6 @@ class GenericmessageCommand extends SystemCommand
             }
             return $this->replyToChat($message);
         }
-        return $this->replyToChat($lat . ' ' . $lng);
+        return $this->replyToChat('Не могу помочь. Лучше пришлите ваше местоположение и я подскажу что интересного рядом');
     }
 }
