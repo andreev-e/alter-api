@@ -13,6 +13,6 @@ class MessageCommand extends GenericmessageCommand
 
         $message_text = $message->getText(true);
 
-        $this->replyToChat($message_text);
+        return $this->replyToChat($message_text);
     }
 }
