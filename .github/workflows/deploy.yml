@@ -38,7 +38,7 @@ jobs:
             && /opt/php81/bin/php artisan key:generate
             && /opt/php81/bin/php artisan migrate
             && /opt/php81/bin/php artisan optimize
-            && /opt/php81/bin/php artisan telegram:fetch
+            && /opt/php81/bin/php artisan telegram:set-webhook
 
 
 
