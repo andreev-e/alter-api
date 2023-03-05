@@ -9,8 +9,7 @@ class QRController extends Controller
 {
     public function show(QRRequest $request)
     {
-        return QrCode::size(100)
-            ->format('svg')
-            ->generate('GEO:' . $request->lat . "," . $request->lng . "");
+        return response(QrCode::size(200)
+            ->geo($request->lat, $request->lng), 200, ['Content-type' => 'image/svg']);
     }
 }
