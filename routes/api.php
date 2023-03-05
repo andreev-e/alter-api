@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
+use App\Http\Controllers\QRController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,8 @@ Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
 
 Route::get('user', [UserController::class, 'index'])->name('user');
+
+Route::get('qr', [QRController::class, 'show'])->name('qr');
 
 Route::prefix('tag')->name('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');

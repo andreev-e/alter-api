@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^1.0.30",
         "php-telegram-bot/laravel": "^2.0",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-medialibrary": "9.12.4"
     },
     "require-dev": {
