@@ -27,8 +27,6 @@ Route::post('register', [LoginController::class, 'register'])->name('register');
 
 Route::get('user', [UserController::class, 'index'])->name('user');
 
-Route::get('qr', [QRController::class, 'show'])->name('qr');
-
 Route::prefix('tag')->name('tag')->group(function() {
     Route::get('', [TagController::class, 'index'])->name('list');
     Route::get('/{tag:url}', [TagController::class, 'show'])->name('slug');
