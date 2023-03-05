@@ -27,7 +27,7 @@ class FillLocations extends Command
                 $query->select()->from('location_poi')
                     ->whereRaw('`poi`.`id` = `location_poi`.`poi_id`');
             })
-            ->limit(950)->get();
+            ->limit(50)->get();
         foreach ($pois as $poi) {
             PoiGeocodeJob::dispatch($poi);
         }
