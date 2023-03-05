@@ -10,6 +10,7 @@ class QRController extends Controller
     public function show(QRRequest $request)
     {
         return QrCode::size(100)
+            ->format('png')
             ->generate('GEO:' . $request->lat . "," . $request->lng . "");
     }
 }
