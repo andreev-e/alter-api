@@ -16,7 +16,6 @@ class TagController extends Controller
     {
         return Cache::remember('tags', 60 * 60, function() {
             return TagResourceCollection::collection(Tag::query()
-                ->where('TYPE', '=', 0)
                 ->orderBy('COUNT', 'DESC')->get());
         });
     }
