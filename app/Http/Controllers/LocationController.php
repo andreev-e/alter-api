@@ -19,7 +19,7 @@ class LocationController extends Controller
             return LocationResourceCollection::collection(Location::query()
                 ->with(['children', 'parent.parent.parent'])
                 ->where('parent', 0)
-                ->where('count', '>', 2)
+                ->where('count', '>', 3)
                 ->orderBy('count', 'DESC')->get());
         });
     }
