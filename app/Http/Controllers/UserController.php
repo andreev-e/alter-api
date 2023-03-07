@@ -25,7 +25,7 @@ class UserController extends Controller
             ->whereHas('media')
             ->where('publications', '>', 0)
             ->orderBy('publications', 'desc');
-        return UserResource::collection($users->paginate(50));
+        return UserResource::collection($users->paginate(30));
     }
 
     public function show(User $user): UserResource
