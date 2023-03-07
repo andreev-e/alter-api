@@ -18,6 +18,6 @@ class MonthReset extends Command
 
     public function handle()
     {
-        Poi::query()->update(['views_month' => 0]);
+        Poi::query()->update(['views_month' => 0, 'timestamps' => false]);
     }
 }

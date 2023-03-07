@@ -41,6 +41,7 @@ class DominateColor extends Command
                     echo $e->getMessage();
                 }
             }
+            $poi->timestamps = false;
             $poi->save();
         }
     }
