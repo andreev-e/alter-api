@@ -9,23 +9,27 @@ use App\Http\Resources\AvatarResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Auth;
+use Cache;
 use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Intervention\Image\Facades\Image;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Storage;
 
 class UserController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $users = User::query()
-            ->whereHas('media')
-            ->where('publications', '>', 0)
-            ->orderBy('publications', 'desc');
-        return UserResource::collection($users->paginate(30));
+        return Cache::remember('users:p' . $request->page, 60 * 60, function() {
+            $users = User::query()
+                ->whereHas('media')
+                ->where('publications', '>', 0)
+                ->orderBy('publications', 'desc');
+            return UserResource::collection($users->paginate(30));
+        });
     }
 
     public function show(User $user): UserResource
