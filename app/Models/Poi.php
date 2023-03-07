@@ -72,8 +72,7 @@ class Poi extends Model implements HasMedia
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID')
-            ->where('TYPE', 0);
+        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID');
     }
 
     public function locations(): BelongsToMany
