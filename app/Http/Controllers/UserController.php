@@ -22,6 +22,7 @@ class UserController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $users = User::query()
+            ->whereHas('media')
             ->where('publications', '>', 0)
             ->orderBy('publications', 'desc');
         return UserResource::collection($users->paginate(50));
