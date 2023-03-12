@@ -7,6 +7,7 @@ use App\Console\Commands\DeleteLocalThubms;
 use App\Console\Commands\DominateColor;
 use App\Console\Commands\FillLocations;
 use App\Console\Commands\FillUrls;
+use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\MonthReset;
 use App\Console\Commands\RegionsProcess;
 use App\Console\Commands\CountStats;
@@ -44,6 +45,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune')->daily();
 
         $schedule->command(MonthReset::class)->monthly();
+
+        $schedule->command(GenerateSitemap::class)->daily();
     }
 
     /**

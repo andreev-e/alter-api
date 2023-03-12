@@ -40,6 +40,7 @@ jobs:
             && /opt/php81/bin/php artisan optimize
             && /opt/php81/bin/php artisan telegram:delete-webhook
             && /opt/php81/bin/php artisan telegram:set-webhook
+            && /opt/php81/bin/php artisan sitemap:generate
 
 
 
