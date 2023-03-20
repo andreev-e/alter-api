@@ -20,7 +20,7 @@ class TagResourceCollection extends JsonResource
             'NAME_ROD_ED' => $this->NAME_ROD_ED,
             'NAME_DAT_ED' => $this->NAME_DAT_ED,
             'NAME_PREDLOZH_ED' => $this->NAME_PREDLOZH_ED,
-            'NAME_en' => $this->NAME_en,
+            'name_en' => $this->name_en,
             'NAME_ROD' => $this->NAME_ROD,
         ];
     }
