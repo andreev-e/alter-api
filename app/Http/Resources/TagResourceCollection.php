@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /* @mixin Tag */
 class TagResourceCollection extends JsonResource
 {
-
     public function toArray($request)
     {
         return [
