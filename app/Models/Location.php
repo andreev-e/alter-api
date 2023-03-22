@@ -40,10 +40,16 @@ class Location extends Model
     public function getParents(array $parents = []): array
     {
         if ($this->parent !== 0) {
-            $parent = self::find($this->parent);
+            $parent = self::query()->find($this->parent);
             if (is_object($parent)) {
-                // $parents[] = ['id' => $parent->id, 'name' => $parent->name, 'url' => $parent->url];
-                array_unshift($parents, ['id' => $parent->id, 'name' => $parent->name, 'url' => $parent->url]);
+                array_unshift(
+                    $parents,
+                    [
+                        'id' => $parent->id,
+                        'name' => $parent->name,
+                        'name_en' => $parent->name_en,
+                        'url' => $parent->url,
+                    ]);
                 if ($parent->parent !== 0) {
                     if (count($parents) > 5) {
                         dd();
