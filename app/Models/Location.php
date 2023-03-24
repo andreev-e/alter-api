@@ -67,6 +67,11 @@ class Location extends Model
         return $this->hasMany(self::class, 'parent', 'id');
     }
 
+    public function parent(): hasMany
+    {
+        return $this->hasMany(self::class, 'id', 'parent');
+    }
+
     public function parentLocation(): HasOne
     {
         return $this->hasOne(self::class, 'id', 'parent');
