@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -66,9 +67,9 @@ class Location extends Model
         return $this->hasMany(self::class, 'parent', 'id');
     }
 
-    public function parent(): hasMany
+    public function parentLocation(): HasOne
     {
-        return $this->hasMany(self::class, 'id', 'parent');
+        return $this->hasOne(self::class, 'id', 'parent');
     }
 
     public function getTagsAttribute(): Collection

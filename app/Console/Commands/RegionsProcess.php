@@ -6,6 +6,7 @@ use App\Models\Location;
 use App\Models\Tag;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class RegionsProcess extends Command
 {
@@ -20,23 +21,31 @@ class RegionsProcess extends Command
 
     public function handle(Client $client)
     {
-        $tags = Location::query()
-            ->where('scale', 0)
+        $locations = Location::query()
+            ->where(function(Builder $query) {
+                $query->orWhere('scale', 0)
+                    ->orWhereNull('name_en');
+            })
             ->orderBy('count', 'desc')
             ->limit(900)->get();
-        foreach ($tags as $tag) {
-            echo $tag->id . ' ' . $tag->name;
-            $url = 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $tag->name . '&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';
-
+        foreach ($locations as $tag) {
+            echo $tag->id . ' ' . $tag->name . ' ' . $tag->count . ' ' . $tag->url;
+            $url = 'https://geocode-maps.yandex.ru/1.x/?geocode='
+                . $tag->name . ', ' . $tag->parentLocation?->name . '&lang=en_US&apikey=7483ad1f-f61c-489b-a4e5-815eb06d5961';
             $result = $client->get($url);
             if ($result->getStatusCode() === 200) {
 
                 $file = $result->getBody();
 
-                $file = getBetween($file, "<Envelope>", "</Envelope>");
+                $xml = simplexml_load_string($file, "SimpleXMLElement", LIBXML_NOCDATA);
+                $json = json_encode($xml);
+                $array = json_decode($json, true);
 
-                $low = explode(" ", getBetween($file, "<lowerCorner>", "</lowerCorner>"));
-                $upp = explode(" ", getBetween($file, "<upperCorner>", "</upperCorner>"));
+
+                $data = array_key_exists('GeoObject', $array['GeoObjectCollection']['featureMember']) ? $array['GeoObjectCollection']['featureMember']['GeoObject']:  $array['GeoObjectCollection']['featureMember'][0]['GeoObject'];
+
+                $low = explode(" ", $data['boundedBy']['Envelope']['lowerCorner']);
+                $upp = explode(" ", $data['boundedBy']['Envelope']['upperCorner']);
 
                 $lng = ((float)$low[0] + (float)$upp[0]) / 2;
                 $lat = ((float)$low[1] + (float)$upp[1]) / 2;
@@ -70,6 +79,7 @@ class RegionsProcess extends Command
                     'scale' => $scale,
                     'lat' => $lat,
                     'lng' => $lng,
+                    'name_en' => $data['name'],
                 ]);
                 echo " - ok\n\r";
                 continue;
