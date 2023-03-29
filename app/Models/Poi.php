@@ -35,6 +35,7 @@ class Poi extends Model implements HasMedia
         'lat',
         'lng',
         'name',
+        'name_en',
         'description',
         'addon',
         'route',
@@ -60,17 +61,21 @@ class Poi extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
-        self::updating(function(self $model) {
-            if ($model->isDirty('name')) {
-                $model->name_en = null;
-            }
-        });
         self::created(function(self $poi) {
                 PoiGeocodeJob::dispatch($poi);
+        });
+        self::updating(function(self $poi) {
+            if ($poi->isDirty('name')) {
+                $poi->name_en = null;
+            }
         });
         self::updated(function(self $poi) {
             if (($poi->isDirty('lat') || $poi->isDirty('lng')) && !$poi->cant_geocode) {
                 PoiGeocodeJob::dispatch($poi);
+            }
+            if ($poi->isDirty('name')) {
+                $poi->name_en = null;
+                $poi->save();
             }
         });
     }
