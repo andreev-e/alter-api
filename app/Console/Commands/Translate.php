@@ -21,7 +21,7 @@ class Translate extends Command
     {
         $pois = Poi::query()->whereNull('name_en')
             ->orderBy('views', 'desc')
-            ->limit(1000)->get();
+            ->limit(1000)->cursor();
         foreach ($pois as $poi) {
             $poi->name_en = $translator->translate($poi->name, 'ru', 'en', 'Необходимо перевести заголовок для публикации https://altertravel.ru/poi/' . $poi->id);
             $poi->timestamps = false;
