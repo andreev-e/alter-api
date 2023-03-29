@@ -60,10 +60,15 @@ class Poi extends Model implements HasMedia
     public static function boot()
     {
         parent::boot();
-        self::created(function($poi) {
+        self::updating(function(self $model) {
+            if ($model->isDirty('name')) {
+                $model->name_en = null;
+            }
+        });
+        self::created(function(self $poi) {
                 PoiGeocodeJob::dispatch($poi);
         });
-        self::updated(function($poi) {
+        self::updated(function(self $poi) {
             if (($poi->isDirty('lat') || $poi->isDirty('lng')) && !$poi->cant_geocode) {
                 PoiGeocodeJob::dispatch($poi);
             }
