@@ -14,6 +14,7 @@ class PoiResourceCollection extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'name_en' => $this->name_en,
             'lat' => $this->lat,
             'lng' => $this->lng,
             'url' => Str::slug($this->name),

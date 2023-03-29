@@ -41,7 +41,6 @@ class RegionsProcess extends Command
                 $json = json_encode($xml);
                 $array = json_decode($json, true);
 
-
                 $data = array_key_exists('GeoObject', $array['GeoObjectCollection']['featureMember']) ? $array['GeoObjectCollection']['featureMember']['GeoObject']:  $array['GeoObjectCollection']['featureMember'][0]['GeoObject'];
 
                 $low = explode(" ", $data['boundedBy']['Envelope']['lowerCorner']);
