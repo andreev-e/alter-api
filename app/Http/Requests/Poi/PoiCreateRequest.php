@@ -12,6 +12,7 @@ class PoiCreateRequest extends FormRequest
             [
                 'description' => ['required', 'string'],
                 'name' => ['required', 'string'],
+                'name_en' => ['sometimes', 'string'],
                 'type' => ['required', 'string'],
                 'route' => ['sometimes', 'nullable', 'string'],
                 'route_o' => ['sometimes', 'nullable', 'string'],
