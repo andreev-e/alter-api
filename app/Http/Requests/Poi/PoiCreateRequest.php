@@ -11,7 +11,7 @@ class PoiCreateRequest extends FormRequest
         return array_merge(
             [
                 'description' => ['required', 'string'],
-                'name' => ['required', 'string'],
+                'name' => ['required', 'nullable', 'string'],
                 'name_en' => ['sometimes', 'string'],
                 'type' => ['required', 'string'],
                 'route' => ['sometimes', 'nullable', 'string'],
