@@ -22,16 +22,18 @@ class GenericmessageCommand extends SystemCommand
     public function execute(): ServerResponse
     {
         $location = $this->getMessage()->getLocation();
+        $languageCode = $this->getChatMember()->getFrom()->getLanguageCode();
+
         if ($location) {
             $lat = $location->getLatitude();
             $lng = $location->getLongitude();
             $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
             $message = '';
             foreach ($nearest as $poi) {
-                $message .= $poi->name . ' (' . round($poi->dist, 1) . ' км) https://altertravel.pro/poi/' . $poi->id . "\n\r";
+                $message .= $poi->name . ' (' . round($poi->dist, 1) . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
             }
             return $this->replyToChat($message);
         }
-        return $this->replyToChat('Не могу помочь. Лучше пришлите ваше местоположение и я подскажу что интересного рядом');
+        return $this->replyToChat($languageCode . ' Не могу помочь. Лучше пришлите ваше местоположение и я подскажу что интересного рядом');
     }
 }
