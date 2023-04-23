@@ -22,6 +22,7 @@ class GenericmessageCommand extends SystemCommand
     public function execute(): ServerResponse
     {
         $location = $this->getMessage()->getLocation();
+
         $languageCode = $this->getMessage()->getFrom()->getLanguageCode();
 
         if ($location) {
@@ -30,10 +31,11 @@ class GenericmessageCommand extends SystemCommand
             $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
             $message = '';
             foreach ($nearest as $poi) {
-                $message .= $poi->name . ' (' . round($poi->dist, 1) . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
+                $message .= $poi->name . ' (' . round($poi->dist,
+                        1) . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
             }
             return $this->replyToChat($message);
         }
-        return $this->replyToChat($languageCode . ' Не могу помочь. Лучше пришлите ваше местоположение и я подскажу что интересного рядом');
+        return $this->replyToChat(__('telegram.default_answer', locale: $languageCode));
     }
 }
