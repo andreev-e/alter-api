@@ -31,8 +31,10 @@ class GenericmessageCommand extends SystemCommand
             $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
             $message = '';
             foreach ($nearest as $poi) {
-                $message .= $poi->name . ' (' . round($poi->dist,
-                        1) . ' км) https://altertravel.ru/poi/' . $poi->id . "\n\r";
+                $message .= $poi->name . ' (' . round($poi->dist, 1) .
+                    ' ' . __('telegram.km', locale: $languageCode) . ') https://altertravel.' .
+                    ($languageCode === 'ru' ? 'ru' : 'pro') .
+                    '/poi/' . $poi->id . "\n\r";
             }
             return $this->replyToChat($message);
         }
