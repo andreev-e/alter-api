@@ -33,7 +33,7 @@ class GenericmessageCommand extends SystemCommand
 
             $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
 
-            $message = $this->makeMessage($nearest, $languageCode);
+            $message = $this->makeMessage($nearest, $languageCode, true);
 
             return $this->replyToChat($message);
         }
@@ -58,11 +58,12 @@ class GenericmessageCommand extends SystemCommand
     }
 
 
-    protected function makeMessage(Collection $pois, $languageCode): string
+    protected function makeMessage(Collection $pois, $languageCode, $withDist = false): string
     {
         $message = '';
         foreach ($pois as $poi) {
-            $message .= $poi->name . ' (' . round($poi->dist, 1) .
+            $message .= $poi->name .
+                ($withDist ? ' (' . round($poi->dist, 1) : '') .
                 ' ' . __('telegram.km', locale: $languageCode) . ') https://altertravel.' .
                 ($languageCode === 'ru' ? 'ru' : 'pro') .
                 '/poi/' . $poi->id . "\n\r";
