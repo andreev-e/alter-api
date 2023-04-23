@@ -4,6 +4,7 @@ namespace App\Telegram\Commands;
 
 use App\Models\Location;
 use App\Models\Poi;
+use Illuminate\Database\Eloquent\Collection;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Telegram;
@@ -29,14 +30,11 @@ class GenericmessageCommand extends SystemCommand
         if ($location) {
             $lat = $location->getLatitude();
             $lng = $location->getLongitude();
+
             $nearest = Poi::nearest($lat, $lng)->limit(10)->get();
-            $message = '';
-            foreach ($nearest as $poi) {
-                $message .= $poi->name . ' (' . round($poi->dist, 1) .
-                    ' ' . __('telegram.km', locale: $languageCode) . ') https://altertravel.' .
-                    ($languageCode === 'ru' ? 'ru' : 'pro') .
-                    '/poi/' . $poi->id . "\n\r";
-            }
+
+            $message = $this->makeMessage($nearest, $languageCode);
+
             return $this->replyToChat($message);
         }
 
@@ -44,14 +42,31 @@ class GenericmessageCommand extends SystemCommand
 
         $location = Location::query()->where('name', 'like', '%' . $text . '%')->first();
         if ($location) {
-            $this->replyToChat('Found location: ' . $location->name);
+            $points = $location->pois()->limit(10)->get();
+            $message = $this->makeMessage($points, $languageCode);
+            return $this->replyToChat($message);
         }
 
         $location = Location::query()->where('name_en', 'like', '%' . $text . '%')->first();
         if ($location) {
-            $this->replyToChat('Found location: ' . $location->name_en);
+            $points = $location->pois()->limit(10)->get();
+            $message = $this->makeMessage($points, $languageCode);
+            return $this->replyToChat($message);
         }
 
         return $this->replyToChat(__('telegram.default_answer', locale: $languageCode));
+    }
+
+
+    protected function makeMessage(Collection $pois, $languageCode): string
+    {
+        $message = '';
+        foreach ($pois as $poi) {
+            $message .= $poi->name . ' (' . round($poi->dist, 1) .
+                ' ' . __('telegram.km', locale: $languageCode) . ') https://altertravel.' .
+                ($languageCode === 'ru' ? 'ru' : 'pro') .
+                '/poi/' . $poi->id . "\n\r";
+        }
+        return $message;
     }
 }
