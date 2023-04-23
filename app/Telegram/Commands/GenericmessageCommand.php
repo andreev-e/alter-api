@@ -66,7 +66,7 @@ class GenericmessageCommand extends SystemCommand
             if ($withDist) {
                 $message .= ' (' . round($poi->dist, 1) . ' ' . __('telegram.km', locale: $languageCode) . ') ';
             }
-            $message .= 'https://altertravel.' . ($languageCode === 'ru' ? 'ru' : 'pro') . '/poi/' . $poi->id . "\n\r";
+            $message .= PHP_EOL . 'https://altertravel.' . ($languageCode === 'ru' ? 'ru' : 'pro') . '/poi/' . $poi->id . PHP_EOL;
         }
         return $message;
     }
