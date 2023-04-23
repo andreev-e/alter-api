@@ -2,6 +2,7 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\Location;
 use App\Models\Poi;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -38,6 +39,19 @@ class GenericmessageCommand extends SystemCommand
             }
             return $this->replyToChat($message);
         }
+
+        $text = $this->getMessage()->getText();
+
+        $location = Location::query()->where('name', 'like', '%' . $text . '%')->first();
+        if ($location) {
+            $this->replyToChat('Found location: ' . $location->name);
+        }
+
+        $location = Location::query()->where('name_en', 'like', '%' . $text . '%')->first();
+        if ($location) {
+            $this->replyToChat('Found location: ' . $location->name_en);
+        }
+
         return $this->replyToChat(__('telegram.default_answer', locale: $languageCode));
     }
 }
