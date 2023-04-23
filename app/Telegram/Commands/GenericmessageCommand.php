@@ -62,11 +62,11 @@ class GenericmessageCommand extends SystemCommand
     {
         $message = '';
         foreach ($pois as $poi) {
-            $message .= $poi->name .
-                ($withDist ? ' (' . round($poi->dist, 1) : '') .
-                ' ' . __('telegram.km', locale: $languageCode) . ') https://altertravel.' .
-                ($languageCode === 'ru' ? 'ru' : 'pro') .
-                '/poi/' . $poi->id . "\n\r";
+            $message .= $poi->name;
+            if ($withDist) {
+                $message .= ' (' . round($poi->dist, 1) . ' ' . __('telegram.km', locale: $languageCode) . ') ';
+            }
+            $message .= 'https://altertravel.' . ($languageCode === 'ru' ? 'ru' : 'pro') . '/poi/' . $poi->id . "\n\r";
         }
         return $message;
     }
