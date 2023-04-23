@@ -22,7 +22,7 @@ class GenericmessageCommand extends SystemCommand
     public function execute(): ServerResponse
     {
         $location = $this->getMessage()->getLocation();
-        $languageCode = $this->getChatMember()->getFrom()->getLanguageCode();
+        $languageCode = $this->getMessage()->getFrom()->getLanguageCode();
 
         if ($location) {
             $lat = $location->getLatitude();
