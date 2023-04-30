@@ -28,13 +28,15 @@ class PoiController extends Controller
 {
     use SetsMediaCustomPropertiesTrait;
 
+    private const POI_LIST_CACHE_KEY = 'poi_list';
+
     /**
      * @throws \JsonException
      */
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
         $key = md5(json_encode($request->all(), JSON_THROW_ON_ERROR));
-        return Cache::tags('poi')->remember($key, 60 * 60 * 24, function() use ($request) {
+        return Cache::tags(self::POI_LIST_CACHE_KEY)->remember($key, 60 * 60 * 24, function() use ($request) {
             $pois = Poi::query();
 
             if ($request->onlyHidden) {
@@ -151,6 +153,9 @@ class PoiController extends Controller
                 ])
         );
         $poi->tags()->sync($request->get('tags'));
+
+        Cache::tags(self::POI_LIST_CACHE_KEY)->flush();
+
         return new PoiResource($poi->load('locations', 'tags', 'user'));
     }
 
@@ -170,8 +175,12 @@ class PoiController extends Controller
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->update($request->validated());
             $poi->tags()->sync($request->get('tags'));
+
+            Cache::tags(self::POI_LIST_CACHE_KEY)->flush();
+
             return new PoiResource($poi->load($poi->defaultRelations));
         }
+
         return response()->json('No ok', 405);
     }
 
@@ -180,6 +189,9 @@ class PoiController extends Controller
         if (Auth::user()->username === 'andreev') {
             $poi->show = true;
             $poi->save();
+
+            Cache::tags(self::POI_LIST_CACHE_KEY)->flush();
+
             return new PoiResource($poi->load($poi->defaultRelations));
         }
         return response()->json('No ok', 405);
@@ -190,6 +202,9 @@ class PoiController extends Controller
         if (Auth::user()->username === $poi->author || Auth::user()->username === 'andreev') {
             $poi->show = false;
             $poi->save();
+
+            Cache::tags(self::POI_LIST_CACHE_KEY)->flush();
+
             return new PoiResource($poi->load('locations', 'tags', 'user'));
         }
         return response()->json('Not ok', 405);
@@ -202,6 +217,9 @@ class PoiController extends Controller
             $poi->tags()->detach();
             $poi->clearMediaCollection('poi-image');
             $poi->delete();
+
+            Cache::tags(self::POI_LIST_CACHE_KEY)->flush();
+
             return response()->json('Ok');
         }
         return response()->json('Not ok', 405);
