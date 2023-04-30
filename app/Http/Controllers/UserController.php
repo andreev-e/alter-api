@@ -23,7 +23,7 @@ class UserController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        return Cache::remember('users:p' . $request->page, 60 * 60, function() {
+        return Cache::remember('users:p' . $request->page, 60 * 60 * 24, function() {
             $users = User::query()
                 ->whereHas('media')
                 ->where('publications', '>', 0)
