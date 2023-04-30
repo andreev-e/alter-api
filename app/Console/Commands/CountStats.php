@@ -26,7 +26,7 @@ class CountStats extends Command
             $user->save();
         }
 
-        $tags = Tag::query()->where('TYPE', 0)->cursor();
+        $tags = Tag::query()->cursor();
         foreach ($tags as $tag) {
             $tag->COUNT = $tag->pois()->count();
             $tag->save();
