@@ -14,7 +14,7 @@ class TagController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return Cache::remember('tags', 60 * 60, function() {
+        return Cache::remember('tags', 60 * 60 * 24, function() {
             return TagResourceCollection::collection(Tag::query()
                 ->orderBy('COUNT', 'DESC')->get());
         });
@@ -22,18 +22,8 @@ class TagController extends Controller
 
     public function show(Tag $tag): TagResource
     {
-        return Cache::remember('tag:' . $tag->url, 60 * 60, function() use ($tag) {
+        return Cache::remember('tag:' . $tag->url, 60 * 60 * 24, function() use ($tag) {
             return new TagResource($tag);
         });
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

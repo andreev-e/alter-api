@@ -15,7 +15,7 @@ class LocationController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return Cache::remember('locations', 60 * 60, function() {
+        return Cache::remember('locations', 60 * 60 * 24, function() {
             return LocationResourceCollection::collection(Location::query()
                 ->with(['children', 'parent.parent.parent'])
                 ->where('parent', 0)
@@ -26,18 +26,8 @@ class LocationController extends Controller
 
     public function show(Location $location): LocationResource
     {
-        return Cache::remember('location:' . $location->url, 60 * 60, function() use ($location) {
+        return Cache::remember('location:' . $location->url, 60 * 60 * 24, function() use ($location) {
             return new LocationResource($location->load(['children', 'parent.parent.parent']));
         });
-    }
-
-    public function update(Request $request, Location $location)
-    {
-        //
-    }
-
-    public function destroy(Location $location)
-    {
-        //
     }
 }
