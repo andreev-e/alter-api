@@ -9,9 +9,6 @@ use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Telegram;
 
-/**
- * Generic message command
- */
 class GenericmessageCommand extends SystemCommand
 {
     protected $name = Telegram::GENERIC_MESSAGE_COMMAND;

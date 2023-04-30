@@ -13,6 +13,7 @@ use App\Http\Resources\PoiResourceCollection;
 use App\Models\Poi;
 use App\Models\Route;
 use Auth;
+use Cache;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,112 +28,116 @@ class PoiController extends Controller
 {
     use SetsMediaCustomPropertiesTrait;
 
+    /**
+     * @throws \JsonException
+     */
     public function index(PoiRequest $request): AnonymousResourceCollection
     {
-        $pois = Poi::query();
+        $key = md5(json_encode($request->all(), JSON_THROW_ON_ERROR));
+        return Cache::tags('poi')->remember($key, 60 * 60 * 24, function() use ($request) {
+            $pois = Poi::query();
 
-        if ($request->onlyHidden) {
-            $pois->where(function(Builder $query) {
-                return $query->orWhere('show', 0)
-                    ->orWhere('lat', 0)
-                    ->orWhere('lng', 0);
-            });
-        } else {
-            if (!$request->withHidden) {
-                $pois->where('show', 1)
-                    ->where('lat', '<>', 0)
-                    ->where('lng', '<>', 0);
+            if ($request->onlyHidden) {
+                $pois->where(function(Builder $query) {
+                    return $query->orWhere('show', 0)
+                        ->orWhere('lat', 0)
+                        ->orWhere('lng', 0);
+                });
+            } else {
+                if (!$request->withHidden) {
+                    $pois->where('show', 1)
+                        ->where('lat', '<>', 0)
+                        ->where('lng', '<>', 0);
+                }
             }
-        }
 
-        if ($request->route) {
-            $route = Route::query()->find($request->route);
-            if ($route) {
-                return PoiResourceCollection::collection($route->pois());
+            if ($request->route) {
+                $route = Route::query()->find($request->route);
+                if ($route) {
+                    return PoiResourceCollection::collection($route->pois());
+                }
             }
-        }
 
-        $pois->when($request->has('tag'), function(Builder $query) use ($request) {
-            $query->whereHas('tags', function(Builder $subQuery) use ($request) {
-                $subQuery->where('url', $request->get('tag'));
+            $pois->when($request->has('tag'), function(Builder $query) use ($request) {
+                $query->whereHas('tags', function(Builder $subQuery) use ($request) {
+                    $subQuery->where('url', $request->get('tag'));
+                });
             });
-        });
 
-        $pois->when($request->has('location'), function(Builder $query) use ($request) {
-            $query->whereHas('locations', function(Builder $subQuery) use ($request) {
-                $subQuery->where('url', $request->get('location'));
+            $pois->when($request->has('location'), function(Builder $query) use ($request) {
+                $query->whereHas('locations', function(Builder $subQuery) use ($request) {
+                    $subQuery->where('url', $request->get('location'));
+                });
             });
-        });
 
-        $pois->when($request->has('categories'), function(Builder $query) use ($request) {
-            $query->whereIn('type', $request->get('categories'));
-        });
+            $pois->when($request->has('categories'), function(Builder $query) use ($request) {
+                $query->whereIn('type', $request->get('categories'));
+            });
 
-        $pois->when($request->has('list'), function(Builder $query) use ($request) {
-            $query->whereIn('id', $request->get('list'));
-        });
+            $pois->when($request->has('list'), function(Builder $query) use ($request) {
+                $query->whereIn('id', $request->get('list'));
+            });
 
-        $pois->when($request->has('user'), function(Builder $query) use ($request) {
-            $query->where('author', $request->get('user'));
-        });
+            $pois->when($request->has('user'), function(Builder $query) use ($request) {
+                $query->where('author', $request->get('user'));
+            });
 
-        if ($request->south) {
-            $pois->where('lat', '>', $request->south);
-        }
-        if ($request->north) {
-            $pois->where('lat', '<', $request->north);
-        }
-        if ($request->east) {
-            $pois->where('lng', '<', $request->east);
-        }
-        if ($request->west) {
-            $pois->where('lng', '>', $request->west);
-        }
+            if ($request->south) {
+                $pois->where('lat', '>', $request->south);
+            }
+            if ($request->north) {
+                $pois->where('lat', '<', $request->north);
+            }
+            if ($request->east) {
+                $pois->where('lng', '<', $request->east);
+            }
+            if ($request->west) {
+                $pois->where('lng', '>', $request->west);
+            }
 
-        if ($request->has('latest')) {
-            $pois->orderBy('id', 'desc');
-        }
+            if ($request->has('latest')) {
+                $pois->orderBy('id', 'desc');
+            }
 
-        if ($request->has('popular')) {
-            $pois->orderBy('views', 'desc');
-        }
+            if ($request->has('popular')) {
+                $pois->orderBy('views', 'desc');
+            }
 
-        if ($request->has('updated')) {
-            $pois->where('created_at', '<', Carbon::now()->subMonth())
-                ->orderBy('updated_at', 'desc');
-        }
+            if ($request->has('updated')) {
+                $pois->where('created_at', '<', Carbon::now()->subMonth())
+                    ->orderBy('updated_at', 'desc');
+            }
 
+            if ($request->south || $request->north || $request->east || $request->west) {
+                $pois = $pois->limit(150)
+                    ->orderBy('views', 'desc')
+                    ->get();
+                return PoiResourceCollection::collection($pois);
+            }
 
+            if ($request->has('keyword')) {
+                $pois->where('name', 'LIKE', '%' . $request->keyword . '%');
 
-        if ($request->south || $request->north || $request->east || $request->west) {
-            $pois = $pois->limit(150)
-                ->orderBy('views', 'desc')
-                ->get();
-            return PoiResourceCollection::collection($pois);
-        }
+                if ($request->has('near')) {
+                    [$lat, $lng] = explode(';', $request->near);
 
-        if ($request->has('keyword')) {
-            $pois->where('name', 'LIKE', '%' . $request->keyword . '%');
-
-            if ($request->has('near')) {
-                [$lat, $lng] = explode(';', $request->near);
-
-                $pois->select(DB::raw("*,
+                    $pois->select(DB::raw("*,
                 111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
                      * COS(RADIANS($lat))
                      * COS(RADIANS(lng - $lng))
                      + SIN(RADIANS(lat))
                      * SIN(RADIANS($lat))))) AS 'dist'"))
-                    ->where('lat', '<>', 0)
-                    ->where('lng', '<>', 0)
-                    ->havingRaw('dist IS NOT NULL')
-                    ->orderBy('dist');
+                        ->where('lat', '<>', 0)
+                        ->where('lng', '<>', 0)
+                        ->havingRaw('dist IS NOT NULL')
+                        ->orderBy('dist');
+                }
+
+                return PoiResourceCollection::collection($pois->limit(10)->get());
             }
 
-            return PoiResourceCollection::collection($pois->limit(10)->get());
-        }
-
-        return PoiResourceCollection::collection($pois->paginate(24));
+            return PoiResourceCollection::collection($pois->paginate(24));
+        });
     }
 
     public function store(PoiCreateRequest $request): PoiResource

@@ -2,7 +2,6 @@
 
 namespace App\Telegram\Commands;
 
-use App\Telegram\Commands\GenericmessageCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 
 class MessageCommand extends GenericmessageCommand

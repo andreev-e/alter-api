@@ -54,15 +54,15 @@ class Poi extends Model implements HasMedia
     protected $casts = [
         'lat' => 'float',
         'lng' => 'float',
-        'show'=> 'boolean',
-        'cant_geocode'=> 'boolean',
+        'show' => 'boolean',
+        'cant_geocode' => 'boolean',
     ];
 
     public static function boot()
     {
         parent::boot();
         self::created(function(self $poi) {
-                PoiGeocodeJob::dispatch($poi);
+            PoiGeocodeJob::dispatch($poi);
         });
         self::updating(function(self $poi) {
             if ($poi->isDirty('name')) {
@@ -93,7 +93,7 @@ class Poi extends Model implements HasMedia
 
     public function getNearestAttribute()
     {
-        return Cache::remember('nearest:' . $this->id, 24 * 60 * 60, function() {
+        return Cache::tags('nearest')->remember('nearest:' . $this->id, 24 * 60 * 60, function() {
             return self::query()
                 ->select(DB::raw("*,
                 111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
