@@ -39,7 +39,6 @@ jobs:
             && /opt/php81/bin/php artisan migrate
             && /opt/php81/bin/php artisan optimize
             && /opt/php81/bin/php artisan cache:clear
-            #&& /opt/php81/bin/php artisan test --testsuite=Feature
             && /opt/php81/bin/php artisan telegram:delete-webhook
             && /opt/php81/bin/php artisan telegram:set-webhook
 
