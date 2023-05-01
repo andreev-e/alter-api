@@ -15,19 +15,21 @@ class LocationController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return Cache::remember('locations', 60 * 60 * 24, function() {
-            return LocationResourceCollection::collection(Location::query()
-                ->with(['children', 'parent.parent.parent'])
-                ->where('parent', 0)
-                ->where('count', '>', 3)
-                ->orderBy('count', 'DESC')->get());
-        });
+        return Cache::tags([Location::CACHE_TAG, Location::CACHE_TAG_LIST])
+            ->rememberForever('locations', function() {
+                return LocationResourceCollection::collection(Location::query()
+                    ->with(['children', 'parent.parent.parent'])
+                    ->where('parent', 0)
+                    ->where('count', '>', 3)
+                    ->orderBy('count', 'DESC')->get());
+            });
     }
 
     public function show(Location $location): LocationResource
     {
-        return Cache::remember('location:' . $location->url, 60 * 60 * 24, function() use ($location) {
-            return new LocationResource($location->load(['children', 'parent.parent.parent']));
-        });
+        return Cache::tags([Location::CACHE_TAG, Location::CACHE_TAG . $location->id])
+            ->rememberForever('location:' . $location->id, function() use ($location) {
+                return new LocationResource($location->load(['children', 'parent.parent.parent']));
+            });
     }
 }

@@ -31,11 +31,5 @@ class CountStats extends Command
             $tag->COUNT = $tag->pois()->count();
             $tag->save();
         }
-
-        $locations = Location::query()->cursor();
-        foreach ($locations as $location) {
-            $location->count = $location->pois()->count();
-            $location->save();
-        }
     }
 }

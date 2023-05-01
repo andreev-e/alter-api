@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Cache;
 
 class Location extends Model
 {
+    const CACHE_TAG = 'location';
+    const CACHE_TAG_LIST = 'location_list';
+
     protected $fillable = [
         'name',
         'type',
@@ -79,17 +82,32 @@ class Location extends Model
 
     public function getTagsAttribute(): Collection
     {
-        return Cache::remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
-            $collection = [];
-            $this->pois()->with('tags')
-                ->chunk(200, function($pois) use (&$collection) {
-                    foreach ($pois as $poi) {
-                        foreach ($poi->tags as $tag) {
-                            $collection[$tag->id] = $tag;
+        return Cache::tags([self::CACHE_TAG . '_all', self::CACHE_TAG . $this->id])
+            ->remember('location-tags:' . $this->id, 24 * 60 * 60, function() {
+                $collection = [];
+                $this->pois()->with('tags')
+                    ->chunk(200, function($pois) use (&$collection) {
+                        foreach ($pois as $poi) {
+                            foreach ($poi->tags as $tag) {
+                                $collection[$tag->id] = $tag;
+                            }
                         }
-                    }
-                });
-            return collect(array_values($collection));
-        });
+                    });
+                return collect(array_values($collection));
+            });
+    }
+
+    public static function recountPoints(int $id = null): void
+    {
+        $locations = self::query();
+
+        if ($id) {
+            $locations->where('id', $id);
+        }
+
+        foreach ($locations->cursor() as $location) {
+            $location->count = $location->pois()->count();
+            $location->save();
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Location;
 use App\Models\Poi;
+use Cache;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -71,7 +72,17 @@ class PoiGeocodeJob implements ShouldQueue
                 $localityLocation = $this->addLocation($locality, 3, $admAreaLocation);
             }
 
-            $this->poi->locations()->sync(array_filter([$countryLocation, $admAreaLocation, $localityLocation]));
+            $changes = $this->poi->locations()->sync(array_filter([
+                $countryLocation, $admAreaLocation, $localityLocation,
+            ]));
+
+            foreach ($changes as $changed) {
+                foreach ($changed as $id) {
+                    Location::recountPoints($id);
+                    Cache::tags(Location::CACHE_TAG . $id)->flush();
+                }
+            }
+
             $this->poi->cant_geocode = null;
             $this->poi->save();
         }
