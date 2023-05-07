@@ -23,7 +23,7 @@ class Translate extends Command
             ->orderBy('views', 'desc')
             ->limit(1000)->cursor();
         foreach ($pois as $poi) {
-            $poi->name_en = $translator->translate($poi->name, 'ru', 'en', 'Необходимо перевести заголовок для публикации https://altertravel.ru/poi/' . $poi->id);
+            $poi->name_en = $translator->translate($poi->name, 'ru', 'en');
             $poi->timestamps = false;
             $poi->save();
             echo $poi->id . ' ' . $poi->name . ' ' . $poi->name_en . PHP_EOL;
