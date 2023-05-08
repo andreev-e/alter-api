@@ -42,7 +42,6 @@ class StartCommand extends UserCommand
             ]
         );
 
-
         return $this->replyToChat(__('telegram.greeting'), [
             'parse_mode' => 'markdown',
             'reply_markup' => $keyboard,
