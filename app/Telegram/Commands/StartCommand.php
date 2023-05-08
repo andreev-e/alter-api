@@ -3,6 +3,8 @@
 namespace App\Telegram\Commands;
 
 use Longman\TelegramBot\Commands\UserCommand;
+use Longman\TelegramBot\Entities\Keyboard;
+use Longman\TelegramBot\Entities\KeyboardButton;
 use Longman\TelegramBot\Entities\ServerResponse;
 
 class StartCommand extends UserCommand
@@ -18,6 +20,32 @@ class StartCommand extends UserCommand
 
     public function execute(): ServerResponse
     {
-        return $this->replyToChat('Привет!👋 Это бот Альтернативного путеводителя. Для того чтобы получить список ближайших достопримечательностей, пришли мне свое местоположение');
+        $languageCode = $this->getMessage()->getFrom()->getLanguageCode();
+
+        $shareLocationButton = new KeyboardButton(
+            [
+                'text' => __('telegram.buttons.share_location', locale: $languageCode),
+                'request_location' => true,
+            ]
+        );
+
+        $keyboard = new Keyboard(
+            [
+                'keyboard' => [
+                    [
+                        $shareLocationButton->getRawData(),
+                    ],
+                ],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true,
+                'selective' => true,
+            ]
+        );
+
+
+        return $this->replyToChat(__('telegram.greeting'), [
+            'parse_mode' => 'markdown',
+            'reply_markup' => $keyboard,
+        ]);
     }
 }
