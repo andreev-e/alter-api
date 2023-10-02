@@ -18,6 +18,6 @@ class DayReset extends Command
 
     public function handle()
     {
-        Poi::query()->update(['views_today' => 0, 'timestamps' => false]);
+        Poi::query()->update(['views_today' => 0]);
     }
 }
