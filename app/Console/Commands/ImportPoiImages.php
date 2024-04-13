@@ -30,8 +30,8 @@ class ImportPoiImages extends Command
 
             try {
             $poi->addMediaFromUrl('https://altertravel.ru/images/' . $poi->id . '.jpg', 'image/jpeg')
-                ->storingConversionsOnDisk('s3')
-                ->toMediaCollection('image', 's3');
+                ->storingConversionsOnDisk('public')
+                ->toMediaCollection('image', 'public');
             } catch (Exception $e) {
                 echo $e->getMessage(). "\n\r";
             }
@@ -39,8 +39,8 @@ class ImportPoiImages extends Command
             foreach ([1, 2, 3] as $i) {
                 try {
                     $poi->addMediaFromUrl('https://altertravel.ru/images/' . $poi->id . '/' . $i . '.jpg', 'image/jpeg')
-                        ->storingConversionsOnDisk('s3')
-                        ->toMediaCollection('poi-image', 's3');
+                        ->storingConversionsOnDisk('public')
+                        ->toMediaCollection('poi-image', 'public');
                 } catch (Exception $e) {
                     echo $e->getMessage(). "\n\r";
                 }

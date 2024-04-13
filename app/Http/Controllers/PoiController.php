@@ -236,9 +236,9 @@ class PoiController extends Controller
 
             if ($request->file('image')) {
                 $media = $poi->addMediaFromRequest('image')
-                    ->storingConversionsOnDisk('s3')
+                    ->storingConversionsOnDisk('public')
                     ->preservingOriginal()
-                    ->toMediaCollection('poi-image', 's3');
+                    ->toMediaCollection('poi-image', 'public');
 
                 $localPath = Storage::disk('public')
                     ->put($poi::TMP_MEDIA_FOLDER, $request->file('image'), 'public');

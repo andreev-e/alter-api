@@ -62,9 +62,9 @@ class UserController extends Controller
 
             if ($request->file('image')) {
                 $media = $user->addMediaFromRequest('image')
-                    ->storingConversionsOnDisk('s3')
+                    ->storingConversionsOnDisk('public')
                     ->preservingOriginal()
-                    ->toMediaCollection('user-image', 's3');
+                    ->toMediaCollection('user-image', 'public');
 
                 $localPath = Storage::disk('public')
                     ->put($user::TMP_MEDIA_FOLDER, $request->file('image'), 'public');

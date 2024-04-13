@@ -32,7 +32,7 @@ class DominateColor extends Command
             if ($image) {
                 try {
                     dump($poi->id);
-                    $imageData = Storage::disk('s3')->get($image->getPath('thumb'));
+                    $imageData = Storage::disk('public')->get($image->getPath('thumb'));
                     $img = Image::make($imageData);
                     $img->resize(1,1);
                     $rgb = $img->pickColor(0,0);

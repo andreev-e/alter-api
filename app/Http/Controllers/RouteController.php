@@ -116,9 +116,9 @@ class RouteController extends Controller
 
             if ($request->file('image')) {
                 $media = $route->addMediaFromRequest('image')
-                    ->storingConversionsOnDisk('s3')
+                    ->storingConversionsOnDisk('public')
                     ->preservingOriginal()
-                    ->toMediaCollection('route-image', 's3');
+                    ->toMediaCollection('route-image', 'public');
 
                 $localPath = Storage::disk('public')
                     ->put($route::TMP_MEDIA_FOLDER, $request->file('image'), 'public');

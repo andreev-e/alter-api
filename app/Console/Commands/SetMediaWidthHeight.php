@@ -31,7 +31,7 @@ class SetMediaWidthHeight extends Command
         foreach ($media as $image) {
             /*  @var Media $image */
             try {
-                $imageData = Storage::disk('s3')->get($image->getPath('thumb'));
+                $imageData = Storage::disk('public')->get($image->getPath('thumb'));
                 $img = Image::make($imageData);
                 $image->setCustomProperty('width', $img->width());
                 $image->setCustomProperty('height', $img->height());
@@ -51,7 +51,7 @@ class SetMediaWidthHeight extends Command
         foreach ($media as $image) {
             /*  @var Media $image */
             try {
-                $imageData = Storage::disk('s3')->get($image->getPath('full'));
+                $imageData = Storage::disk('public')->get($image->getPath('full'));
                 $img = Image::make($imageData);
                 $image->setCustomProperty('width', $img->width());
                 $image->setCustomProperty('height', $img->height());

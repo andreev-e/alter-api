@@ -32,8 +32,8 @@ class ImportRouteImages extends Command
                 try {
                     $route->addMediaFromUrl('https://altertravel.ru/routes/' . $route->id . '/' . $i . '.jpg',
                         'image/jpeg')
-                        ->storingConversionsOnDisk('s3')
-                        ->toMediaCollection('route-image', 's3');
+                        ->storingConversionsOnDisk('public')
+                        ->toMediaCollection('route-image', 'public');
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n\r";
                     $route->image_processed = 1;
