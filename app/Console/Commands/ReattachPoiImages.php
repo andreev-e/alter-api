@@ -19,14 +19,12 @@ class ReattachPoiImages extends Command
 
     public function handle()
     {
-        //read files in public folder
         $files = scandir(public_path('storage').'/OLD');
         foreach ($files as $file) {
-            //if filename without extension is a number
             if (is_numeric(pathinfo($file, PATHINFO_FILENAME))) {
                 $id = pathinfo($file, PATHINFO_FILENAME);
                 $poi = Poi::query()->find($id);
-                if ($poi) {
+                if ($poi instanceof Poi) {
                     echo 'Processing ' . $id . "\n\r";
                     $poi->clearMediaCollection('image');
                     try {
