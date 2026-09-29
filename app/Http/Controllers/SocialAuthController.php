@@ -34,7 +34,9 @@ class SocialAuthController extends Controller
 
         Auth::login($user, true);
 
-        return $this->redirectToFront('/secure');
+        // The frontend finishes the login: it needs the XSRF-TOKEN cookie
+        // that only the Sanctum csrf-cookie endpoint sets.
+        return $this->redirectToFront('/login?social_login=1');
     }
 
     private function findOrCreateUser(string $provider, SocialUser $socialUser): User
