@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\Traits\SetsMediaCustomPropertiesTrait;
 use Exception;
 use Illuminate\Console\Command;
 use Intervention\Image\Facades\Image;
@@ -10,9 +11,11 @@ use Storage;
 
 class SetMediaWidthHeight extends Command
 {
-    protected $signature = 'media:calculate-dimensions';
+    use SetsMediaCustomPropertiesTrait;
 
-    protected $description = 'Command description';
+    protected $signature = 'media:calculate-dimensions {--fix-upscaled : Пересчитать размеры по orig_width/orig_height}';
+
+    protected $description = 'Calculate width and height of media';
 
     public function __construct()
     {
@@ -24,6 +27,12 @@ class SetMediaWidthHeight extends Command
      */
     public function handle()
     {
+        if ($this->option('fix-upscaled')) {
+            $this->fixUpscaled();
+
+            return;
+        }
+
         $media = Media::query()
             ->where('custom_properties', '[]')
             ->where('model_type', '=', 'App\Models\User')
@@ -68,6 +77,41 @@ class SetMediaWidthHeight extends Command
 
             $image->save();
 
+        }
+    }
+
+    /**
+     * Исправляет размеры маленьких картинок, которые раньше записывались увеличенными до FULL_SIZE
+     */
+    private function fixUpscaled(): void
+    {
+        $media = Media::query()
+            ->where('model_type', '<>', 'App\Models\User')
+            ->cursor();
+        foreach ($media as $image) {
+            /*  @var Media $image */
+            $origWidth = $image->getCustomProperty('orig_width');
+            $origHeight = $image->getCustomProperty('orig_height');
+            if (!$origWidth || !$origHeight) {
+                continue;
+            }
+
+            [$width, $height] = self::fullSizeDimensions($origWidth, $origHeight);
+            if ($image->getCustomProperty('width') == $width && $image->getCustomProperty('height') == $height) {
+                continue;
+            }
+
+            $this->info(sprintf(
+                '%d: %dx%d -> %dx%d',
+                $image->id,
+                $image->getCustomProperty('width'),
+                $image->getCustomProperty('height'),
+                $width,
+                $height,
+            ));
+            $image->setCustomProperty('width', $width);
+            $image->setCustomProperty('height', $height);
+            $image->save();
         }
     }
 }

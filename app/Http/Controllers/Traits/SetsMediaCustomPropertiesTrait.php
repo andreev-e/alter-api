@@ -10,11 +10,7 @@ trait SetsMediaCustomPropertiesTrait
 {
     private function setMediaCustomProperties(Media $media, string $localPath, $img): void
     {
-        $maxDimension = max($img->width(), $img->height());
-        // Конверсия 'full' уменьшает только большие картинки, маленькие остаются как есть
-        $convRatio = max($maxDimension / Poi::FULL_SIZE, 1);
-        $width = round($img->width() / $convRatio);
-        $height = round($img->height() / $convRatio);
+        [$width, $height] = self::fullSizeDimensions($img->width(), $img->height());
 
         $media->setCustomProperty('author', Auth::user()->username);
         $media->setCustomProperty('width', $width);
@@ -23,5 +19,15 @@ trait SetsMediaCustomPropertiesTrait
         $media->setCustomProperty('orig_height', $img->height());
         $media->setCustomProperty('temporary_url', $localPath);
         $media->save();
+    }
+
+    /**
+     * Размеры конверсии 'full': она уменьшает только большие картинки, маленькие остаются как есть
+     */
+    public static function fullSizeDimensions(int $width, int $height): array
+    {
+        $convRatio = max(max($width, $height) / Poi::FULL_SIZE, 1);
+
+        return [round($width / $convRatio), round($height / $convRatio)];
     }
 }
