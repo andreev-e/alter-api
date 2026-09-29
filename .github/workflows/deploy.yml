@@ -18,6 +18,7 @@ jobs:
           port: 22
           script: cd ${{ vars.PROD_PATH }}
             && su ${{ secrets.USER_NAME }}
+            && (git config --global --get-all safe.directory | grep -qxF "$PWD" || git config --global --add safe.directory "$PWD")
             && git checkout master
             && git reset --hard
             && git pull
