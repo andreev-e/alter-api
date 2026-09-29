@@ -11,7 +11,8 @@ trait SetsMediaCustomPropertiesTrait
     private function setMediaCustomProperties(Media $media, string $localPath, $img): void
     {
         $maxDimension = max($img->width(), $img->height());
-        $convRatio = $maxDimension / Poi::FULL_SIZE;
+        // Конверсия 'full' уменьшает только большие картинки, маленькие остаются как есть
+        $convRatio = max($maxDimension / Poi::FULL_SIZE, 1);
         $width = round($img->width() / $convRatio);
         $height = round($img->height() / $convRatio);
 
