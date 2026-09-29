@@ -32,6 +32,7 @@ class User extends Authenticatable implements HasMedia
         'lastname',
         'about',
         'homepage',
+        'locale',
     ];
 
     protected $hidden = [

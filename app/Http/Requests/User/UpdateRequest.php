@@ -19,6 +19,7 @@ class UpdateRequest extends FormRequest
             'lastname' => 'sometimes|string',
             'about' => 'sometimes|string',
             'homepage' => 'sometimes|string',
+            'locale' => 'sometimes|in:ru,en',
         ];
     }
 }

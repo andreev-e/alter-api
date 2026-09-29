@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
+Route::get('login/transfer/{token}', [LoginController::class, 'finishTransfer'])->name('login.transfer.finish');
 
 Route::prefix('auth/{provider}')->name('social.')
     ->controller(SocialAuthController::class)
@@ -71,6 +72,7 @@ Route::prefix('route')->name('route')
 Route::middleware('auth')->group(function() {
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('login/transfer', [LoginController::class, 'transfer'])->name('login.transfer');
     Route::get('/api/user', [LoginController::class, 'user'])
         ->name('user.login');
 
