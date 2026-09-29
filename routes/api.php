@@ -7,8 +7,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PoiController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +26,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'login'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
+
+Route::prefix('auth/{provider}')->name('social.')
+    ->controller(SocialAuthController::class)
+    ->where(['provider' => implode('|', SocialAccount::PROVIDERS)])
+    ->group(function() {
+        Route::get('redirect', 'redirect')->name('redirect');
+        Route::get('callback', 'callback')->name('callback');
+    });
 
 Route::get('user', [UserController::class, 'index'])->name('user');
 

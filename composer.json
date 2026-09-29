@@ -14,14 +14,17 @@
         "guzzlehttp/guzzle": "^7.5.0",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.15",
+        "laravel/socialite": "^5",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^1.0.30",
+        "nunomaduro/collision": "^5.11.0",
         "php-telegram-bot/laravel": "^2.0",
-        "simplesoftwareio/simple-qrcode": "~4",
-        "spatie/laravel-medialibrary": "9.12.4",
-        "spatie/laravel-sitemap": "^6.2.5",
         "phpunit/phpunit": "10.1.2",
-        "nunomaduro/collision": "^5.11.0"
+        "simplesoftwareio/simple-qrcode": "~4",
+        "socialiteproviders/vkontakte": "^5.1",
+        "socialiteproviders/yandex": "^4.2",
+        "spatie/laravel-medialibrary": "9.12.4",
+        "spatie/laravel-sitemap": "^6.2.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
