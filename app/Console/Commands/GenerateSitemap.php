@@ -14,57 +14,71 @@ class GenerateSitemap extends Command
 {
     protected $signature = 'sitemap:generate';
 
-    protected $description = 'Command description';
+    protected $description = 'Generate sitemaps for every language domain';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    /**
+     * Языковые домены и файлы их карт сайта. Фронтенд отдаёт нужный файл как /sitemap.xml своего домена.
+     */
+    private const DOMAINS = [
+        'en' => ['host' => 'https://altertravel.pro', 'file' => 'public/sitemap.xml'],
+        'ru' => ['host' => 'https://altertravel.ru', 'file' => 'public/sitemap_ru.xml'],
+    ];
 
     public function handle(): void
     {
-        $sitemap = Sitemap::create()
-            ->add(Url::create('https://altertravel.pro')
-                ->setChangeFrequency(0)
-                ->setPriority(0));
+        $paths = $this->paths();
+
+        foreach (self::DOMAINS as $domain) {
+            $sitemap = Sitemap::create();
+
+            foreach ($paths as $path) {
+                $url = Url::create($domain['host'] . $path);
+
+                // Адреса на доменах совпадают, поэтому связываем языковые версии страницы
+                foreach (self::DOMAINS as $locale => $alternate) {
+                    $url->addAlternate($alternate['host'] . $path, $locale);
+                }
+
+                $sitemap->add($url);
+            }
+
+            $sitemap->writeToFile($domain['file']);
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function paths(): array
+    {
+        $paths = ['/'];
 
         $items = Location::query()
             ->where('count', '>', 0)->get();
         foreach ($items as $item) {
-            $sitemap->add(Url::create('https://altertravel.pro/region/' . $item->url)
-                ->setChangeFrequency(0)
-                ->setPriority(0));
+            $paths[] = '/region/' . $item->url;
 
             foreach ($item->tags as $tag) {
-                $sitemap->add(Url::create('https://altertravel.pro/region/' . $item->url . '/' . $tag->url)
-                    ->setChangeFrequency(0)
-                    ->setPriority(0));
+                $paths[] = '/region/' . $item->url . '/' . $tag->url;
             }
         }
 
         $items = Tag::query()
             ->select('url')->where('COUNT', '>', 0)->get();
         foreach ($items as $item) {
-            $sitemap->add(Url::create('https://altertravel.pro/tag/' . $item->url)
-                ->setChangeFrequency(0)
-                ->setPriority(0));
+            $paths[] = '/tag/' . $item->url;
         }
 
         $items = Route::query()->select('id')->where('show', 1)->get();
         foreach ($items as $item) {
-            $sitemap->add(Url::create('https://altertravel.pro/route/' . $item->id)
-                ->setChangeFrequency(0)
-                ->setPriority(0));
+            $paths[] = '/route/' . $item->id;
         }
 
         $items = Poi::query()->select('id')->where('show', 1)->get();
         foreach ($items as $item) {
-            $sitemap->add(Url::create('https://altertravel.pro/poi/' . $item->id)
-                ->setChangeFrequency(0)
-                ->setPriority(0));
+            $paths[] = '/poi/' . $item->id;
         }
 
-        $sitemap
-            ->writeToFile('public/sitemap.xml');
+        return $paths;
     }
 }
