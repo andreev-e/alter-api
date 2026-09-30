@@ -20,7 +20,7 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, true)) {
             return response()->noContent();
         }
 
