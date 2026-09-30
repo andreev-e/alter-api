@@ -17,7 +17,8 @@ class LocationResource extends LocationResourceCollection
                 'lng' => $this->lng,
                 'zoom' => $this->scale,
                 'parents' => $this->getParents(),
-                'children' => self::collection($this->whenLoaded('children')),
+                // Для списка подрегионов хватает базовых полей: полный ресурс тянет метки и родителей каждого
+                'children' => LocationResourceCollection::collection($this->whenLoaded('children')),
                 'tags' => TagResourceCollection::collection($this->tags),
             ]);
     }

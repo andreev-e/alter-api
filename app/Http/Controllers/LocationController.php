@@ -8,6 +8,7 @@ use App\Http\Resources\TagResourceCollection;
 use App\Models\Location;
 use App\Http\Resources\TagResource;
 use Cache;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -25,11 +26,14 @@ class LocationController extends Controller
             });
     }
 
-    public function show(Location $location): LocationResource
+    public function show(Location $location): JsonResponse
     {
-        return Cache::tags([Location::CACHE_TAG, Location::CACHE_TAG . $location->id])
-            ->rememberForever('location:' . $location->id, function() use ($location) {
-                return new LocationResource($location->load(['children', 'parent.parent.parent']));
+        // Кэшируем готовый массив: закэшированный ресурс при каждом ответе заново ходит в базу за связями
+        $data = Cache::tags([Location::CACHE_TAG, Location::CACHE_TAG . $location->id])
+            ->rememberForever('location:v2:' . $location->id, function() use ($location) {
+                return (new LocationResource($location->load('children')))->resolve();
             });
+
+        return response()->json(['data' => $data]);
     }
 }

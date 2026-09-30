@@ -14,36 +14,19 @@ class GenerateSitemap extends Command
 {
     protected $signature = 'sitemap:generate';
 
-    protected $description = 'Generate sitemaps for every language domain';
+    protected $description = 'Generate sitemap for altertravel.ru';
 
-    /**
-     * Языковые домены и файлы их карт сайта. Фронтенд отдаёт нужный файл как /sitemap.xml своего домена.
-     */
-    private const DOMAINS = [
-        'en' => ['host' => 'https://altertravel.pro', 'file' => 'public/sitemap.xml'],
-        'ru' => ['host' => 'https://altertravel.ru', 'file' => 'public/sitemap_ru.xml'],
-    ];
+    private const HOST = 'https://altertravel.ru';
 
     public function handle(): void
     {
-        $paths = $this->paths();
+        $sitemap = Sitemap::create();
 
-        foreach (self::DOMAINS as $domain) {
-            $sitemap = Sitemap::create();
-
-            foreach ($paths as $path) {
-                $url = Url::create($domain['host'] . $path);
-
-                // Адреса на доменах совпадают, поэтому связываем языковые версии страницы
-                foreach (self::DOMAINS as $locale => $alternate) {
-                    $url->addAlternate($alternate['host'] . $path, $locale);
-                }
-
-                $sitemap->add($url);
-            }
-
-            $sitemap->writeToFile($domain['file']);
+        foreach ($this->paths() as $path) {
+            $sitemap->add(Url::create(self::HOST . $path));
         }
+
+        $sitemap->writeToFile('public/sitemap.xml');
     }
 
     /**
