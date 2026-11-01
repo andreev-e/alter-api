@@ -28,7 +28,7 @@ class PoiController extends Controller
 {
     use SetsMediaCustomPropertiesTrait;
 
-    private const POI_LIST_CACHE_KEY = 'poi_list';
+    public const POI_LIST_CACHE_KEY = 'poi_list';
 
     /**
      * @throws \JsonException

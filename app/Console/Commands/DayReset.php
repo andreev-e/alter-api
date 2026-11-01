@@ -18,6 +18,9 @@ class DayReset extends Command
 
     public function handle()
     {
-        Poi::query()->update(['views_today' => 0]);
+        // Массовый update через Eloquent-билдер сам проставляет updated_at = now(),
+        // из-за чего у всех точек каждый день появлялась ложная дата «Обновлено».
+        // toBase() выполняет тот же запрос без неявного обновления таймстемпов.
+        Poi::query()->toBase()->update(['views_today' => 0]);
     }
 }

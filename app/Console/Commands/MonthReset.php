@@ -18,6 +18,7 @@ class MonthReset extends Command
 
     public function handle()
     {
-        Poi::query()->update(['views_month' => 0]);
+        // См. DayReset: обновляем счётчик без затирания updated_at у точек.
+        Poi::query()->toBase()->update(['views_month' => 0]);
     }
 }
