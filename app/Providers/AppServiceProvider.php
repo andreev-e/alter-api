@@ -13,6 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(\App\Telegram\TelegramApi::class, fn () => new \App\Telegram\TelegramApi(
+            (string) config('telegram.bot.api_token'),
+            (string) config('telegram.bot.api_url'),
+        ));
     }
 
     /**

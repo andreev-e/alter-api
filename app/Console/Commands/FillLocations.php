@@ -25,7 +25,7 @@ class FillLocations extends Command
             ->whereNull('cant_geocode')
             ->whereNotExists(function($query) {
                 $query->select()->from('location_poi')
-                    ->whereRaw('`poi`.`id` = `location_poi`.`poi_id`');
+                    ->whereColumn('poi.id', 'location_poi.poi_id');
             })
             ->limit(50)->get();
         foreach ($pois as $poi) {

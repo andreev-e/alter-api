@@ -23,9 +23,9 @@ class AttachPoisToRoutes extends Command
      */
     public function handle()
     {
-        $routes = Route::query()->select('id', 'POINTS')->get();
+        $routes = Route::query()->select('id', 'points')->get();
         foreach ($routes as $route) {
-            $pois = explode('|', $route->POINTS);
+            $pois = explode('|', $route->points);
             $pois = array_filter($pois, function($item) {
                 return $item;
             });

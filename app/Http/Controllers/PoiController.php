@@ -15,7 +15,6 @@ use App\Models\Route;
 use Auth;
 use Cache;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -118,20 +117,15 @@ class PoiController extends Controller
             }
 
             if ($request->has('keyword')) {
-                $pois->where('name', 'LIKE', '%' . $request->keyword . '%');
+                // ILIKE: MySQL сравнивал без регистра по умолчанию, PostgreSQL LIKE — с регистром
+                $pois->where('name', 'ILIKE', '%' . $request->keyword . '%');
 
                 if ($request->has('near')) {
                     [$lat, $lng] = explode(';', $request->near);
 
-                    $pois->select(DB::raw("*,
-                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
-                     * COS(RADIANS($lat))
-                     * COS(RADIANS(lng - $lng))
-                     + SIN(RADIANS(lat))
-                     * SIN(RADIANS($lat))))) AS 'dist'"))
+                    $pois->selectRaw(Poi::DIST_SQL, [$lat, $lng, $lat])
                         ->where('lat', '<>', 0)
                         ->where('lng', '<>', 0)
-                        ->havingRaw('dist IS NOT NULL')
                         ->orderBy('dist');
                 }
 

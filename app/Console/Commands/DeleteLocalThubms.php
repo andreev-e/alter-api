@@ -26,7 +26,7 @@ class DeleteLocalThubms extends Command
                 Storage::disk('public')->delete($file['path']);
             }
         }
-        $media = Media::query()->where('custom_properties', 'LIKE', '%temporary_url%')->get();
+        $media = Media::query()->where('custom_properties', 'ILIKE', '%temporary_url%')->get();
         foreach ($media as $image) {
             /*  @var Media $image */
             $image->forgetCustomProperty('temporary_url');

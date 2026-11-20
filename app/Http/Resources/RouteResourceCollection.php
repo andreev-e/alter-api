@@ -20,8 +20,8 @@ class RouteResourceCollection extends JsonResource
             'days' => $this->days,
             'cost' => $this->cost,
             'views' => $this->views,
-            'start' => $this->START,
-            'finish' => $this->FINISH,
+            'start' => $this->start,
+            'finish' => $this->finish,
             'thumb' => $this->media->first()?->getUrl('thumb'),
             'show' => $this->show,
         ];
