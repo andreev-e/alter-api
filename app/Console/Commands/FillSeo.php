@@ -35,16 +35,16 @@ class FillSeo extends Command
             if ($tag) {
                 $location->update([
                     'name_en' => $tag->NAME_en,
-                    'name_dat_ed' => $tag->NAME_DAT_ED,
-                    'name_rod_ed' => $tag->NAME_ROD_ED,
-                    'name_predlozh_ed' => $tag->NAME_PREDLOZH_ED,
+                    'name_dat_ed' => $tag->name_dat_ed,
+                    'name_rod_ed' => $tag->name_rod_ed,
+                    'name_predlozh_ed' => $tag->name_predlozh_ed,
                     'code' => $tag->code,
                 ]);
                 dump(implode([
                     'name_en' => $tag->NAME_en,
-                    'name_dat_ed' => $tag->NAME_DAT_ED,
-                    'name_rod_ed' => $tag->NAME_ROD_ED,
-                    'name_predlozh_ed' => $tag->NAME_PREDLOZH_ED,
+                    'name_dat_ed' => $tag->name_dat_ed,
+                    'name_rod_ed' => $tag->name_rod_ed,
+                    'name_predlozh_ed' => $tag->name_predlozh_ed,
                     'code' => $tag->code,
                 ]));
             }

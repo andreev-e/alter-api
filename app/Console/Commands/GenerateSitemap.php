@@ -47,7 +47,7 @@ class GenerateSitemap extends Command
         }
 
         $items = Tag::query()
-            ->select('url')->where('COUNT', '>', 0)->get();
+            ->select('url')->where('count', '>', 0)->get();
         foreach ($items as $item) {
             $paths[] = '/tag/' . $item->url;
         }

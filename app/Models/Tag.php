@@ -30,6 +30,6 @@ class Tag extends Model
 
     public function pois()
     {
-        return $this->belongsToMany(Poi::class, 'relationship', 'TAGID', 'POSTID');
+        return $this->belongsToMany(Poi::class, 'relationship', 'tagid', 'postid');
     }
 }

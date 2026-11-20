@@ -131,3 +131,8 @@ Route::middleware('auth')->group(function() {
 
 
 
+
+// Webhook бота: путь не меняем, он уже зарегистрирован в Telegram. Доступ только с IP сетей Telegram.
+Route::post('telegram/webhook/{token}', \App\Http\Controllers\TelegramWebhookController::class)
+    ->middleware(\PhpTelegramBot\Laravel\Http\Middleware\TrustTelegramNetwork::class)
+    ->name('telegram.webhook');

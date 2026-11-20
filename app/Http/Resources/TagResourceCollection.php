@@ -13,14 +13,14 @@ class TagResourceCollection extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'count' => $this->COUNT,
+            'count' => $this->count,
             'url' => $this->url,
             'code' => $this->code,
-            'NAME_ROD_ED' => $this->NAME_ROD_ED,
-            'NAME_DAT_ED' => $this->NAME_DAT_ED,
-            'NAME_PREDLOZH_ED' => $this->NAME_PREDLOZH_ED,
+            'NAME_ROD_ED' => $this->name_rod_ed,
+            'NAME_DAT_ED' => $this->name_dat_ed,
+            'NAME_PREDLOZH_ED' => $this->name_predlozh_ed,
             'name_en' => $this->name_en,
-            'NAME_ROD' => $this->NAME_ROD,
+            'NAME_ROD' => $this->name_rod,
         ];
     }
 }

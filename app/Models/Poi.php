@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Jobs\PoiGeocodeJob;
 use App\Models\Traits\ImageManualSortTrait;
 use App\Models\Traits\ImageSizesTrait;
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -82,7 +81,7 @@ class Poi extends Model implements HasMedia
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'relationship', 'POSTID', 'TAGID');
+        return $this->belongsToMany(Tag::class, 'relationship', 'postid', 'tagid');
     }
 
     public function locations(): BelongsToMany
@@ -91,35 +90,33 @@ class Poi extends Model implements HasMedia
             ->orderBy('count', 'desc');
     }
 
+    /**
+     * Расстояние в км до точки (lat, lng) как alias dist. Три подстановки: lat, lng, lat.
+     * Координаты приводим к double precision: PDO шлёт строки, а RADIANS(text) в PostgreSQL не существует.
+     * HAVING без GROUP BY с алиасом в PostgreSQL не работает — фильтр по NULL не нужен,
+     * lat/lng = NULL отсекаются условиями <> 0.
+     */
+    public const DIST_SQL = '*, 111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
+                * COS(RADIANS(CAST(? AS double precision)))
+                * COS(RADIANS(lng - CAST(? AS double precision)))
+                + SIN(RADIANS(lat))
+                * SIN(RADIANS(CAST(? AS double precision)))))) AS dist';
+
     public function getNearestAttribute()
     {
         return Cache::tags('nearest')->remember('nearest:' . $this->id, 24 * 60 * 60, function() {
-            return self::query()
-                ->select(DB::raw("*,
-                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
-                     * COS(RADIANS($this->lat))
-                     * COS(RADIANS(lng - $this->lng))
-                     + SIN(RADIANS(lat))
-                     * SIN(RADIANS($this->lat))))) AS 'dist'"))
-                ->where('lat', '<>', 0)
-                ->where('lng', '<>', 0)
+            return self::nearest($this->lat, $this->lng)
                 ->where('id', '<>', $this->id)
-                ->havingRaw('dist IS NOT NULL')
-                ->orderBy('dist')->limit(3)->get();
+                ->limit(3)->get();
         });
     }
 
     public static function nearest($lat, $lng): Builder
     {
-        return self::query()->select(DB::raw("*,
-                111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(lat))
-                     * COS(RADIANS($lat))
-                     * COS(RADIANS(lng - $lng))
-                     + SIN(RADIANS(lat))
-                     * SIN(RADIANS($lat))))) AS 'dist'"))
+        return self::query()
+            ->selectRaw(self::DIST_SQL, [$lat, $lng, $lat])
             ->where('lat', '<>', 0)
             ->where('lng', '<>', 0)
-            ->havingRaw('dist IS NOT NULL')
             ->orderBy('dist');
     }
 
